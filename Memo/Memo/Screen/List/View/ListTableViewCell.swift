@@ -16,7 +16,7 @@ final class ListTableViewCell: UITableViewCell {
     
     private var titleLabel = UILabel().then {
         $0.text = "제목"
-        $0.textColor = .white
+        $0.textColor = .text
         $0.font = .systemFont(ofSize: 13, weight: .regular)
         $0.numberOfLines = 1
     }
@@ -30,14 +30,14 @@ final class ListTableViewCell: UITableViewCell {
     
     private var dateLabel = UILabel().then {
         $0.text = "날짜"
-        $0.textColor = .white
+        $0.textColor = .text
         $0.font = .systemFont(ofSize: 12, weight: .thin)
         $0.numberOfLines = 1
     }
     
     private var contentLabel = UILabel().then {
         $0.text = "내용"
-        $0.textColor = .white
+        $0.textColor = .text
         $0.font = .systemFont(ofSize: 12, weight: .thin)
         $0.numberOfLines = 1
     }
@@ -57,7 +57,7 @@ final class ListTableViewCell: UITableViewCell {
     // MARK: - UI Method
     
     private func configureUI() {
-        contentView.backgroundColor = .darkGray
+        contentView.backgroundColor = .background
     }
     
     private func setConstraints() {
