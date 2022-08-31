@@ -14,7 +14,7 @@ final class ListViewController: BaseViewController {
 
     // MARK: - UI Property
     
-    private var mainView = ListView()
+    private var listView = ListView()
     
     private lazy var searchController = UISearchController(searchResultsController: nil).then {
         $0.searchResultsUpdater = self
@@ -28,7 +28,7 @@ final class ListViewController: BaseViewController {
     
     override func loadView() {
         super.loadView()
-        self.view = mainView
+        self.view = listView
     }
     
     override func viewDidLoad() {
@@ -54,16 +54,16 @@ final class ListViewController: BaseViewController {
     }
     
     private func configureTableView() {
-        mainView.listTableView.delegate = self
-        mainView.listTableView.dataSource = self
+        listView.listTableView.delegate = self
+        listView.listTableView.dataSource = self
         
-        mainView.listTableView.rowHeight = 80
+        listView.listTableView.rowHeight = 80
         
-        mainView.listTableView.register(ListTableViewCell.self, forCellReuseIdentifier: ListTableViewCell.reuseIdentifier)
+        listView.listTableView.register(ListTableViewCell.self, forCellReuseIdentifier: ListTableViewCell.reuseIdentifier)
     }
     
     private func configureButton() {
-        mainView.writeButton.addTarget(self, action: #selector(touchUpWriteButton), for: .touchUpInside)
+        listView.writeButton.addTarget(self, action: #selector(touchUpWriteButton), for: .touchUpInside)
     }
     
     // MARK: - Custom Method
@@ -73,6 +73,28 @@ final class ListViewController: BaseViewController {
         viewController.modalTransitionStyle = .coverVertical
         viewController.modalPresentationStyle = .fullScreen
         present(viewController, animated: true)
+    }
+    
+    private func showActionSheet(type: AlertType, index: Int) {
+        let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+        
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive, handler: { action in
+            print("삭제")
+        })
+        let closeAction = UIAlertAction(title: "확인", style: .cancel, handler: { action in
+            print("고정")
+        })
+        
+        switch type {
+        case .pin:
+            optionMenu.title = "최대 5개까지만 고정할 수 있어요"
+            optionMenu.addAction(closeAction)
+        case .delete:
+            optionMenu.title = "이 메모를 삭제하시겠어요?"
+            optionMenu.addAction(deleteAction)
+        }
+        
+        self.present(optionMenu, animated: true)
     }
     
     // MARK: - @objc
@@ -88,6 +110,7 @@ final class ListViewController: BaseViewController {
 // MARK: - UITableView Protocol
 
 extension ListViewController: UITableViewDelegate {
+    // UI
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if section == 0 {
             return ListTableViewSection.fixed.description
@@ -110,6 +133,34 @@ extension ListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return CGFloat.leastNormalMagnitude
     }
+    
+    // Swipe Gesture
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let pinAction = UIContextualAction(style: .normal, title: nil) { (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
+            if let cell = self.listView.listTableView.cellForRow(at: indexPath) as? ListTableViewCell {
+                self.showActionSheet(type: .pin, index: indexPath.row)
+            }
+            success(true)
+        }
+        pinAction.backgroundColor = .systemOrange
+        pinAction.image = UIImage(systemName: "pin.fill")
+        
+        return UISwipeActionsConfiguration(actions: [pinAction])
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .normal, title: nil) { (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
+            if let cell = self.listView.listTableView.cellForRow(at: indexPath) as? ListTableViewCell {
+                self.showActionSheet(type: .delete, index: indexPath.row)
+            }
+            success(true)
+        }
+        deleteAction.backgroundColor = .systemRed
+        deleteAction.image = UIImage(systemName: "trash.fill")
+        
+        return UISwipeActionsConfiguration(actions: [deleteAction])
+    }
 }
 
 extension ListViewController: UITableViewDataSource {
@@ -119,7 +170,7 @@ extension ListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
-            return 10
+            return 5
         } else {
             return 10
         }

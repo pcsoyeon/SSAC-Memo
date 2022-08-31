@@ -27,6 +27,7 @@
 		923DC7D528C0180800407EEF /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923DC7D428C0180800407EEF /* UIColor+Extension.swift */; };
 		923DC7DA28C01F3D00407EEF /* WriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923DC7D928C01F3D00407EEF /* WriteView.swift */; };
 		923DC7DC28C0205900407EEF /* WriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923DC7DB28C0205900407EEF /* WriteViewController.swift */; };
+		923DC7DE28C0253700407EEF /* ActionSheetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923DC7DD28C0253700407EEF /* ActionSheetType.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +51,7 @@
 		923DC7D428C0180800407EEF /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		923DC7D928C01F3D00407EEF /* WriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteView.swift; sourceTree = "<group>"; };
 		923DC7DB28C0205900407EEF /* WriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewController.swift; sourceTree = "<group>"; };
+		923DC7DD28C0253700407EEF /* ActionSheetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetType.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -238,6 +240,7 @@
 			isa = PBXGroup;
 			children = (
 				923DC7D228BF598F00407EEF /* ListTableViewSection.swift */,
+				923DC7DD28C0253700407EEF /* ActionSheetType.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -355,6 +358,7 @@
 				923DC7DA28C01F3D00407EEF /* WriteView.swift in Sources */,
 				923DC7BE28BF4A6900407EEF /* UIView+Extension.swift in Sources */,
 				923DC7C328BF4B7900407EEF /* BaseView.swift in Sources */,
+				923DC7DE28C0253700407EEF /* ActionSheetType.swift in Sources */,
 				923DC79A28BF462400407EEF /* SceneDelegate.swift in Sources */,
 				923DC7DC28C0205900407EEF /* WriteViewController.swift in Sources */,
 				923DC7C128BF4B0200407EEF /* BaseViewController.swift in Sources */,
