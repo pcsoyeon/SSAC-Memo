@@ -20,7 +20,7 @@ final class ListView: BaseView {
     
     var writeButton = UIButton().then {
         $0.setTitle("", for: .normal)
-        $0.setImage(UIImage(systemName: "write"), for: .normal)
+        $0.setImage(UIImage(systemName: "square.and.pencil"), for: .normal)
         $0.tintColor = .systemOrange
     }
     
@@ -33,8 +33,8 @@ final class ListView: BaseView {
         self.addSubview(writeButton)
         
         writeButton.snp.makeConstraints { make in
-            make.width.height.equalTo(44)
-            make.trailing.bottom.equalToSuperview()
+            make.width.height.equalTo(50)
+            make.trailing.bottom.equalTo(self.safeAreaLayoutGuide)
         }
         
         listTableView.snp.makeConstraints { make in
