@@ -39,7 +39,7 @@ final class WalkThroughView: BaseView {
     }
     
     override func configureUI() {
-        self.addSubview(backView)
+        addSubview(backView)
         
         backView.addSubview(label)
         backView.addSubview(confirmButton)

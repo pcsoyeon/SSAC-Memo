@@ -25,6 +25,8 @@
 		923DC7D028BF50D200407EEF /* ReusableViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923DC7CF28BF50D200407EEF /* ReusableViewProtocol.swift */; };
 		923DC7D328BF598F00407EEF /* ListTableViewSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923DC7D228BF598F00407EEF /* ListTableViewSection.swift */; };
 		923DC7D528C0180800407EEF /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923DC7D428C0180800407EEF /* UIColor+Extension.swift */; };
+		923DC7DA28C01F3D00407EEF /* WriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923DC7D928C01F3D00407EEF /* WriteView.swift */; };
+		923DC7DC28C0205900407EEF /* WriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923DC7DB28C0205900407EEF /* WriteViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +48,8 @@
 		923DC7CF28BF50D200407EEF /* ReusableViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableViewProtocol.swift; sourceTree = "<group>"; };
 		923DC7D228BF598F00407EEF /* ListTableViewSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewSection.swift; sourceTree = "<group>"; };
 		923DC7D428C0180800407EEF /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
+		923DC7D928C01F3D00407EEF /* WriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteView.swift; sourceTree = "<group>"; };
+		923DC7DB28C0205900407EEF /* WriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +131,7 @@
 		923DC7B528BF470200407EEF /* Screen */ = {
 			isa = PBXGroup;
 			children = (
+				923DC7D628C01F2900407EEF /* Write */,
 				923DC7B728BF470E00407EEF /* WalkThrough */,
 				923DC7B628BF470A00407EEF /* List */,
 			);
@@ -237,6 +242,31 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		923DC7D628C01F2900407EEF /* Write */ = {
+			isa = PBXGroup;
+			children = (
+				923DC7D828C01F3500407EEF /* View */,
+				923DC7D728C01F3100407EEF /* Controller */,
+			);
+			path = Write;
+			sourceTree = "<group>";
+		};
+		923DC7D728C01F3100407EEF /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				923DC7DB28C0205900407EEF /* WriteViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		923DC7D828C01F3500407EEF /* View */ = {
+			isa = PBXGroup;
+			children = (
+				923DC7D928C01F3D00407EEF /* WriteView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -322,9 +352,11 @@
 				923DC7B928BF473900407EEF /* WalkThroughViewController.swift in Sources */,
 				923DC79828BF462400407EEF /* AppDelegate.swift in Sources */,
 				923DC7C528BF4B9600407EEF /* WalkThroughView.swift in Sources */,
+				923DC7DA28C01F3D00407EEF /* WriteView.swift in Sources */,
 				923DC7BE28BF4A6900407EEF /* UIView+Extension.swift in Sources */,
 				923DC7C328BF4B7900407EEF /* BaseView.swift in Sources */,
 				923DC79A28BF462400407EEF /* SceneDelegate.swift in Sources */,
+				923DC7DC28C0205900407EEF /* WriteViewController.swift in Sources */,
 				923DC7C128BF4B0200407EEF /* BaseViewController.swift in Sources */,
 				923DC7D528C0180800407EEF /* UIColor+Extension.swift in Sources */,
 				923DC7D028BF50D200407EEF /* ReusableViewProtocol.swift in Sources */,

@@ -26,13 +26,13 @@ final class ListView: BaseView {
     }
     
     override func configureUI() {
-        self.backgroundColor = .background
+        backgroundColor = .background
+        
+        addSubview(listTableView)
+        addSubview(writeButton)
     }
     
     override func setConstraints() {
-        self.addSubview(listTableView)
-        self.addSubview(writeButton)
-        
         writeButton.snp.makeConstraints { make in
             make.width.height.equalTo(50)
             make.trailing.bottom.equalTo(self.safeAreaLayoutGuide)

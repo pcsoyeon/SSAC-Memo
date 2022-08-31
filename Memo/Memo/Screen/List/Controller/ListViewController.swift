@@ -40,6 +40,7 @@ final class ListViewController: BaseViewController {
     override func configure() {
         configureNavigationBar()
         configureTableView()
+        configureButton()
     }
     
     private func configureNavigationBar() {
@@ -61,6 +62,10 @@ final class ListViewController: BaseViewController {
         mainView.listTableView.register(ListTableViewCell.self, forCellReuseIdentifier: ListTableViewCell.reuseIdentifier)
     }
     
+    private func configureButton() {
+        mainView.writeButton.addTarget(self, action: #selector(touchUpWriteButton), for: .touchUpInside)
+    }
+    
     // MARK: - Custom Method
     
     private func presentWalkThrough() {
@@ -68,6 +73,15 @@ final class ListViewController: BaseViewController {
         viewController.modalTransitionStyle = .coverVertical
         viewController.modalPresentationStyle = .fullScreen
         present(viewController, animated: true)
+    }
+    
+    // MARK: - @objc
+    
+    @objc func touchUpWriteButton() {
+        let viewController = WriteViewController()
+        let backBarButtonItem = UIBarButtonItem(title: "메모", style: .plain, target: self, action: nil)
+        self.navigationItem.backBarButtonItem = backBarButtonItem
+        navigationController?.pushViewController(viewController, animated: true)
     }
 }
 
