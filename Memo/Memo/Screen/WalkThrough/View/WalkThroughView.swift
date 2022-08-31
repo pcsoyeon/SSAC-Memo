@@ -1,5 +1,5 @@
 //
-//  WalkThroughViewController.swift
+//  WalkThroughView.swift
 //  Memo
 //
 //  Created by 소연 on 2022/08/31.
@@ -10,9 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class WalkThroughViewController: UIViewController {
-
-    // MARK: - UI Property
+final class WalkThroughView: BaseView {
     
     private var backView = UIView().then {
         $0.backgroundColor = .lightGray
@@ -32,31 +30,22 @@ final class WalkThroughViewController: UIViewController {
         $0.numberOfLines = 0
     }
     
-    private lazy var confirmButton = UIButton().then {
+    var confirmButton = UIButton().then {
         $0.setTitle("확인", for: .normal)
         $0.setTitleColor(.white, for: .normal)
         $0.backgroundColor = .systemOrange
         $0.titleLabel?.font = .systemFont(ofSize: 18, weight: .bold)
         $0.layer.cornerRadius = 8
-        $0.addTarget(self, action: #selector(touchUpConfirmButton), for: .touchUpInside)
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        configureUI()
-        setConstraints()
-    }
-    
-    private func configureUI() {
-        view.backgroundColor = .darkGray
-    }
-    
-    private func setConstraints() {
-        view.addSubview(backView)
+    override func configureUI() {
+        self.addSubview(backView)
         
         backView.addSubview(label)
         backView.addSubview(confirmButton)
-        
+    }
+    
+    override func setConstraints() {
         backView.snp.makeConstraints { make in
             make.centerX.centerY.equalToSuperview()
             make.width.equalTo(200)
@@ -73,11 +62,5 @@ final class WalkThroughViewController: UIViewController {
             make.leading.trailing.equalToSuperview().inset(15)
             make.height.equalTo(47)
         }
-    }
-
-    // MARK: - @objc
-    
-    @objc func touchUpConfirmButton() {
-        dismiss(animated: true)
     }
 }

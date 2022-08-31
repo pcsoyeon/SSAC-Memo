@@ -10,27 +10,25 @@ import UIKit
 import SnapKit
 import Then
 
-final class MainViewController: UIViewController {
+final class MainViewController: BaseViewController {
 
     // MARK: - UI Property
     
-    
+    private var mainView = MainView()
     
     // MARK: - Life Cycle
     
+    override func loadView() {
+        super.loadView()
+        self.view = mainView
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureUI()
-        setConstraints()
-        
     }
     
-    private func configureUI() {
+    override func configure() {
         view.backgroundColor = .darkGray
-    }
-    
-    private func setConstraints() {
-        
     }
     
     private func presentWalkThrough() {
