@@ -23,6 +23,7 @@ final class ListViewController: BaseViewController {
     // MARK: - Property
     
     private var totalCount: Int = 0
+    private var pinnedCount: Int = 0
     
     // MARK: - Life Cycle
     
@@ -78,17 +79,15 @@ final class ListViewController: BaseViewController {
     private func showActionSheet(type: AlertType, index: Int) {
         let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
         
+        let pinAction = UIAlertAction(title: "확인", style: .cancel, handler: nil)
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive, handler: { action in
             print("삭제")
-        })
-        let closeAction = UIAlertAction(title: "확인", style: .cancel, handler: { action in
-            print("고정")
         })
         
         switch type {
         case .pin:
             optionMenu.title = "최대 5개까지만 고정할 수 있어요"
-            optionMenu.addAction(closeAction)
+            optionMenu.addAction(pinAction)
         case .delete:
             optionMenu.title = "이 메모를 삭제하시겠어요?"
             optionMenu.addAction(deleteAction)
@@ -113,7 +112,7 @@ extension ListViewController: UITableViewDelegate {
     // UI
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if section == 0 {
-            return ListTableViewSection.fixed.description
+            return ListTableViewSection.pinned.description
         } else {
             return ListTableViewSection.memo.description
         }
@@ -138,9 +137,16 @@ extension ListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
         let pinAction = UIContextualAction(style: .normal, title: nil) { (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
+            
             if let cell = self.listView.listTableView.cellForRow(at: indexPath) as? ListTableViewCell {
-                self.showActionSheet(type: .pin, index: indexPath.row)
+                if self.pinnedCount > 5 {
+                    self.showActionSheet(type: .pin, index: indexPath.row)
+                } else {
+                    self.pinnedCount += 1
+                    print("고정")
+                }
             }
+            
             success(true)
         }
         pinAction.backgroundColor = .systemOrange

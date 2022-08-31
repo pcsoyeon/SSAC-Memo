@@ -8,12 +8,12 @@
 import Foundation
 
 enum ListTableViewSection: Int, CustomStringConvertible, CaseIterable {
-    case fixed
+    case pinned
     case memo
     
     var description: String {
         switch self {
-        case .fixed:
+        case .pinned:
             return "고정된 메모"
         case .memo:
             return "메모"
