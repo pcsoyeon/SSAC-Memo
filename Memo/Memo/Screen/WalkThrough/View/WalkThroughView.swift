@@ -13,7 +13,7 @@ import Then
 final class WalkThroughView: BaseView {
     
     private var backView = UIView().then {
-        $0.backgroundColor = .lightGray
+        $0.backgroundColor = .foreground
         $0.layer.cornerRadius = 10
     }
     
@@ -25,14 +25,14 @@ final class WalkThroughView: BaseView {
                   당신만의 메모를 작성하고
                   관리해보세요!
                   """
-        $0.textColor = .white
+        $0.textColor = .text
         $0.font = .systemFont(ofSize: 16, weight: .semibold)
         $0.numberOfLines = 0
     }
     
     var confirmButton = UIButton().then {
         $0.setTitle("확인", for: .normal)
-        $0.setTitleColor(.white, for: .normal)
+        $0.setTitleColor(.text, for: .normal)
         $0.backgroundColor = .systemOrange
         $0.titleLabel?.font = .systemFont(ofSize: 18, weight: .bold)
         $0.layer.cornerRadius = 8
