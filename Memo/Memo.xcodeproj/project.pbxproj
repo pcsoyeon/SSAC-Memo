@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		92184E5F28BEED2000028F2F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92184E5E28BEED2000028F2F /* AppDelegate.swift */; };
 		92184E6128BEED2000028F2F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92184E6028BEED2000028F2F /* SceneDelegate.swift */; };
-		92184E6328BEED2000028F2F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92184E6228BEED2000028F2F /* ViewController.swift */; };
+		92184E6328BEED2000028F2F /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92184E6228BEED2000028F2F /* MainViewController.swift */; };
 		92184E6628BEED2000028F2F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 92184E6428BEED2000028F2F /* Main.storyboard */; };
 		92184E6828BEED2200028F2F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 92184E6728BEED2200028F2F /* Assets.xcassets */; };
 		92184E6B28BEED2200028F2F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 92184E6928BEED2200028F2F /* LaunchScreen.storyboard */; };
@@ -22,13 +22,17 @@
 		929535F828BF2A010002C504 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 929535F728BF2A010002C504 /* UIViewController+Extension.swift */; };
 		929535FB28BF2A3D0002C504 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 929535FA28BF2A3D0002C504 /* Constant.swift */; };
 		929535FD28BF2A4B0002C504 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 929535FC28BF2A4B0002C504 /* UserDefaults.swift */; };
+		9295360028BF2BDB0002C504 /* InitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 929535FF28BF2BDB0002C504 /* InitialViewController.swift */; };
+		9295360328BF2C0A0002C504 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = 9295360228BF2C0A0002C504 /* Then */; };
+		9295360528BF324C0002C504 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9295360428BF324C0002C504 /* UIColor+Extension.swift */; };
+		9295360728BF348B0002C504 /* InitialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9295360628BF348B0002C504 /* InitialView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		92184E5B28BEED2000028F2F /* Memo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Memo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		92184E5E28BEED2000028F2F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		92184E6028BEED2000028F2F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		92184E6228BEED2000028F2F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		92184E6228BEED2000028F2F /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		92184E6528BEED2000028F2F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		92184E6728BEED2200028F2F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		92184E6A28BEED2200028F2F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -39,6 +43,9 @@
 		929535F728BF2A010002C504 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		929535FA28BF2A3D0002C504 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		929535FC28BF2A4B0002C504 /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
+		929535FF28BF2BDB0002C504 /* InitialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialViewController.swift; sourceTree = "<group>"; };
+		9295360428BF324C0002C504 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
+		9295360628BF348B0002C504 /* InitialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,6 +56,7 @@
 				9225C3A128BEF2E2006648D5 /* RealmSwift in Frameworks */,
 				9225C39F28BEF2E2006648D5 /* Realm in Frameworks */,
 				9225C39C28BEF2BA006648D5 /* SnapKit in Frameworks */,
+				9295360328BF2C0A0002C504 /* Then in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -94,6 +102,7 @@
 		92184E7328BEED6B00028F2F /* Screen */ = {
 			isa = PBXGroup;
 			children = (
+				929535FE28BF2B9F0002C504 /* Initial */,
 				92184E7628BEED8400028F2F /* Main */,
 			);
 			path = Screen;
@@ -151,6 +160,7 @@
 			children = (
 				9225C39428BEEFF9006648D5 /* UIView+Extension.swift */,
 				929535F728BF2A010002C504 /* UIViewController+Extension.swift */,
+				9295360428BF324C0002C504 /* UIColor+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -167,7 +177,7 @@
 		92184E7B28BEEEB500028F2F /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				92184E6228BEED2000028F2F /* ViewController.swift */,
+				92184E6228BEED2000028F2F /* MainViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -195,6 +205,15 @@
 			path = Constant;
 			sourceTree = "<group>";
 		};
+		929535FE28BF2B9F0002C504 /* Initial */ = {
+			isa = PBXGroup;
+			children = (
+				929535FF28BF2BDB0002C504 /* InitialViewController.swift */,
+				9295360628BF348B0002C504 /* InitialView.swift */,
+			);
+			path = Initial;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -215,6 +234,7 @@
 				9225C39B28BEF2BA006648D5 /* SnapKit */,
 				9225C39E28BEF2E2006648D5 /* Realm */,
 				9225C3A028BEF2E2006648D5 /* RealmSwift */,
+				9295360228BF2C0A0002C504 /* Then */,
 			);
 			productName = Memo;
 			productReference = 92184E5B28BEED2000028F2F /* Memo.app */;
@@ -247,6 +267,7 @@
 			packageReferences = (
 				9225C39A28BEF2BA006648D5 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				9225C39D28BEF2E2006648D5 /* XCRemoteSwiftPackageReference "realm-swift" */,
+				9295360128BF2C0A0002C504 /* XCRemoteSwiftPackageReference "Then" */,
 			);
 			productRefGroup = 92184E5C28BEED2000028F2F /* Products */;
 			projectDirPath = "";
@@ -275,13 +296,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				92184E6328BEED2000028F2F /* ViewController.swift in Sources */,
+				92184E6328BEED2000028F2F /* MainViewController.swift in Sources */,
 				92184E5F28BEED2000028F2F /* AppDelegate.swift in Sources */,
 				9225C39728BEF09A006648D5 /* BaseView.swift in Sources */,
+				9295360528BF324C0002C504 /* UIColor+Extension.swift in Sources */,
 				929535FB28BF2A3D0002C504 /* Constant.swift in Sources */,
 				9225C39528BEEFF9006648D5 /* UIView+Extension.swift in Sources */,
+				9295360028BF2BDB0002C504 /* InitialViewController.swift in Sources */,
 				929535FD28BF2A4B0002C504 /* UserDefaults.swift in Sources */,
 				929535F828BF2A010002C504 /* UIViewController+Extension.swift in Sources */,
+				9295360728BF348B0002C504 /* InitialView.swift in Sources */,
 				92184E6128BEED2000028F2F /* SceneDelegate.swift in Sources */,
 				9225C39928BEF0BD006648D5 /* BaseViewController.swift in Sources */,
 			);
@@ -519,6 +543,14 @@
 				kind = branch;
 			};
 		};
+		9295360128BF2C0A0002C504 /* XCRemoteSwiftPackageReference "Then" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/devxoul/Then";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -536,6 +568,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9225C39D28BEF2E2006648D5 /* XCRemoteSwiftPackageReference "realm-swift" */;
 			productName = RealmSwift;
+		};
+		9295360228BF2C0A0002C504 /* Then */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9295360128BF2C0A0002C504 /* XCRemoteSwiftPackageReference "Then" */;
+			productName = Then;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
