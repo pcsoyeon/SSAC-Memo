@@ -38,7 +38,6 @@ final class ListViewController: BaseViewController {
     // MARK: - UI Method
     
     override func configure() {
-        view.backgroundColor = .darkGray
         configureNavigationBar()
         configureTableView()
     }
@@ -75,12 +74,41 @@ final class ListViewController: BaseViewController {
 // MARK: - UITableView Protocol
 
 extension ListViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 0 {
+            return ListTableViewSection.fixed.description
+        } else {
+            return ListTableViewSection.memo.description
+        }
+    }
     
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        view.tintColor = .background
+        let header = view as! UITableViewHeaderFooterView
+        header.textLabel?.textColor = .text
+        header.textLabel?.font = UIFont.boldSystemFont(ofSize: 25)
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 40
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return CGFloat.leastNormalMagnitude
+    }
 }
 
 extension ListViewController: UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        if section == 0 {
+            return 10
+        } else {
+            return 10
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -94,7 +122,7 @@ extension ListViewController: UITableViewDataSource {
 extension ListViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         guard let text = searchController.searchBar.text else { return }
-        // 검색
+        print(text)
     }
 }
 

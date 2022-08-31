@@ -15,7 +15,7 @@ final class ListView: BaseView {
     // MARK: - UI Property
     
     lazy var listTableView = UITableView().then {
-        $0.backgroundColor = .clear
+        $0.backgroundColor = .background
     }
     
     var writeButton = UIButton().then {
@@ -25,7 +25,7 @@ final class ListView: BaseView {
     }
     
     override func configureUI() {
-        self.backgroundColor = .systemBackground
+        self.backgroundColor = .background
     }
     
     override func setConstraints() {

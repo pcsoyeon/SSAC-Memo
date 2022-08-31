@@ -23,6 +23,8 @@
 		923DC7CB28BF4C9900407EEF /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923DC7CA28BF4C9900407EEF /* ListView.swift */; };
 		923DC7CD28BF506800407EEF /* ListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923DC7CC28BF506800407EEF /* ListTableViewCell.swift */; };
 		923DC7D028BF50D200407EEF /* ReusableViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923DC7CF28BF50D200407EEF /* ReusableViewProtocol.swift */; };
+		923DC7D328BF598F00407EEF /* ListTableViewSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923DC7D228BF598F00407EEF /* ListTableViewSection.swift */; };
+		923DC7D528C0180800407EEF /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923DC7D428C0180800407EEF /* UIColor+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +44,8 @@
 		923DC7CA28BF4C9900407EEF /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
 		923DC7CC28BF506800407EEF /* ListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewCell.swift; sourceTree = "<group>"; };
 		923DC7CF28BF50D200407EEF /* ReusableViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableViewProtocol.swift; sourceTree = "<group>"; };
+		923DC7D228BF598F00407EEF /* ListTableViewSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewSection.swift; sourceTree = "<group>"; };
+		923DC7D428C0180800407EEF /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +136,7 @@
 		923DC7B628BF470A00407EEF /* List */ = {
 			isa = PBXGroup;
 			children = (
+				923DC7D128BF598000407EEF /* Model */,
 				923DC7C928BF4C7600407EEF /* View */,
 				923DC7C828BF4C7100407EEF /* Controller */,
 			);
@@ -162,6 +167,7 @@
 			isa = PBXGroup;
 			children = (
 				923DC7BD28BF4A6900407EEF /* UIView+Extension.swift */,
+				923DC7D428C0180800407EEF /* UIColor+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -221,6 +227,14 @@
 				923DC7CF28BF50D200407EEF /* ReusableViewProtocol.swift */,
 			);
 			path = Protocol;
+			sourceTree = "<group>";
+		};
+		923DC7D128BF598000407EEF /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				923DC7D228BF598F00407EEF /* ListTableViewSection.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -303,6 +317,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				923DC79C28BF462400407EEF /* ListViewController.swift in Sources */,
+				923DC7D328BF598F00407EEF /* ListTableViewSection.swift in Sources */,
 				923DC7CB28BF4C9900407EEF /* ListView.swift in Sources */,
 				923DC7B928BF473900407EEF /* WalkThroughViewController.swift in Sources */,
 				923DC79828BF462400407EEF /* AppDelegate.swift in Sources */,
@@ -311,6 +326,7 @@
 				923DC7C328BF4B7900407EEF /* BaseView.swift in Sources */,
 				923DC79A28BF462400407EEF /* SceneDelegate.swift in Sources */,
 				923DC7C128BF4B0200407EEF /* BaseViewController.swift in Sources */,
+				923DC7D528C0180800407EEF /* UIColor+Extension.swift in Sources */,
 				923DC7D028BF50D200407EEF /* ReusableViewProtocol.swift in Sources */,
 				923DC7CD28BF506800407EEF /* ListTableViewCell.swift in Sources */,
 			);
