@@ -14,8 +14,9 @@ final class ListView: BaseView {
     
     // MARK: - UI Property
     
-    lazy var listTableView = UITableView().then {
+    lazy var listTableView = UITableView(frame: .zero, style: .insetGrouped).then {
         $0.backgroundColor = .background
+        $0.separatorStyle = .none
     }
     
     var writeButton = UIButton().then {

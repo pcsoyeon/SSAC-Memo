@@ -86,7 +86,7 @@ extension ListViewController: UITableViewDelegate {
         view.tintColor = .background
         let header = view as! UITableViewHeaderFooterView
         header.textLabel?.textColor = .text
-        header.textLabel?.font = UIFont.boldSystemFont(ofSize: 25)
+        header.textLabel?.font = UIFont.boldSystemFont(ofSize: 20)
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

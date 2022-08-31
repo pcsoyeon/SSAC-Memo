@@ -42,6 +42,10 @@ final class ListTableViewCell: UITableViewCell {
         $0.numberOfLines = 1
     }
     
+    private var lineView = UIView().then {
+        $0.backgroundColor = .systemGray2
+    }
+    
     // MARK: - Initializer
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -57,11 +61,11 @@ final class ListTableViewCell: UITableViewCell {
     // MARK: - UI Method
     
     private func configureUI() {
-        contentView.backgroundColor = .background
+        contentView.backgroundColor = .foreground
     }
     
     private func setConstraints() {
-        contentView.addSubviews([titleLabel, labelStackView])
+        contentView.addSubviews([titleLabel, labelStackView, lineView])
         labelStackView.addArrangedSubview(dateLabel)
         labelStackView.addArrangedSubview(contentLabel)
         
@@ -73,6 +77,11 @@ final class ListTableViewCell: UITableViewCell {
             make.top.equalTo(titleLabel.snp.bottom).offset(5)
             make.leading.trailing.equalToSuperview().inset(20)
             make.height.equalTo(20)
+        }
+        
+        lineView.snp.makeConstraints { make in
+            make.leading.trailing.bottom.equalToSuperview()
+            make.height.equalTo(0.5)
         }
     }
     
