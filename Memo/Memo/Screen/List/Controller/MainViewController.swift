@@ -10,11 +10,11 @@ import UIKit
 import SnapKit
 import Then
 
-final class MainViewController: BaseViewController {
+final class ListViewController: BaseViewController {
 
     // MARK: - UI Property
     
-    private var mainView = MainView()
+    private var mainView = ListView()
     
     // MARK: - Life Cycle
     

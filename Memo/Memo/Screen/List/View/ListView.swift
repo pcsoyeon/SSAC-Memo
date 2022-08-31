@@ -10,6 +10,6 @@ import UIKit
 import SnapKit
 import Then
 
-final class MainView: BaseView {
+final class ListView: BaseView {
     
 }

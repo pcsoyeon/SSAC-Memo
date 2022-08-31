@@ -20,7 +20,7 @@
 		923DC7C128BF4B0200407EEF /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923DC7C028BF4B0200407EEF /* BaseViewController.swift */; };
 		923DC7C328BF4B7900407EEF /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923DC7C228BF4B7900407EEF /* BaseView.swift */; };
 		923DC7C528BF4B9600407EEF /* WalkThroughView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923DC7C428BF4B9600407EEF /* WalkThroughView.swift */; };
-		923DC7CB28BF4C9900407EEF /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923DC7CA28BF4C9900407EEF /* MainView.swift */; };
+		923DC7CB28BF4C9900407EEF /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923DC7CA28BF4C9900407EEF /* ListView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,7 +37,7 @@
 		923DC7C028BF4B0200407EEF /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		923DC7C228BF4B7900407EEF /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
 		923DC7C428BF4B9600407EEF /* WalkThroughView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkThroughView.swift; sourceTree = "<group>"; };
-		923DC7CA28BF4C9900407EEF /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		923DC7CA28BF4C9900407EEF /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,18 +120,18 @@
 			isa = PBXGroup;
 			children = (
 				923DC7B728BF470E00407EEF /* WalkThrough */,
-				923DC7B628BF470A00407EEF /* Main */,
+				923DC7B628BF470A00407EEF /* List */,
 			);
 			path = Screen;
 			sourceTree = "<group>";
 		};
-		923DC7B628BF470A00407EEF /* Main */ = {
+		923DC7B628BF470A00407EEF /* List */ = {
 			isa = PBXGroup;
 			children = (
 				923DC7C928BF4C7600407EEF /* View */,
 				923DC7C828BF4C7100407EEF /* Controller */,
 			);
-			path = Main;
+			path = List;
 			sourceTree = "<group>";
 		};
 		923DC7B728BF470E00407EEF /* WalkThrough */ = {
@@ -204,7 +204,7 @@
 		923DC7C928BF4C7600407EEF /* View */ = {
 			isa = PBXGroup;
 			children = (
-				923DC7CA28BF4C9900407EEF /* MainView.swift */,
+				923DC7CA28BF4C9900407EEF /* ListView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -289,7 +289,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				923DC79C28BF462400407EEF /* MainViewController.swift in Sources */,
-				923DC7CB28BF4C9900407EEF /* MainView.swift in Sources */,
+				923DC7CB28BF4C9900407EEF /* ListView.swift in Sources */,
 				923DC7B928BF473900407EEF /* WalkThroughViewController.swift in Sources */,
 				923DC79828BF462400407EEF /* AppDelegate.swift in Sources */,
 				923DC7C528BF4B9600407EEF /* WalkThroughView.swift in Sources */,
