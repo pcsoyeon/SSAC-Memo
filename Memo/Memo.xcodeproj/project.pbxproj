@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		923DC79828BF462400407EEF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923DC79728BF462400407EEF /* AppDelegate.swift */; };
 		923DC79A28BF462400407EEF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923DC79928BF462400407EEF /* SceneDelegate.swift */; };
-		923DC79C28BF462400407EEF /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923DC79B28BF462400407EEF /* MainViewController.swift */; };
+		923DC79C28BF462400407EEF /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923DC79B28BF462400407EEF /* ListViewController.swift */; };
 		923DC79F28BF462400407EEF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 923DC79D28BF462400407EEF /* Main.storyboard */; };
 		923DC7A128BF462500407EEF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 923DC7A028BF462500407EEF /* Assets.xcassets */; };
 		923DC7A428BF462500407EEF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 923DC7A228BF462500407EEF /* LaunchScreen.storyboard */; };
@@ -21,13 +21,15 @@
 		923DC7C328BF4B7900407EEF /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923DC7C228BF4B7900407EEF /* BaseView.swift */; };
 		923DC7C528BF4B9600407EEF /* WalkThroughView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923DC7C428BF4B9600407EEF /* WalkThroughView.swift */; };
 		923DC7CB28BF4C9900407EEF /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923DC7CA28BF4C9900407EEF /* ListView.swift */; };
+		923DC7CD28BF506800407EEF /* ListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923DC7CC28BF506800407EEF /* ListTableViewCell.swift */; };
+		923DC7D028BF50D200407EEF /* ReusableViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923DC7CF28BF50D200407EEF /* ReusableViewProtocol.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		923DC79428BF462400407EEF /* Memo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Memo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		923DC79728BF462400407EEF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		923DC79928BF462400407EEF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		923DC79B28BF462400407EEF /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		923DC79B28BF462400407EEF /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		923DC79E28BF462400407EEF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		923DC7A028BF462500407EEF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		923DC7A328BF462500407EEF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -38,6 +40,8 @@
 		923DC7C228BF4B7900407EEF /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
 		923DC7C428BF4B9600407EEF /* WalkThroughView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkThroughView.swift; sourceTree = "<group>"; };
 		923DC7CA28BF4C9900407EEF /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
+		923DC7CC28BF506800407EEF /* ListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewCell.swift; sourceTree = "<group>"; };
+		923DC7CF28BF50D200407EEF /* ReusableViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableViewProtocol.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -146,6 +150,7 @@
 		923DC7BA28BF4A4D00407EEF /* Global */ = {
 			isa = PBXGroup;
 			children = (
+				923DC7CE28BF50C500407EEF /* Protocol */,
 				923DC7BF28BF4AF600407EEF /* Utility */,
 				923DC7BC28BF4A5600407EEF /* Constant */,
 				923DC7BB28BF4A5100407EEF /* Extension */,
@@ -196,7 +201,7 @@
 		923DC7C828BF4C7100407EEF /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				923DC79B28BF462400407EEF /* MainViewController.swift */,
+				923DC79B28BF462400407EEF /* ListViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -205,8 +210,17 @@
 			isa = PBXGroup;
 			children = (
 				923DC7CA28BF4C9900407EEF /* ListView.swift */,
+				923DC7CC28BF506800407EEF /* ListTableViewCell.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		923DC7CE28BF50C500407EEF /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				923DC7CF28BF50D200407EEF /* ReusableViewProtocol.swift */,
+			);
+			path = Protocol;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -288,7 +302,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				923DC79C28BF462400407EEF /* MainViewController.swift in Sources */,
+				923DC79C28BF462400407EEF /* ListViewController.swift in Sources */,
 				923DC7CB28BF4C9900407EEF /* ListView.swift in Sources */,
 				923DC7B928BF473900407EEF /* WalkThroughViewController.swift in Sources */,
 				923DC79828BF462400407EEF /* AppDelegate.swift in Sources */,
@@ -297,6 +311,8 @@
 				923DC7C328BF4B7900407EEF /* BaseView.swift in Sources */,
 				923DC79A28BF462400407EEF /* SceneDelegate.swift in Sources */,
 				923DC7C128BF4B0200407EEF /* BaseViewController.swift in Sources */,
+				923DC7D028BF50D200407EEF /* ReusableViewProtocol.swift in Sources */,
+				923DC7CD28BF506800407EEF /* ListTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
