@@ -111,10 +111,14 @@ final class ListViewController: BaseViewController {
 extension ListViewController: UITableViewDelegate {
     // UI
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section == 0 {
-            return ListTableViewSection.pinned.description
-        } else {
+        if pinnedCount == 0 {
             return ListTableViewSection.memo.description
+        } else {
+            if section == 0 {
+                return ListTableViewSection.pinned.description
+            } else {
+                return ListTableViewSection.memo.description
+            }
         }
     }
     
@@ -171,14 +175,22 @@ extension ListViewController: UITableViewDelegate {
 
 extension ListViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        if pinnedCount == 0 {
+            return 1
+        } else {
+            return 2
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
-            return 5
-        } else {
+        if pinnedCount == 0 {
             return 10
+        } else {
+            if section == 0 {
+                return 5
+            } else {
+                return 10
+            }
         }
     }
     
