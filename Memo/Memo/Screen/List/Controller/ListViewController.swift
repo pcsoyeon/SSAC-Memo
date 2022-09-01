@@ -22,7 +22,12 @@ final class ListViewController: BaseViewController {
     
     // MARK: - Property
     
-    private var totalCount: Int = 0
+    private var totalCount: Int = 0 {
+        didSet {
+            title = "\(format(for: totalCount))개의 메모"
+        }
+    }
+    
     private var pinnedCount: Int = 0
     
     // MARK: - Life Cycle
@@ -50,7 +55,7 @@ final class ListViewController: BaseViewController {
     }
     
     private func configureNavigationBar() {
-        title = "\(totalCount)개의 메모"
+        title = "\(format(for: totalCount))개의 메모"
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.hidesSearchBarWhenScrolling = false
         navigationItem.searchController = searchController
@@ -99,6 +104,12 @@ final class ListViewController: BaseViewController {
         }
         
         self.present(optionMenu, animated: true)
+    }
+    
+    private func format(for number: Int) -> String {
+        let numberFormat = NumberFormatter()
+        numberFormat.numberStyle = .decimal
+        return numberFormat.string(for: number) ?? ""
     }
     
     // MARK: - @objc
