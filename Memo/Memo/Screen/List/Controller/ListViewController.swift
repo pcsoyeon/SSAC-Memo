@@ -74,7 +74,7 @@ final class ListViewController: BaseViewController {
     }
     
     private func configureButton() {
-        listView.writeButton.addTarget(self, action: #selector(touchUpWriteButton), for: .touchUpInside)
+        listView.delegate = self
     }
     
     // MARK: - Custom Method
@@ -110,15 +110,6 @@ final class ListViewController: BaseViewController {
         let numberFormat = NumberFormatter()
         numberFormat.numberStyle = .decimal
         return numberFormat.string(for: number) ?? ""
-    }
-    
-    // MARK: - @objc
-    
-    @objc func touchUpWriteButton() {
-        let viewController = WriteViewController()
-        let backBarButtonItem = UIBarButtonItem(title: "메모", style: .plain, target: self, action: nil)
-        self.navigationItem.backBarButtonItem = backBarButtonItem
-        navigationController?.pushViewController(viewController, animated: true)
     }
 }
 
@@ -228,5 +219,16 @@ extension ListViewController: UISearchResultsUpdating {
 extension ListViewController: UISearchBarDelegate {
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         print(#function)
+    }
+}
+
+// MARK: - Custom Delegate
+
+extension ListViewController: ListViewDelegate {
+    func touchUpWriteButton() {
+        let viewController = WriteViewController()
+        let backBarButtonItem = UIBarButtonItem(title: "메모", style: .plain, target: self, action: nil)
+        self.navigationItem.backBarButtonItem = backBarButtonItem
+        navigationController?.pushViewController(viewController, animated: true)
     }
 }

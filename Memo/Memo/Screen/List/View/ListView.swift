@@ -10,6 +10,10 @@ import UIKit
 import SnapKit
 import Then
 
+protocol ListViewDelegate: ListViewController {
+    func touchUpWriteButton()
+}
+
 final class ListView: BaseView {
     
     // MARK: - UI Property
@@ -19,28 +23,45 @@ final class ListView: BaseView {
         $0.separatorStyle = .none
     }
     
-    var writeButton = UIButton().then {
-        $0.setTitle("", for: .normal)
-        $0.setImage(UIImage(systemName: "square.and.pencil"), for: .normal)
+    lazy var bottomToolBar = UIToolbar().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.tintColor = .systemOrange
     }
     
+    // MARK: - Property
+    
+    weak var delegate: ListViewDelegate?
+    
     override func configureUI() {
         backgroundColor = .background
-        
-        addSubview(listTableView)
-        addSubview(writeButton)
+        configureToolbar()
     }
     
     override func setConstraints() {
-        writeButton.snp.makeConstraints { make in
-            make.width.height.equalTo(50)
-            make.trailing.bottom.equalTo(self.safeAreaLayoutGuide)
+        addSubview(listTableView)
+        addSubview(bottomToolBar)
+        
+        bottomToolBar.snp.makeConstraints { make in
+            make.height.equalTo(50)
+            make.leading.trailing.bottom.equalTo(self.safeAreaLayoutGuide)
         }
         
         listTableView.snp.makeConstraints { make in
             make.top.leading.trailing.equalTo(self.safeAreaLayoutGuide)
-            make.bottom.equalTo(writeButton.snp.top)
+            make.bottom.equalTo(bottomToolBar.snp.top)
         }
+    }
+    
+    private func configureToolbar() {
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        let writeButton = UIBarButtonItem(image: UIImage(systemName: "square.and.pencil"), style: .plain, target: self, action: #selector(touchUpWriteButton))
+        
+        bottomToolBar.items = [flexibleSpace, writeButton]
+    }
+    
+    // MARK: - @objc
+    
+    @objc func touchUpWriteButton() {
+        delegate?.touchUpWriteButton()
     }
 }
