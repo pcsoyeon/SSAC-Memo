@@ -28,6 +28,7 @@ class WriteViewController: BaseViewController {
     
     override func configure() {
         configureNavigationBar()
+        configuireTextView()
     }
     
     private func configureNavigationBar() {        navigationController?.navigationBar.prefersLargeTitles = false
@@ -36,6 +37,10 @@ class WriteViewController: BaseViewController {
         let shareButton = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"), style: .plain, target: self, action: #selector(touchUpShareButton))
         let doneButton = UIBarButtonItem(title: "완료", style: .plain, target: self, action:  #selector(touchUpDoneButton))
         navigationItem.rightBarButtonItems = [doneButton, shareButton]
+    }
+    
+    private func configuireTextView() {
+        writeView.textView.becomeFirstResponder()
     }
     
     // MARK: - @objc
@@ -47,4 +52,10 @@ class WriteViewController: BaseViewController {
     @objc func touchUpDoneButton() {
         
     }
+}
+
+// MARK: - UITextView Protocol
+
+extension WriteViewController: UITextViewDelegate {
+    
 }

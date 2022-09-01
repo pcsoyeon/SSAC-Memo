@@ -14,7 +14,7 @@ final class WriteView: BaseView {
     
     // MARK: - UI Property
     
-    private var textView = UITextView().then {
+    var textView = UITextView().then {
         $0.backgroundColor = .background
         $0.textColor = .text
         $0.font = .systemFont(ofSize: 18, weight: .regular)
