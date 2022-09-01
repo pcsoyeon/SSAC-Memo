@@ -66,7 +66,17 @@ class WriteViewController: BaseViewController {
     // MARK: - @objc
     
     @objc func touchUpShareButton() {
+        var objectsToShare = [String]()
         
+        if let text = writeView.textView.text {
+            objectsToShare.append(text)
+        }
+        
+        let activityViewController = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
+        activityViewController.popoverPresentationController?.sourceView = self.view
+        activityViewController.excludedActivityTypes = [UIActivity.ActivityType.airDrop, UIActivity.ActivityType.addToReadingList]
+        
+        self.present(activityViewController, animated: true, completion: nil)
     }
     
     @objc func touchUpDoneButton() {
