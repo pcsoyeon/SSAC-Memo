@@ -178,6 +178,15 @@ extension ListViewController: UITableViewDelegate {
         
         return UISwipeActionsConfiguration(actions: [deleteAction])
     }
+    
+    // Tap
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let viewController = WriteViewController()
+        viewController.isNew = false
+        let backBarButtonItem = UIBarButtonItem(title: "메모", style: .plain, target: self, action: nil)
+        self.navigationItem.backBarButtonItem = backBarButtonItem
+        navigationController?.pushViewController(viewController, animated: true)
+    }
 }
 
 extension ListViewController: UITableViewDataSource {
@@ -227,6 +236,7 @@ extension ListViewController: UISearchBarDelegate {
 extension ListViewController: ListViewDelegate {
     func touchUpWriteButton() {
         let viewController = WriteViewController()
+        viewController.isNew = true
         let backBarButtonItem = UIBarButtonItem(title: "메모", style: .plain, target: self, action: nil)
         self.navigationItem.backBarButtonItem = backBarButtonItem
         navigationController?.pushViewController(viewController, animated: true)

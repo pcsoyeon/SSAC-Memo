@@ -13,6 +13,19 @@ class WriteViewController: BaseViewController {
     
     private let writeView = WriteView()
     
+    // MARK: - Property
+    
+    var isNew: Bool = true {
+        didSet {
+            if isNew {
+                writeView.textView.becomeFirstResponder()
+                showNavigationItem()
+            } else {
+                navigationItem.rightBarButtonItems = nil
+            }
+        }
+    }
+    
     // MARK: - Life Cycle
     
     override func loadView() {
@@ -24,23 +37,30 @@ class WriteViewController: BaseViewController {
         super.viewDidLoad()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        configureNavigationBar()
+    }
+    
     // MARK: - UI Method
     
     override func configure() {
-        configureNavigationBar()
         configuireTextView()
     }
     
-    private func configureNavigationBar() {        navigationController?.navigationBar.prefersLargeTitles = false
+    private func configureNavigationBar() {
+        navigationController?.navigationBar.prefersLargeTitles = false
         navigationController?.navigationBar.tintColor = .systemOrange
-        
+    }
+    
+    private func showNavigationItem() {
         let shareButton = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"), style: .plain, target: self, action: #selector(touchUpShareButton))
         let doneButton = UIBarButtonItem(title: "완료", style: .plain, target: self, action:  #selector(touchUpDoneButton))
         navigationItem.rightBarButtonItems = [doneButton, shareButton]
     }
     
     private func configuireTextView() {
-        writeView.textView.becomeFirstResponder()
+        writeView.textView.delegate = self
     }
     
     // MARK: - @objc
@@ -57,5 +77,8 @@ class WriteViewController: BaseViewController {
 // MARK: - UITextView Protocol
 
 extension WriteViewController: UITextViewDelegate {
-    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        isNew.toggle()
+        showNavigationItem()
+    }
 }
