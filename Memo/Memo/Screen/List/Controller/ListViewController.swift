@@ -36,6 +36,11 @@ final class ListViewController: BaseViewController {
         super.viewDidLoad()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        configureNavigationBar()
+    }
+    
     // MARK: - UI Method
     
     override func configure() {
