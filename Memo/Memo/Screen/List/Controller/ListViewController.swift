@@ -29,15 +29,27 @@ final class ListViewController: BaseViewController {
         }
     }
     
-    private var pinnedCount: Int = 0
+    private var pinnedList: [Memo] = []
+    private var unPinnedList: [Memo] = []
     
     private let repository = MemoRepository()
     
     private var tasks: Results<Memo>! {
         didSet {
+            var pinned: [Memo] = []
+            var unPinned: [Memo] = []
+            
             for item in tasks {
-                if item.isPinned { pinnedCount += 1 }
+                if item.isPinned {
+                    pinned.append(item)
+                } else {
+                    unPinned.append(item)
+                }
             }
+            
+            self.pinnedList = pinned
+            self.unPinnedList = unPinned
+            
             listView.listTableView.reloadData()
         }
     }
@@ -51,12 +63,18 @@ final class ListViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+//        presentWalkThrough()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configureNavigationBar()
         fetchRealmData()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+//        presentWalkThrough()
     }
     
     // MARK: - UI Method
@@ -92,12 +110,12 @@ final class ListViewController: BaseViewController {
     
     // MARK: - Custom Method
     
-    private func presentWalkThrough() {
-        let viewController = WalkThroughViewController()
-        viewController.modalTransitionStyle = .coverVertical
-        viewController.modalPresentationStyle = .fullScreen
-        present(viewController, animated: true)
-    }
+//    private func presentWalkThrough() {
+//        let viewController = WalkThroughViewController()
+//        viewController.modalTransitionStyle = .coverVertical
+//        viewController.modalPresentationStyle = .overFullScreen
+//        present(viewController, animated: true)
+//    }
     
     private func showActionSheet(type: AlertType, index: Int) {
         let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
@@ -135,7 +153,7 @@ final class ListViewController: BaseViewController {
 extension ListViewController: UITableViewDelegate {
     // UI
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if pinnedCount == 0 {
+        if pinnedList.count == 0 {
             return ListTableViewSection.memo.description
         } else {
             if section == 0 {
@@ -166,15 +184,13 @@ extension ListViewController: UITableViewDelegate {
         
         let pinAction = UIContextualAction(style: .normal, title: nil) { (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
             
-            if let cell = self.listView.listTableView.cellForRow(at: indexPath) as? ListTableViewCell {
-                if self.pinnedCount > 5 {
-                    self.showActionSheet(type: .pin, index: indexPath.row)
-                } else {
-                    self.pinnedCount += 1
-                    print("고정")
-                }
+            if self.pinnedList.count > 5 {
+                self.showActionSheet(type: .pin, index: indexPath.row)
+            } else {
+                self.repository.updatePinned(item: self.tasks[indexPath.row])
             }
             
+            self.fetchRealmData()
             success(true)
         }
         pinAction.backgroundColor = .systemOrange
@@ -208,7 +224,7 @@ extension ListViewController: UITableViewDelegate {
 
 extension ListViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        if pinnedCount == 0 {
+        if pinnedList.count == 0 {
             return 1
         } else {
             return 2
@@ -216,20 +232,30 @@ extension ListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if pinnedCount == 0 {
+        if pinnedList.count == 0 {
             return tasks.count
         } else {
             if section == 0 {
-                return pinnedCount
+                return pinnedList.count
             } else {
-                return tasks.count
+                return unPinnedList.count
             }
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: ListTableViewCell.reuseIdentifier, for: indexPath) as? ListTableViewCell else { return UITableViewCell() }
-        cell.setData(tasks[indexPath.row])
+        
+        if pinnedList.count == 0 {
+            cell.setData(tasks[indexPath.row])
+        } else {
+            if indexPath.section == 0 {
+                cell.setData(pinnedList[indexPath.row])
+            } else {
+                cell.setData(unPinnedList[indexPath.row])
+            }
+        }
+       
         return cell
     }
 }

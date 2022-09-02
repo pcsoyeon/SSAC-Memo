@@ -26,6 +26,7 @@ final class WalkThroughViewController: BaseViewController {
     // MARK: - Custom Method
     
     override func configure() {
+        view.backgroundColor = UIColor.init(white: 0, alpha: 0.5)
         configureButton()
     }
 
