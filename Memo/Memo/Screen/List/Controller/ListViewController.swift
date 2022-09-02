@@ -186,10 +186,14 @@ extension ListViewController: UITableViewDelegate {
         
         let pinAction = UIContextualAction(style: .normal, title: nil) { (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
             
-            if self.pinnedList.count > 5 {
+            if self.pinnedList.count >= 5 {
                 self.showActionSheet(type: .pin, index: indexPath.row)
             } else {
-                self.repository.updatePinned(item: self.tasks[indexPath.row])
+                if indexPath.section == 0 {
+                    self.repository.updatePinned(item: self.pinnedList[indexPath.row])
+                } else {
+                    self.repository.updatePinned(item: self.unPinnedList[indexPath.row])
+                }
             }
             
             self.fetchRealmData()
