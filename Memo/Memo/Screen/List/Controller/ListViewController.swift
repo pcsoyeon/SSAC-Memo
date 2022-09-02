@@ -36,6 +36,7 @@ final class ListViewController: BaseViewController {
     
     private var tasks: Results<Memo>! {
         didSet {
+            totalCount = tasks.count
             var pinned: [Memo] = []
             var unPinned: [Memo] = []
             
