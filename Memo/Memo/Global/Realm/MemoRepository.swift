@@ -35,6 +35,14 @@ class MemoRepository: MemoRepositoryType {
         return localRealm.objects(Memo.self).sorted(byKeyPath: "memoDate", ascending: false)
     }
     
+    func fetchPinnedItems() -> Results<Memo> {
+        return localRealm.objects(Memo.self).filter("isPinned == true").sorted(byKeyPath: "memoDate", ascending: false)
+    }
+    
+    func fetchUnPinnedItems() -> Results<Memo> {
+        return localRealm.objects(Memo.self).filter("isPinned == false").sorted(byKeyPath: "memoDate", ascending: false)
+    }
+    
     func fetchFilter(_ filter: String) -> Results<Memo> {
         return localRealm.objects(Memo.self).filter("memoContent CONTAINS '\(filter)'")
     }

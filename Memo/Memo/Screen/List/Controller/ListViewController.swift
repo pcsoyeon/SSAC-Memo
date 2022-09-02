@@ -29,28 +29,40 @@ final class ListViewController: BaseViewController {
         }
     }
     
-    private var pinnedList: [Memo] = []
-    private var unPinnedList: [Memo] = []
+//    private var pinnedList: [Memo] = []
+//    private var unPinnedList: [Memo] = []
     
     private let repository = MemoRepository()
     
-    private var tasks: Results<Memo>! {
+//    private var tasks: Results<Memo>! {
+//        didSet {
+//            totalCount = tasks.count
+//            var pinned: [Memo] = []
+//            var unPinned: [Memo] = []
+//
+//            for item in tasks {
+//                if item.isPinned {
+//                    pinned.append(item)
+//                } else {
+//                    unPinned.append(item)
+//                }
+//            }
+//
+//            self.pinnedList = pinned
+//            self.unPinnedList = unPinned
+//
+//            listView.listTableView.reloadData()
+//        }
+//    }
+    
+    private var pinnedMemo: Results<Memo>! {
         didSet {
-            totalCount = tasks.count
-            var pinned: [Memo] = []
-            var unPinned: [Memo] = []
-            
-            for item in tasks {
-                if item.isPinned {
-                    pinned.append(item)
-                } else {
-                    unPinned.append(item)
-                }
-            }
-            
-            self.pinnedList = pinned
-            self.unPinnedList = unPinned
-            
+            listView.listTableView.reloadData()
+        }
+    }
+    
+    private var unPinnedMemo: Results<Memo>! {
+        didSet {
             listView.listTableView.reloadData()
         }
     }
@@ -119,9 +131,9 @@ final class ListViewController: BaseViewController {
         let pinAction = UIAlertAction(title: "확인", style: .cancel, handler: nil)
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive, handler: { action in
             if section == 0 {
-                self.repository.deleteItem(item: self.pinnedList[index])
+                self.repository.deleteItem(item: self.pinnedMemo[index])
             } else {
-                self.repository.deleteItem(item: self.unPinnedList[index])
+                self.repository.deleteItem(item: self.unPinnedMemo[index])
             }
             
             self.fetchRealmData()
@@ -146,7 +158,10 @@ final class ListViewController: BaseViewController {
     }
     
     private func fetchRealmData() {
-        tasks = repository.fetch()
+//        tasks = repository.fetch()
+        
+        pinnedMemo = repository.fetchPinnedItems()
+        unPinnedMemo = repository.fetchUnPinnedItems()
     }
 }
 
@@ -155,7 +170,7 @@ final class ListViewController: BaseViewController {
 extension ListViewController: UITableViewDelegate {
     // UI
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if pinnedList.count == 0 {
+        if pinnedMemo.count == 0 {
             return ListTableViewSection.memo.description
         } else {
             if section == 0 {
@@ -186,13 +201,13 @@ extension ListViewController: UITableViewDelegate {
         
         let pinAction = UIContextualAction(style: .normal, title: nil) { (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
             
-            if self.pinnedList.count >= 5 {
+            if self.pinnedMemo.count >= 5 {
                 self.showActionSheet(type: .pin, index: indexPath.row)
             } else {
                 if indexPath.section == 0 {
-                    self.repository.updatePinned(item: self.pinnedList[indexPath.row])
+                    self.repository.updatePinned(item: self.pinnedMemo[indexPath.row])
                 } else {
-                    self.repository.updatePinned(item: self.unPinnedList[indexPath.row])
+                    self.repository.updatePinned(item: self.unPinnedMemo[indexPath.row])
                 }
             }
             
@@ -233,7 +248,7 @@ extension ListViewController: UITableViewDelegate {
 
 extension ListViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        if pinnedList.count == 0 {
+        if pinnedMemo.count == 0 {
             return 1
         } else {
             return 2
@@ -241,13 +256,18 @@ extension ListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if pinnedList.count == 0 {
-            return tasks.count
+        if pinnedMemo.count == 0 {
+            return unPinnedMemo.count
         } else {
             if section == 0 {
-                return pinnedList.count
+                return pinnedMemo.count
             } else {
-                return unPinnedList.count
+                if unPinnedMemo == nil {
+                    return 0
+                } else {
+                    return unPinnedMemo.count
+                }
+                
             }
         }
     }
@@ -255,13 +275,13 @@ extension ListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: ListTableViewCell.reuseIdentifier, for: indexPath) as? ListTableViewCell else { return UITableViewCell() }
         
-        if pinnedList.count == 0 {
-            cell.setData(tasks[indexPath.row])
+        if pinnedMemo.count == 0 {
+            cell.setData(unPinnedMemo[indexPath.row])
         } else {
             if indexPath.section == 0 {
-                cell.setData(pinnedList[indexPath.row])
+                cell.setData(pinnedMemo[indexPath.row])
             } else {
-                cell.setData(unPinnedList[indexPath.row])
+                cell.setData(unPinnedMemo[indexPath.row])
             }
         }
        
