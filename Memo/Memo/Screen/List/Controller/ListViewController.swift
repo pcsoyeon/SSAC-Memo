@@ -29,43 +29,50 @@ final class ListViewController: BaseViewController {
         }
     }
     
-//    private var pinnedList: [Memo] = []
-//    private var unPinnedList: [Memo] = []
+    private var pinnedList: [Memo] = []
+    private var unPinnedList: [Memo] = []
     
     private let repository = MemoRepository()
     
-//    private var tasks: Results<Memo>! {
+    private var tasks: Results<Memo>! {
+        didSet {
+            totalCount = tasks.count
+            var pinned: [Memo] = []
+            var unPinned: [Memo] = []
+
+            for item in tasks {
+                if item.isPinned {
+                    pinned.append(item)
+                } else {
+                    unPinned.append(item)
+                }
+            }
+
+            self.pinnedList = pinned
+            self.unPinnedList = unPinned
+
+            listView.listTableView.reloadData()
+        }
+    }
+    
+//    private var pinnedMemo: Results<Memo>! {
 //        didSet {
-//            totalCount = tasks.count
-//            var pinned: [Memo] = []
-//            var unPinned: [Memo] = []
+//            listView.listTableView.reloadData()
+//        }
+//    }
 //
-//            for item in tasks {
-//                if item.isPinned {
-//                    pinned.append(item)
-//                } else {
-//                    unPinned.append(item)
-//                }
-//            }
-//
-//            self.pinnedList = pinned
-//            self.unPinnedList = unPinned
-//
+//    private var unPinnedMemo: Results<Memo>! {
+//        didSet {
 //            listView.listTableView.reloadData()
 //        }
 //    }
     
-    private var pinnedMemo: Results<Memo>! {
+    private var isSearching: Bool = false {
         didSet {
-            listView.listTableView.reloadData()
+            if isSearching == false { listView.listTableView.reloadData() }
         }
     }
-    
-    private var unPinnedMemo: Results<Memo>! {
-        didSet {
-            listView.listTableView.reloadData()
-        }
-    }
+    private var searchedItemCount: Int = 0
     
     // MARK: - Life Cycle
     
@@ -131,9 +138,9 @@ final class ListViewController: BaseViewController {
         let pinAction = UIAlertAction(title: "확인", style: .cancel, handler: nil)
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive, handler: { action in
             if section == 0 {
-                self.repository.deleteItem(item: self.pinnedMemo[index])
+                self.repository.deleteItem(item: self.pinnedList[index])
             } else {
-                self.repository.deleteItem(item: self.unPinnedMemo[index])
+                self.repository.deleteItem(item: self.unPinnedList[index])
             }
             
             self.fetchRealmData()
@@ -158,27 +165,33 @@ final class ListViewController: BaseViewController {
     }
     
     private func fetchRealmData() {
-//        tasks = repository.fetch()
+        isSearching = false
+        tasks = repository.fetch()
+        dump(tasks)
         
-        pinnedMemo = repository.fetchPinnedItems()
-        unPinnedMemo = repository.fetchUnPinnedItems()
-        
-        totalCount = pinnedMemo.count + unPinnedMemo.count
+//        pinnedMemo = repository.fetchPinnedItems()
+//        unPinnedMemo = repository.fetchUnPinnedItems()
+//
+//        totalCount = pinnedMemo.count + unPinnedMemo.count
     }
 }
 
 // MARK: - UITableView Protocol
 
 extension ListViewController: UITableViewDelegate {
-    // UI
+    // MARK: - Header UI
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if pinnedMemo.count == 0 {
-            return ListTableViewSection.memo.description
+        if isSearching {
+            return "\(searchedItemCount)개 찾음"
         } else {
-            if section == 0 {
-                return ListTableViewSection.pinned.description
-            } else {
+            if pinnedList.count == 0 {
                 return ListTableViewSection.memo.description
+            } else {
+                if section == 0 {
+                    return ListTableViewSection.pinned.description
+                } else {
+                    return ListTableViewSection.memo.description
+                }
             }
         }
     }
@@ -198,18 +211,19 @@ extension ListViewController: UITableViewDelegate {
         return CGFloat.leastNormalMagnitude
     }
     
-    // Swipe Gesture
+    // MARK: - Swipe Gesture
+    
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
         let pinAction = UIContextualAction(style: .normal, title: nil) { (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
             
-            if self.pinnedMemo.count >= 5 {
+            if self.pinnedList.count >= 5 {
                 self.showActionSheet(type: .pin, index: indexPath.row)
             } else {
                 if indexPath.section == 0 {
-                    self.repository.updatePinned(item: self.pinnedMemo[indexPath.row])
+                    self.repository.updatePinned(item: self.pinnedList[indexPath.row])
                 } else {
-                    self.repository.updatePinned(item: self.unPinnedMemo[indexPath.row])
+                    self.repository.updatePinned(item: self.unPinnedList[indexPath.row])
                 }
             }
             
@@ -238,20 +252,26 @@ extension ListViewController: UITableViewDelegate {
         return UISwipeActionsConfiguration(actions: [deleteAction])
     }
     
-    // Tap
+    // MARK: - Tap
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let viewController = WriteViewController()
         viewController.isNew = false
         
-        if pinnedMemo.count == 0 {
-            viewController.memo = unPinnedMemo[indexPath.row]
+        if isSearching {
+            viewController.memo = tasks[indexPath.row]
         } else {
-            if indexPath.section == 0 {
-                viewController.memo = pinnedMemo[indexPath.row]
+            if pinnedList.count == 0 {
+                viewController.memo = unPinnedList[indexPath.row]
             } else {
-                viewController.memo = unPinnedMemo[indexPath.row]
+                if indexPath.section == 0 {
+                    viewController.memo = pinnedList[indexPath.row]
+                } else {
+                    viewController.memo = unPinnedList[indexPath.row]
+                }
             }
         }
+        
         
         let backBarButtonItem = UIBarButtonItem(title: "메모", style: .plain, target: self, action: nil)
         self.navigationItem.backBarButtonItem = backBarButtonItem
@@ -261,26 +281,29 @@ extension ListViewController: UITableViewDelegate {
 
 extension ListViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        if pinnedMemo.count == 0 {
+        if isSearching {
             return 1
         } else {
-            return 2
+            if pinnedList.count == 0 {
+                return 1
+            } else {
+                return 2
+            }
         }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if pinnedMemo.count == 0 {
-            return unPinnedMemo.count
+        if isSearching {
+            return tasks.count
         } else {
-            if section == 0 {
-                return pinnedMemo.count
+            if pinnedList.count == 0 {
+                return unPinnedList.count
             } else {
-                if unPinnedMemo == nil {
-                    return 0
+                if section == 0 {
+                    return pinnedList.count
                 } else {
-                    return unPinnedMemo.count
+                    return unPinnedList.count
                 }
-                
             }
         }
     }
@@ -288,13 +311,17 @@ extension ListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: ListTableViewCell.reuseIdentifier, for: indexPath) as? ListTableViewCell else { return UITableViewCell() }
         
-        if pinnedMemo.count == 0 {
-            cell.setData(unPinnedMemo[indexPath.row])
+        if isSearching {
+            cell.setData(tasks[indexPath.row])
         } else {
-            if indexPath.section == 0 {
-                cell.setData(pinnedMemo[indexPath.row])
+            if pinnedList.count == 0 {
+                cell.setData(unPinnedList[indexPath.row])
             } else {
-                cell.setData(unPinnedMemo[indexPath.row])
+                if indexPath.section == 0 {
+                    cell.setData(pinnedList[indexPath.row])
+                } else {
+                    cell.setData(pinnedList[indexPath.row])
+                }
             }
         }
        
@@ -306,14 +333,17 @@ extension ListViewController: UITableViewDataSource {
 
 extension ListViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
+        isSearching = true
         guard let text = searchController.searchBar.text else { return }
-        print(text)
+        tasks = repository.fetchFilter(text)
+        searchedItemCount = tasks.count
     }
 }
 
 extension ListViewController: UISearchBarDelegate {
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        print(#function)
+        fetchRealmData()
+        isSearching = false
     }
 }
 
