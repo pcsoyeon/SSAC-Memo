@@ -31,6 +31,7 @@
 		92D87F6E28C1DE10009AAFE5 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 92D87F6D28C1DE10009AAFE5 /* RealmSwift */; };
 		92D87F7028C1DE89009AAFE5 /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D87F6F28C1DE89009AAFE5 /* Memo.swift */; };
 		92D87F7328C1DF42009AAFE5 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = 92D87F7228C1DF42009AAFE5 /* Then */; };
+		92D87F7528C1DFE4009AAFE5 /* MemoRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D87F7428C1DFE4009AAFE5 /* MemoRepository.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +57,7 @@
 		923DC7DB28C0205900407EEF /* WriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewController.swift; sourceTree = "<group>"; };
 		923DC7DD28C0253700407EEF /* ActionSheetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetType.swift; sourceTree = "<group>"; };
 		92D87F6F28C1DE89009AAFE5 /* Memo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memo.swift; sourceTree = "<group>"; };
+		92D87F7428C1DFE4009AAFE5 /* MemoRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoRepository.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -273,6 +275,7 @@
 			isa = PBXGroup;
 			children = (
 				92D87F6F28C1DE89009AAFE5 /* Memo.swift */,
+				92D87F7428C1DFE4009AAFE5 /* MemoRepository.swift */,
 			);
 			path = Realm;
 			sourceTree = "<group>";
@@ -360,6 +363,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				923DC79C28BF462400407EEF /* ListViewController.swift in Sources */,
+				92D87F7528C1DFE4009AAFE5 /* MemoRepository.swift in Sources */,
 				923DC7D328BF598F00407EEF /* ListTableViewSection.swift in Sources */,
 				923DC7CB28BF4C9900407EEF /* ListView.swift in Sources */,
 				923DC7B928BF473900407EEF /* WalkThroughViewController.swift in Sources */,
