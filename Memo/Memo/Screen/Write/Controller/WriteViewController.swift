@@ -33,6 +33,16 @@ class WriteViewController: BaseViewController {
     
     private var returnCount: Int = 0
     
+    var memo = Memo(memoTitle: "", memoContent: "", memoDate: Date()) {
+        didSet {
+            writeView.textView.text = """
+                                      \(memo.memoTitle)\n\n
+                                      \(memo.memoContent ?? "")\n
+                                      \(memo.memoDate)
+                                      """
+        }
+    }
+    
     // MARK: - Life Cycle
     
     override func loadView() {

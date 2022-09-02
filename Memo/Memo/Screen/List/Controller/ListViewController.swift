@@ -242,6 +242,17 @@ extension ListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let viewController = WriteViewController()
         viewController.isNew = false
+        
+        if pinnedMemo.count == 0 {
+            viewController.memo = unPinnedMemo[indexPath.row]
+        } else {
+            if indexPath.section == 0 {
+                viewController.memo = pinnedMemo[indexPath.row]
+            } else {
+                viewController.memo = unPinnedMemo[indexPath.row]
+            }
+        }
+        
         let backBarButtonItem = UIBarButtonItem(title: "메모", style: .plain, target: self, action: nil)
         self.navigationItem.backBarButtonItem = backBarButtonItem
         navigationController?.pushViewController(viewController, animated: true)
