@@ -28,6 +28,7 @@
 		923DC7DA28C01F3D00407EEF /* WriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923DC7D928C01F3D00407EEF /* WriteView.swift */; };
 		923DC7DC28C0205900407EEF /* WriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923DC7DB28C0205900407EEF /* WriteViewController.swift */; };
 		923DC7DE28C0253700407EEF /* ActionSheetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923DC7DD28C0253700407EEF /* ActionSheetType.swift */; };
+		92D87F6928C1DD8E009AAFE5 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = 92D87F6828C1DD8E009AAFE5 /* Then */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,6 +61,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				923DC7AD28BF463B00407EEF /* SnapKit in Frameworks */,
+				92D87F6928C1DD8E009AAFE5 /* Then in Frameworks */,
 				923DC7B028BF464300407EEF /* Then in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -162,9 +164,9 @@
 		923DC7BA28BF4A4D00407EEF /* Global */ = {
 			isa = PBXGroup;
 			children = (
+				924AA84028C0FF3B00EC7543 /* Realm */,
 				923DC7CE28BF50C500407EEF /* Protocol */,
 				923DC7BF28BF4AF600407EEF /* Utility */,
-				923DC7BC28BF4A5600407EEF /* Constant */,
 				923DC7BB28BF4A5100407EEF /* Extension */,
 			);
 			path = Global;
@@ -177,13 +179,6 @@
 				923DC7D428C0180800407EEF /* UIColor+Extension.swift */,
 			);
 			path = Extension;
-			sourceTree = "<group>";
-		};
-		923DC7BC28BF4A5600407EEF /* Constant */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Constant;
 			sourceTree = "<group>";
 		};
 		923DC7BF28BF4AF600407EEF /* Utility */ = {
@@ -270,6 +265,13 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		924AA84028C0FF3B00EC7543 /* Realm */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Realm;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -289,6 +291,7 @@
 			packageProductDependencies = (
 				923DC7AC28BF463B00407EEF /* SnapKit */,
 				923DC7AF28BF464300407EEF /* Then */,
+				92D87F6828C1DD8E009AAFE5 /* Then */,
 			);
 			productName = Memo;
 			productReference = 923DC79428BF462400407EEF /* Memo.app */;
@@ -321,6 +324,7 @@
 			packageReferences = (
 				923DC7AB28BF463B00407EEF /* XCRemoteSwiftPackageReference "SnapKit" */,
 				923DC7AE28BF464300407EEF /* XCRemoteSwiftPackageReference "Then" */,
+				92D87F6728C1DD8E009AAFE5 /* XCRemoteSwiftPackageReference "Then" */,
 			);
 			productRefGroup = 923DC79528BF462400407EEF /* Products */;
 			projectDirPath = "";
@@ -600,6 +604,14 @@
 				kind = branch;
 			};
 		};
+		92D87F6728C1DD8E009AAFE5 /* XCRemoteSwiftPackageReference "Then" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/devxoul/Then";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -609,6 +621,11 @@
 			productName = SnapKit;
 		};
 		923DC7AF28BF464300407EEF /* Then */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 923DC7AE28BF464300407EEF /* XCRemoteSwiftPackageReference "Then" */;
+			productName = Then;
+		};
+		92D87F6828C1DD8E009AAFE5 /* Then */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 923DC7AE28BF464300407EEF /* XCRemoteSwiftPackageReference "Then" */;
 			productName = Then;
