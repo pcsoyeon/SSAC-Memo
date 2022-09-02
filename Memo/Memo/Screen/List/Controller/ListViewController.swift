@@ -113,12 +113,18 @@ final class ListViewController: BaseViewController {
         present(viewController, animated: true)
     }
     
-    private func showActionSheet(type: AlertType, index: Int) {
+    private func showActionSheet(type: AlertType, index: Int, section: Int = 0) {
         let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
         
         let pinAction = UIAlertAction(title: "확인", style: .cancel, handler: nil)
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive, handler: { action in
-            print("삭제")
+            if section == 0 {
+                self.repository.deleteItem(item: self.pinnedList[index])
+            } else {
+                self.repository.deleteItem(item: self.unPinnedList[index])
+            }
+            
+            self.fetchRealmData()
         })
         
         switch type {
@@ -197,9 +203,12 @@ extension ListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(style: .normal, title: nil) { (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
-            if let cell = self.listView.listTableView.cellForRow(at: indexPath) as? ListTableViewCell {
-                self.showActionSheet(type: .delete, index: indexPath.row)
+            if indexPath.section == 0 {
+                self.showActionSheet(type: .delete, index: indexPath.row, section: 0)
+            } else {
+                self.showActionSheet(type: .delete, index: indexPath.row, section: 1)
             }
+            
             success(true)
         }
         deleteAction.backgroundColor = .systemRed
