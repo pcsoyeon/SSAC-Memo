@@ -17,33 +17,24 @@ final class ListTableViewCell: UITableViewCell {
     private var titleLabel = UILabel().then {
         $0.text = "제목"
         $0.textColor = .text
-        $0.font = .systemFont(ofSize: 13, weight: .regular)
+        $0.font = .systemFont(ofSize: 14, weight: .semibold)
         $0.numberOfLines = 1
     }
     
-    private var labelStackView = UIStackView().then {
-        $0.axis = .horizontal
-        $0.distribution = .fillProportionally
-        $0.spacing = 10
-        $0.alignment = .fill
-    }
-    
     private var dateLabel = UILabel().then {
-        $0.text = "날짜"
         $0.textColor = .text
         $0.font = .systemFont(ofSize: 12, weight: .thin)
         $0.numberOfLines = 1
     }
     
     private var contentLabel = UILabel().then {
-        $0.text = "내용"
         $0.textColor = .text
         $0.font = .systemFont(ofSize: 12, weight: .thin)
         $0.numberOfLines = 1
     }
     
     private var lineView = UIView().then {
-        $0.backgroundColor = .systemGray2
+        $0.backgroundColor = .systemGray5
     }
     
     // MARK: - Initializer
@@ -65,18 +56,21 @@ final class ListTableViewCell: UITableViewCell {
     }
     
     private func setConstraints() {
-        contentView.addSubviews([titleLabel, labelStackView, lineView])
-        labelStackView.addArrangedSubview(dateLabel)
-        labelStackView.addArrangedSubview(contentLabel)
+        contentView.addSubviews([titleLabel, contentLabel, dateLabel, lineView])
         
         titleLabel.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview().inset(20)
         }
         
-        labelStackView.snp.makeConstraints { make in
+        contentLabel.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(5)
-            make.leading.trailing.equalToSuperview().inset(20)
-            make.height.equalTo(20)
+            make.trailing.bottom.equalToSuperview().inset(20)
+            make.leading.equalTo(dateLabel.snp.trailing).offset(8)
+        }
+        
+        dateLabel.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(5)
+            make.leading.bottom.equalToSuperview().inset(20)
         }
         
         lineView.snp.makeConstraints { make in
