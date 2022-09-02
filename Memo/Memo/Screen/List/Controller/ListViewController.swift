@@ -7,6 +7,7 @@
 
 import UIKit
 
+import RealmSwift
 import SnapKit
 import Then
 
@@ -30,6 +31,17 @@ final class ListViewController: BaseViewController {
     
     private var pinnedCount: Int = 0
     
+    private let repository = MemoRepository()
+    
+    private var tasks: Results<Memo>! {
+        didSet {
+            for item in tasks {
+                if item.isPinned { pinnedCount += 1 }
+            }
+            listView.listTableView.reloadData()
+        }
+    }
+    
     // MARK: - Life Cycle
     
     override func loadView() {
@@ -44,6 +56,7 @@ final class ListViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configureNavigationBar()
+        fetchRealmData()
     }
     
     // MARK: - UI Method
@@ -110,6 +123,10 @@ final class ListViewController: BaseViewController {
         let numberFormat = NumberFormatter()
         numberFormat.numberStyle = .decimal
         return numberFormat.string(for: number) ?? ""
+    }
+    
+    private func fetchRealmData() {
+        tasks = repository.fetch()
     }
 }
 
@@ -200,18 +217,19 @@ extension ListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if pinnedCount == 0 {
-            return 10
+            return tasks.count
         } else {
             if section == 0 {
-                return 5
+                return pinnedCount
             } else {
-                return 10
+                return tasks.count
             }
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: ListTableViewCell.reuseIdentifier, for: indexPath) as? ListTableViewCell else { return UITableViewCell() }
+        cell.setData(tasks[indexPath.row])
         return cell
     }
 }

@@ -26,6 +26,13 @@ class WriteViewController: BaseViewController {
         }
     }
     
+    private let repository = MemoRepository()
+    
+    private var memoTitle: String = ""
+    private var memoContent: String = ""
+    
+    private var returnCount: Int = 0
+    
     // MARK: - Life Cycle
     
     override func loadView() {
@@ -80,7 +87,10 @@ class WriteViewController: BaseViewController {
     }
     
     @objc func touchUpDoneButton() {
-        
+        let task = Memo(memoTitle: "제목", memoContent: "내용", memoDate: Date())
+        repository.addItem(item: task)
+        print(memoTitle, memoContent)
+        navigationController?.popViewController(animated: true)
     }
 }
 
@@ -90,5 +100,15 @@ extension WriteViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         isNew.toggle()
         showNavigationItem()
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+//        if text == "\n", returnCount == 1 {
+//            memoTitle = textView.text
+//            returnCount += 1
+//        } else {
+//            memoContent = textView.text.replacingOccurrences(of: memoTitle, with: "")
+//        }
+        return true
     }
 }

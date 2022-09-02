@@ -87,7 +87,11 @@ final class ListTableViewCell: UITableViewCell {
     
     // MARK: - Data
     
-    func setData(_ data: String) {
+    func setData(_ data: Memo) {
+        titleLabel.text = data.memoTitle
         
+        dateLabel.text = "\(data.memoDate)"
+        
+        contentLabel.text = data.memoContent
     }
 }
