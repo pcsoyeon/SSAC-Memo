@@ -162,6 +162,8 @@ final class ListViewController: BaseViewController {
         
         pinnedMemo = repository.fetchPinnedItems()
         unPinnedMemo = repository.fetchUnPinnedItems()
+        
+        totalCount = pinnedMemo.count + unPinnedMemo.count
     }
 }
 
