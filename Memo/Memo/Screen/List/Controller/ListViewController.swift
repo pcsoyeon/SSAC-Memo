@@ -63,18 +63,13 @@ final class ListViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        presentWalkThrough()
+        presentWalkThrough()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configureNavigationBar()
         fetchRealmData()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-//        presentWalkThrough()
     }
     
     // MARK: - UI Method
@@ -110,12 +105,12 @@ final class ListViewController: BaseViewController {
     
     // MARK: - Custom Method
     
-//    private func presentWalkThrough() {
-//        let viewController = WalkThroughViewController()
-//        viewController.modalTransitionStyle = .coverVertical
-//        viewController.modalPresentationStyle = .overFullScreen
-//        present(viewController, animated: true)
-//    }
+    private func presentWalkThrough() {
+        let viewController = WalkThroughViewController()
+        viewController.modalTransitionStyle = .coverVertical
+        viewController.modalPresentationStyle = .overFullScreen
+        present(viewController, animated: true)
+    }
     
     private func showActionSheet(type: AlertType, index: Int) {
         let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
