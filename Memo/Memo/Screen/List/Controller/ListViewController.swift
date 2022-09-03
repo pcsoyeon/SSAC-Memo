@@ -163,7 +163,9 @@ final class ListViewController: BaseViewController {
 // MARK: - UITableView Protocol
 
 extension ListViewController: UITableViewDelegate {
+    
     // MARK: - Header UI
+    
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if isSearching {
             return "\(searchedItemCount)개 찾음"
@@ -202,7 +204,11 @@ extension ListViewController: UITableViewDelegate {
         let pinAction = UIContextualAction(style: .normal, title: nil) { (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
             
             if self.pinnedList.count >= 5 {
-                self.showActionSheet(type: .pin, index: indexPath.row)
+                if indexPath.section == 0 {
+                    self.repository.updatePinned(item: self.pinnedList[indexPath.row])
+                } else {
+                    self.showActionSheet(type: .pin, index: indexPath.row)
+                }
             } else {
                 if indexPath.section == 0 {
                     self.repository.updatePinned(item: self.pinnedList[indexPath.row])
@@ -215,7 +221,16 @@ extension ListViewController: UITableViewDelegate {
             success(true)
         }
         pinAction.backgroundColor = .systemOrange
-        pinAction.image = UIImage(systemName: "pin.fill")
+        
+        if self.pinnedList.count == 5 {
+            pinAction.image = UIImage(systemName: "pin.fill")
+        } else {
+            if indexPath.section == 0 {
+                pinAction.image = UIImage(systemName: "pin.slash.fill")
+            } else {
+                pinAction.image = UIImage(systemName: "pin.fill")
+            }
+        }
         
         return UISwipeActionsConfiguration(actions: [pinAction])
     }
@@ -255,7 +270,6 @@ extension ListViewController: UITableViewDelegate {
                 }
             }
         }
-        
         
         let backBarButtonItem = UIBarButtonItem(title: "메모", style: .plain, target: self, action: nil)
         self.navigationItem.backBarButtonItem = backBarButtonItem
@@ -304,7 +318,7 @@ extension ListViewController: UITableViewDataSource {
                 if indexPath.section == 0 {
                     cell.setData(pinnedList[indexPath.row])
                 } else {
-                    cell.setData(pinnedList[indexPath.row])
+                    cell.setData(unPinnedList[indexPath.row])
                 }
             }
         }
