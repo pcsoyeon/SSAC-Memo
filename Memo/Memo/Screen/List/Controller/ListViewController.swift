@@ -19,6 +19,10 @@ final class ListViewController: BaseViewController {
     
     private lazy var searchController = UISearchController(searchResultsController: nil).then {
         $0.searchResultsUpdater = self
+        $0.searchBar.placeholder = "검색"
+        $0.searchBar.delegate = self
+        $0.searchBar.setValue("취소", forKey: "cancelButtonText")
+        $0.searchBar.tintColor = .systemOrange
     }
     
     // MARK: - Property
@@ -93,11 +97,6 @@ final class ListViewController: BaseViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.hidesSearchBarWhenScrolling = false
         navigationItem.searchController = searchController
-        
-        searchController.searchBar.placeholder = "검색"
-        searchController.searchBar.delegate = self
-        searchController.searchBar.setValue("취소", forKey: "cancelButtonText")
-        searchController.searchBar.tintColor = .systemOrange
     }
     
     private func configureTableView() {
@@ -107,6 +106,8 @@ final class ListViewController: BaseViewController {
         listView.listTableView.rowHeight = 80
         
         listView.listTableView.register(ListTableViewCell.self, forCellReuseIdentifier: ListTableViewCell.reuseIdentifier)
+        
+        listView.listTableView.keyboardDismissMode = .onDrag
     }
     
     private func configureButton() {
