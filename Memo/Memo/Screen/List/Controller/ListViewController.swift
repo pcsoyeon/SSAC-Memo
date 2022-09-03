@@ -346,7 +346,8 @@ extension ListViewController: UITableViewDataSource {
         }
         
         if let highlightText = searchController.searchBar.text {
-            cell.contentLabel.setHighlighted(cell.contentLabel.text ?? "", with: highlightText)
+            cell.contentLabel.setHighlighted(cell.contentLabel.text ?? "", with: highlightText, font: .systemFont(ofSize: 12, weight: .thin))
+            cell.titleLabel.setHighlighted(cell.titleLabel.text!, with: highlightText, font: .systemFont(ofSize: 14, weight: .semibold))
         }
        
         return cell

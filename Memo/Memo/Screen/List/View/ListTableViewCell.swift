@@ -14,7 +14,7 @@ final class ListTableViewCell: UITableViewCell {
     
     // MARK: - UI Property
     
-    private var titleLabel = UILabel().then {
+    var titleLabel = UILabel().then {
         $0.text = "제목"
         $0.textColor = .text
         $0.font = .systemFont(ofSize: 14, weight: .semibold)
