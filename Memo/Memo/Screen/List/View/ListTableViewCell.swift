@@ -88,4 +88,16 @@ final class ListTableViewCell: UITableViewCell {
         
         contentLabel.text = data.memoContent
     }
+    
+    func filterKeyword(_ data: String) {
+        if let text = titleLabel.text {
+            let attributedStr = NSMutableAttributedString(string: text)
+            attributedStr.addAttribute(.foregroundColor, value: UIColor.systemOrange, range: (text as NSString).range(of: data))
+        }
+        
+        if let text = contentLabel.text {
+            let attributedStr = NSMutableAttributedString(string: text)
+            attributedStr.addAttribute(.foregroundColor, value: UIColor.systemOrange, range: (text as NSString).range(of: data))
+        }
+    }
 }

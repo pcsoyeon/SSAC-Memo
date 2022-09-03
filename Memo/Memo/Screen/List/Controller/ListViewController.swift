@@ -55,18 +55,6 @@ final class ListViewController: BaseViewController {
         }
     }
     
-//    private var pinnedMemo: Results<Memo>! {
-//        didSet {
-//            listView.listTableView.reloadData()
-//        }
-//    }
-//
-//    private var unPinnedMemo: Results<Memo>! {
-//        didSet {
-//            listView.listTableView.reloadData()
-//        }
-//    }
-    
     private var isSearching: Bool = false {
         didSet {
             if isSearching == false { listView.listTableView.reloadData() }
@@ -108,6 +96,8 @@ final class ListViewController: BaseViewController {
         
         searchController.searchBar.placeholder = "검색"
         searchController.searchBar.delegate = self
+        searchController.searchBar.setValue("취소", forKey: "cancelButtonText")
+        searchController.searchBar.tintColor = .systemOrange
     }
     
     private func configureTableView() {
@@ -167,12 +157,6 @@ final class ListViewController: BaseViewController {
     private func fetchRealmData() {
         isSearching = false
         tasks = repository.fetch()
-        dump(tasks)
-        
-//        pinnedMemo = repository.fetchPinnedItems()
-//        unPinnedMemo = repository.fetchUnPinnedItems()
-//
-//        totalCount = pinnedMemo.count + unPinnedMemo.count
     }
 }
 
