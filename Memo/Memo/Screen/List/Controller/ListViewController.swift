@@ -344,6 +344,10 @@ extension ListViewController: UITableViewDataSource {
                 }
             }
         }
+        
+        if let highlightText = searchController.searchBar.text {
+            cell.contentLabel.setHighlighted(cell.contentLabel.text ?? "", with: highlightText)
+        }
        
         return cell
     }

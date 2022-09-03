@@ -32,6 +32,7 @@
 		92D87F7028C1DE89009AAFE5 /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D87F6F28C1DE89009AAFE5 /* Memo.swift */; };
 		92D87F7328C1DF42009AAFE5 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = 92D87F7228C1DF42009AAFE5 /* Then */; };
 		92D87F7528C1DFE4009AAFE5 /* MemoRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D87F7428C1DFE4009AAFE5 /* MemoRepository.swift */; };
+		92D87F7928C35191009AAFE5 /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D87F7828C35191009AAFE5 /* UILabel+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,6 +59,7 @@
 		923DC7DD28C0253700407EEF /* ActionSheetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetType.swift; sourceTree = "<group>"; };
 		92D87F6F28C1DE89009AAFE5 /* Memo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memo.swift; sourceTree = "<group>"; };
 		92D87F7428C1DFE4009AAFE5 /* MemoRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoRepository.swift; sourceTree = "<group>"; };
+		92D87F7828C35191009AAFE5 /* UILabel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -183,6 +185,7 @@
 			children = (
 				923DC7BD28BF4A6900407EEF /* UIView+Extension.swift */,
 				923DC7D428C0180800407EEF /* UIColor+Extension.swift */,
+				92D87F7828C35191009AAFE5 /* UILabel+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -370,6 +373,7 @@
 				923DC79828BF462400407EEF /* AppDelegate.swift in Sources */,
 				923DC7C528BF4B9600407EEF /* WalkThroughView.swift in Sources */,
 				923DC7DA28C01F3D00407EEF /* WriteView.swift in Sources */,
+				92D87F7928C35191009AAFE5 /* UILabel+Extension.swift in Sources */,
 				923DC7BE28BF4A6900407EEF /* UIView+Extension.swift in Sources */,
 				923DC7C328BF4B7900407EEF /* BaseView.swift in Sources */,
 				923DC7DE28C0253700407EEF /* ActionSheetType.swift in Sources */,

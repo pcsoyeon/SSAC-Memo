@@ -27,7 +27,7 @@ final class ListTableViewCell: UITableViewCell {
         $0.numberOfLines = 1
     }
     
-    private var contentLabel = UILabel().then {
+    var contentLabel = UILabel().then {
         $0.textColor = .text
         $0.font = .systemFont(ofSize: 12, weight: .thin)
         $0.numberOfLines = 1
@@ -104,17 +104,5 @@ final class ListTableViewCell: UITableViewCell {
         dateLabel.text = dateFormatter.string(from: data.memoDate)
         
         contentLabel.text = data.memoContent
-    }
-    
-    func filterKeyword(_ data: String) {
-        if let text = titleLabel.text {
-            let attributedStr = NSMutableAttributedString(string: text)
-            attributedStr.addAttribute(.foregroundColor, value: UIColor.systemOrange, range: (text as NSString).range(of: data))
-        }
-        
-        if let text = contentLabel.text {
-            let attributedStr = NSMutableAttributedString(string: text)
-            attributedStr.addAttribute(.foregroundColor, value: UIColor.systemOrange, range: (text as NSString).range(of: data))
-        }
     }
 }
