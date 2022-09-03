@@ -30,6 +30,7 @@ final class ListViewController: BaseViewController {
     private var totalCount: Int = 0 {
         didSet {
             title = "\(format(for: totalCount))개의 메모"
+            listView.listTableView.isHidden = totalCount == 0 ? true : false
         }
     }
     
@@ -128,10 +129,14 @@ final class ListViewController: BaseViewController {
         
         let pinAction = UIAlertAction(title: "확인", style: .cancel, handler: nil)
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive, handler: { action in
-            if section == 0 {
-                self.repository.deleteItem(item: self.pinnedList[index])
+            if self.pinnedList.count == 0 {
+                self.repository.deleteItem(item: self.tasks[index])
             } else {
-                self.repository.deleteItem(item: self.unPinnedList[index])
+                if section == 0 {
+                    self.repository.deleteItem(item: self.pinnedList[index])
+                } else {
+                    self.repository.deleteItem(item: self.unPinnedList[index])
+                }
             }
             
             self.fetchRealmData()

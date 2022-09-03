@@ -17,6 +17,7 @@ class WriteViewController: BaseViewController {
     
     var isNew: Bool = true {
         didSet {
+            print(isNew)
             if isNew {
                 writeView.textView.becomeFirstResponder()
                 showNavigationItem()
@@ -28,8 +29,8 @@ class WriteViewController: BaseViewController {
     
     private let repository = MemoRepository()
     
-    private var memoTitle: String = ""
-    private var memoContent: String = ""
+    private var memoTitle: String = "제목임"
+    private var memoContent: String = "내용임"
     
     private var returnCount: Int = 0
     private var textCount: Int = 0
@@ -39,7 +40,6 @@ class WriteViewController: BaseViewController {
             writeView.textView.text = """
                                       \(memo.memoTitle)\n\n
                                       \(memo.memoContent ?? "")\n
-                                      \(memo.memoDate)
                                       """
         }
     }
@@ -98,10 +98,15 @@ class WriteViewController: BaseViewController {
     }
     
     @objc func touchUpDoneButton() {
-        let task = Memo(memoTitle: memoTitle, memoContent: memoContent, memoDate: Date())
-        repository.addItem(item: task)
-        print("title", memoTitle)
-        print("content", memoContent)
+        if isNew {
+            let task = Memo(memoTitle: memoTitle, memoContent: memoContent, memoDate: Date())
+            repository.addItem(item: task)
+        } else {
+            repository.updateItem(value: ["objectId": memo.objectId,
+                                          "memoTitle" : memoTitle,
+                                          "memoContent" : memoContent])
+            print(memo.objectId)
+        }
         navigationController?.popViewController(animated: true)
     }
 }
@@ -110,23 +115,23 @@ class WriteViewController: BaseViewController {
 
 extension WriteViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
-        isNew.toggle()
         showNavigationItem()
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        if text == "\n" {
-            returnCount += 1
-            if returnCount == 1 {
-                memoTitle = textView.text
-                textCount = memoTitle.count + 1
-            }
-        } else {
-            if let content = textView.text {
-                memoContent = content
-                memoContent.removeFirst(textCount)
-            }
-        }
+//        if text == "\n" {
+//            returnCount += 1
+//            if returnCount == 1 {
+//                memoTitle = textView.text
+//                textCount = memoTitle.count + 1
+//            }
+//        } else {
+//            if let content = textView.text {
+//                memoContent = content
+//                memoContent.removeFirst(textCount)
+//            }
+//        }
+        memoContent = textView.text
         return true
     }
 }
