@@ -33,6 +33,8 @@
 		92D87F7328C1DF42009AAFE5 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = 92D87F7228C1DF42009AAFE5 /* Then */; };
 		92D87F7528C1DFE4009AAFE5 /* MemoRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D87F7428C1DFE4009AAFE5 /* MemoRepository.swift */; };
 		92D87F7928C35191009AAFE5 /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D87F7828C35191009AAFE5 /* UILabel+Extension.swift */; };
+		92D87F8528C3AF56009AAFE5 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D87F8428C3AF56009AAFE5 /* Constant.swift */; };
+		92D87F8728C3AF69009AAFE5 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D87F8628C3AF69009AAFE5 /* UserDefaults.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,6 +62,8 @@
 		92D87F6F28C1DE89009AAFE5 /* Memo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memo.swift; sourceTree = "<group>"; };
 		92D87F7428C1DFE4009AAFE5 /* MemoRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoRepository.swift; sourceTree = "<group>"; };
 		92D87F7828C35191009AAFE5 /* UILabel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
+		92D87F8428C3AF56009AAFE5 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
+		92D87F8628C3AF69009AAFE5 /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,6 +176,7 @@
 		923DC7BA28BF4A4D00407EEF /* Global */ = {
 			isa = PBXGroup;
 			children = (
+				92D87F8328C3AF43009AAFE5 /* Constant */,
 				924AA84028C0FF3B00EC7543 /* Realm */,
 				923DC7CE28BF50C500407EEF /* Protocol */,
 				923DC7BF28BF4AF600407EEF /* Utility */,
@@ -283,6 +288,15 @@
 			path = Realm;
 			sourceTree = "<group>";
 		};
+		92D87F8328C3AF43009AAFE5 /* Constant */ = {
+			isa = PBXGroup;
+			children = (
+				92D87F8428C3AF56009AAFE5 /* Constant.swift */,
+				92D87F8628C3AF69009AAFE5 /* UserDefaults.swift */,
+			);
+			path = Constant;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -370,8 +384,10 @@
 				923DC7D328BF598F00407EEF /* ListTableViewSection.swift in Sources */,
 				923DC7CB28BF4C9900407EEF /* ListView.swift in Sources */,
 				923DC7B928BF473900407EEF /* WalkThroughViewController.swift in Sources */,
+				92D87F8728C3AF69009AAFE5 /* UserDefaults.swift in Sources */,
 				923DC79828BF462400407EEF /* AppDelegate.swift in Sources */,
 				923DC7C528BF4B9600407EEF /* WalkThroughView.swift in Sources */,
+				92D87F8528C3AF56009AAFE5 /* Constant.swift in Sources */,
 				923DC7DA28C01F3D00407EEF /* WriteView.swift in Sources */,
 				92D87F7928C35191009AAFE5 /* UILabel+Extension.swift in Sources */,
 				923DC7BE28BF4A6900407EEF /* UIView+Extension.swift in Sources */,

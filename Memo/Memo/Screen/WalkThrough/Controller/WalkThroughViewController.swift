@@ -37,6 +37,7 @@ final class WalkThroughViewController: BaseViewController {
     // MARK: - @objc
     
     @objc func touchUpConfirmButton() {
+        UserDefaults.standard.set(true, forKey: Constant.UserDefaults.isNotFirst)
         dismiss(animated: true)
     }
 }

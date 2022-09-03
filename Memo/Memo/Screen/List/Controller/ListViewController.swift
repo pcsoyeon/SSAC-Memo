@@ -76,7 +76,9 @@ final class ListViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        presentWalkThrough()
+        if !UserDefaults.standard.bool(forKey: Constant.UserDefaults.isNotFirst) {
+            presentWalkThrough()
+        } 
     }
     
     override func viewWillAppear(_ animated: Bool) {
