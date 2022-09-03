@@ -88,7 +88,6 @@ final class ListViewController: BaseViewController {
     // MARK: - UI Method
     
     override func configure() {
-        configureNavigationBar()
         configureTableView()
         configureButton()
     }
@@ -96,7 +95,6 @@ final class ListViewController: BaseViewController {
     private func configureNavigationBar() {
         title = "\(format(for: totalCount))개의 메모"
         navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.hidesSearchBarWhenScrolling = false
         navigationItem.searchController = searchController
     }
     
