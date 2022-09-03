@@ -32,6 +32,7 @@ class WriteViewController: BaseViewController {
     private var memoContent: String = ""
     
     private var returnCount: Int = 0
+    private var textCount: Int = 0
     
     var memo = Memo(memoTitle: "", memoContent: "", memoDate: Date()) {
         didSet {
@@ -97,9 +98,10 @@ class WriteViewController: BaseViewController {
     }
     
     @objc func touchUpDoneButton() {
-        let task = Memo(memoTitle: "제목", memoContent: "내용", memoDate: Date())
+        let task = Memo(memoTitle: memoTitle, memoContent: memoContent, memoDate: Date())
         repository.addItem(item: task)
-        print(memoTitle, memoContent)
+        print("title", memoTitle)
+        print("content", memoContent)
         navigationController?.popViewController(animated: true)
     }
 }
@@ -113,12 +115,18 @@ extension WriteViewController: UITextViewDelegate {
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-//        if text == "\n", returnCount == 1 {
-//            memoTitle = textView.text
-//            returnCount += 1
-//        } else {
-//            memoContent = textView.text.replacingOccurrences(of: memoTitle, with: "")
-//        }
+        if text == "\n" {
+            returnCount += 1
+            if returnCount == 1 {
+                memoTitle = textView.text
+                textCount = memoTitle.count + 1
+            }
+        } else {
+            if let content = textView.text {
+                memoContent = content
+                memoContent.removeFirst(textCount)
+            }
+        }
         return true
     }
 }
