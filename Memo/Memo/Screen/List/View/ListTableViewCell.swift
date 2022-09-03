@@ -37,6 +37,14 @@ final class ListTableViewCell: UITableViewCell {
         $0.backgroundColor = .systemGray5
     }
     
+    // MARK: - Property
+
+    private let date = Date()
+    
+    private lazy var dateFormatter = DateFormatter().then {
+        $0.locale = Locale(identifier: "ko_KR")
+    }
+    
     // MARK: - Initializer
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -63,14 +71,14 @@ final class ListTableViewCell: UITableViewCell {
         }
         
         contentLabel.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(5)
-            make.trailing.bottom.equalToSuperview().inset(20)
+            make.top.equalTo(titleLabel.snp.bottom).offset(10)
+            make.trailing.equalToSuperview().inset(20)
             make.leading.equalTo(dateLabel.snp.trailing).offset(8)
         }
         
         dateLabel.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(5)
-            make.leading.bottom.equalToSuperview().inset(20)
+            make.top.equalTo(titleLabel.snp.bottom).offset(10)
+            make.leading.equalToSuperview().inset(20)
         }
         
         lineView.snp.makeConstraints { make in
@@ -84,7 +92,16 @@ final class ListTableViewCell: UITableViewCell {
     func setData(_ data: Memo) {
         titleLabel.text = data.memoTitle
         
-        dateLabel.text = "\(data.memoDate)"
+        let timeInterval = date.timeIntervalSince(data.memoDate) / 86400
+        
+        if timeInterval <= 1 {
+            dateFormatter.dateFormat = "aa hh:mm"
+        } else if timeInterval <= 7 {
+            dateFormatter.dateFormat = "EEEE"
+        } else {
+            dateFormatter.dateFormat = "yyyy.MM.dd hh:mm:ss EEEE"
+        }
+        dateLabel.text = dateFormatter.string(from: data.memoDate)
         
         contentLabel.text = data.memoContent
     }

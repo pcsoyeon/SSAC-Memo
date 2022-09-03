@@ -17,7 +17,6 @@ class WriteViewController: BaseViewController {
     
     var isNew: Bool = true {
         didSet {
-            print(isNew)
             if isNew {
                 writeView.textView.becomeFirstResponder()
                 showNavigationItem()
