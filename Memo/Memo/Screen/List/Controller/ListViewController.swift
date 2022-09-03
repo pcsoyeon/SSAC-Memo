@@ -204,20 +204,28 @@ extension ListViewController: UITableViewDelegate {
         
         let pinAction = UIContextualAction(style: .normal, title: nil) { (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
             
-            if self.pinnedList.count >= 5 {
-                if indexPath.section == 0 {
-                    self.repository.updatePinned(item: self.pinnedList[indexPath.row])
-                } else {
+            if self.isSearching {
+                if self.pinnedList.count >= 5 {
                     self.showActionSheet(type: .pin, index: indexPath.row)
+                } else {
+                    self.repository.updatePinned(item: self.tasks[indexPath.row])
                 }
             } else {
-                if self.pinnedList.count == 0 {
-                    self.repository.updatePinned(item: self.unPinnedList[indexPath.row])
-                } else {
+                if self.pinnedList.count >= 5 {
                     if indexPath.section == 0 {
                         self.repository.updatePinned(item: self.pinnedList[indexPath.row])
                     } else {
+                        self.showActionSheet(type: .pin, index: indexPath.row)
+                    }
+                } else {
+                    if self.pinnedList.count == 0 {
                         self.repository.updatePinned(item: self.unPinnedList[indexPath.row])
+                    } else {
+                        if indexPath.section == 0 {
+                            self.repository.updatePinned(item: self.pinnedList[indexPath.row])
+                        } else {
+                            self.repository.updatePinned(item: self.unPinnedList[indexPath.row])
+                        }
                     }
                 }
             }
@@ -227,13 +235,17 @@ extension ListViewController: UITableViewDelegate {
         }
         pinAction.backgroundColor = .systemOrange
         
-        if self.pinnedList.count == 0 {
-            pinAction.image = UIImage(systemName: "pin.fill")
+        if isSearching {
+            pinAction.image = tasks[indexPath.row].isPinned ? UIImage(systemName: "pin.slash.fill") : UIImage(systemName: "pin.fill")
         } else {
-            if indexPath.section == 0 {
-                pinAction.image = UIImage(systemName: "pin.slash.fill")
-            } else {
+            if self.pinnedList.count == 0 {
                 pinAction.image = UIImage(systemName: "pin.fill")
+            } else {
+                if indexPath.section == 0 {
+                    pinAction.image = UIImage(systemName: "pin.slash.fill")
+                } else {
+                    pinAction.image = UIImage(systemName: "pin.fill")
+                }
             }
         }
         
