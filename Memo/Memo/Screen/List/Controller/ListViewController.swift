@@ -316,18 +316,22 @@ extension ListViewController: UITableViewDataSource {
         
         if isSearching {
             cell.setData(tasks[indexPath.row])
+            
+            if let highlightText = searchController.searchBar.text {
+                cell.titleLabel.setHighlighted(cell.titleLabel.text!, with: highlightText, font: .systemFont(ofSize: 16, weight: .bold))
+                cell.contentLabel.setHighlighted(cell.contentLabel.text ?? "", with: highlightText, font: .systemFont(ofSize: 12, weight: .medium))
+            }
         } else {
             if pinnedList.count == 0 {
                 cell.setData(unPinnedList[indexPath.row])
             } else {
                 indexPath.section == 0 ? cell.setData(pinnedList[indexPath.row]) : cell.setData(unPinnedList[indexPath.row])
             }
-        }
-        
-        if let highlightText = searchController.searchBar.text {
-            cell.titleLabel.setHighlighted(cell.titleLabel.text!, with: highlightText, font: .systemFont(ofSize: 16, weight: .bold))
-            cell.contentLabel.setHighlighted(cell.contentLabel.text ?? "", with: highlightText, font: .systemFont(ofSize: 12, weight: .medium))
             
+            cell.titleLabel.textColor = .text
+            cell.titleLabel.font = .systemFont(ofSize: 16, weight: .semibold)
+            cell.contentLabel.textColor = .text
+            cell.contentLabel.font = .systemFont(ofSize: 12, weight: .regular)
         }
         
         return cell
@@ -343,6 +347,8 @@ extension ListViewController: UISearchResultsUpdating {
             guard let text = searchController.searchBar.text else { return }
             tasks = repository.fetchFilter(text)
             searchedItemCount = tasks.count
+        } else {
+            isSearching = false
         }
     }
 }
