@@ -38,8 +38,6 @@ final class ListTableViewCell: UITableViewCell {
     }
     
     // MARK: - Property
-
-    private let date = Date()
     
     private lazy var dateFormatter = DateFormatter().then {
         $0.locale = Locale(identifier: "ko_KR")
@@ -98,21 +96,26 @@ final class ListTableViewCell: UITableViewCell {
         return label.frame.width
     }
     
+    private func customDateFormatter(date: Date) -> String {
+        let timeInterval = Date().timeIntervalSince(date) / 86400
+        
+        if Calendar.current.isDateInToday(date) {
+            dateFormatter.dateFormat = "aa hh:mm"
+        } else if timeInterval >= 1 && timeInterval <= 7 {
+            dateFormatter.dateFormat = "EEEE"
+        } else {
+            dateFormatter.dateFormat = "yyyy.MM.dd aa hh:mm:ss"
+        }
+        
+        return dateFormatter.string(from: date)
+    }
+    
     // MARK: - Data
     
     func setData(_ data: Memo) {
         titleLabel.text = data.memoTitle
         
-        let timeInterval = date.timeIntervalSince(data.memoDate) / 86400
-        
-        if timeInterval < 1 {
-            dateFormatter.dateFormat = "aa hh:mm"
-        } else if timeInterval <= 7 {
-            dateFormatter.dateFormat = "EEEE"
-        } else {
-            dateFormatter.dateFormat = "yyyy.MM.dd aa hh:mm:ss"
-        }
-        dateLabel.text = dateFormatter.string(from: data.memoDate)
+        dateLabel.text = customDateFormatter(date: data.memoDate)
         
         dateLabel.snp.updateConstraints { make in
             make.width.equalTo(calculateLabelWidth(text: dateFormatter.string(from: data.memoDate)))
