@@ -101,7 +101,7 @@ class WriteViewController: BaseViewController {
         memoContent = writeView.textView.text
         
         if isNew {
-            let task = Memo(memoTitle: memoTitle, memoContent: memoContent, memoDate: Date())
+            let task = Memo(memoTitle: memoTitle, memoContent: memoContent, memoDate: Calendar.current.date(byAdding: .day, value: -10, to: Date())!)
             repository.addItem(item: task)
         } else {
             repository.updateItem(value: ["objectId": memo.objectId,

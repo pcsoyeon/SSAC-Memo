@@ -17,7 +17,7 @@ final class ListTableViewCell: UITableViewCell {
     var titleLabel = UILabel().then {
         $0.text = "제목"
         $0.textColor = .text
-        $0.font = .systemFont(ofSize: 14, weight: .semibold)
+        $0.font = .systemFont(ofSize: 16, weight: .semibold)
         $0.numberOfLines = 1
     }
     
@@ -29,7 +29,7 @@ final class ListTableViewCell: UITableViewCell {
     
     var contentLabel = UILabel().then {
         $0.textColor = .text
-        $0.font = .systemFont(ofSize: 12, weight: .thin)
+        $0.font = .systemFont(ofSize: 12, weight: .regular)
         $0.numberOfLines = 1
     }
     
@@ -71,20 +71,31 @@ final class ListTableViewCell: UITableViewCell {
         }
         
         contentLabel.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(10)
+            make.centerY.equalTo(dateLabel.snp.centerY)
             make.trailing.equalToSuperview().inset(20)
             make.leading.equalTo(dateLabel.snp.trailing).offset(8)
         }
-        
+
         dateLabel.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(10)
             make.leading.equalToSuperview().inset(20)
+            make.width.equalTo(80)
         }
         
         lineView.snp.makeConstraints { make in
             make.leading.trailing.bottom.equalToSuperview()
             make.height.equalTo(0.5)
         }
+    }
+    
+    // MARK: - Custom Metod
+    
+    private func calculateLabelWidth(text: String) -> CGFloat {
+        let label = UILabel()
+        label.text = text
+        label.font = .systemFont(ofSize: 12, weight: .thin)
+        label.sizeToFit()
+        return label.frame.width
     }
     
     // MARK: - Data
@@ -94,14 +105,18 @@ final class ListTableViewCell: UITableViewCell {
         
         let timeInterval = date.timeIntervalSince(data.memoDate) / 86400
         
-        if timeInterval <= 1 {
+        if timeInterval < 1 {
             dateFormatter.dateFormat = "aa hh:mm"
         } else if timeInterval <= 7 {
             dateFormatter.dateFormat = "EEEE"
         } else {
-            dateFormatter.dateFormat = "yyyy.MM.dd hh:mm:ss EEEE"
+            dateFormatter.dateFormat = "yyyy.MM.dd aa hh:mm:ss"
         }
         dateLabel.text = dateFormatter.string(from: data.memoDate)
+        
+        dateLabel.snp.updateConstraints { make in
+            make.width.equalTo(calculateLabelWidth(text: dateFormatter.string(from: data.memoDate)))
+        }
         
         contentLabel.text = data.memoContent
     }
