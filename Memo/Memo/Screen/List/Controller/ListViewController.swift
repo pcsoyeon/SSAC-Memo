@@ -175,15 +175,7 @@ extension ListViewController: UITableViewDelegate {
         if isSearching {
             return "\(searchedItemCount)개 찾음"
         } else {
-            if pinnedList.count == 0 {
-                return ListTableViewSection.memo.description
-            } else {
-                if section == 0 {
-                    return ListTableViewSection.pinned.description
-                } else {
-                    return ListTableViewSection.memo.description
-                }
-            }
+            return pinnedList.isEmpty ? ListTableViewSection.memo.description : (section == 0 ? ListTableViewSection.pinned.description : ListTableViewSection.memo.description)
         }
     }
     
@@ -216,21 +208,9 @@ extension ListViewController: UITableViewDelegate {
                 }
             } else {
                 if self.pinnedList.count >= 5 {
-                    if indexPath.section == 0 {
-                        self.repository.updatePinned(item: self.pinnedList[indexPath.row])
-                    } else {
-                        self.showActionSheet(type: .pin, index: indexPath.row)
-                    }
+                    indexPath.section == 0 ? self.repository.updatePinned(item: self.pinnedList[indexPath.row]) : self.showActionSheet(type: .pin, index: indexPath.row)
                 } else {
-                    if self.pinnedList.count == 0 {
-                        self.repository.updatePinned(item: self.unPinnedList[indexPath.row])
-                    } else {
-                        if indexPath.section == 0 {
-                            self.repository.updatePinned(item: self.pinnedList[indexPath.row])
-                        } else {
-                            self.repository.updatePinned(item: self.unPinnedList[indexPath.row])
-                        }
-                    }
+                    self.pinnedList.isEmpty ? self.repository.updatePinned(item: self.unPinnedList[indexPath.row]) : (indexPath.section == 0 ? self.repository.updatePinned(item: self.pinnedList[indexPath.row]) : self.repository.updatePinned(item: self.unPinnedList[indexPath.row]))
                 }
             }
             
@@ -277,11 +257,7 @@ extension ListViewController: UITableViewDelegate {
         if isSearching {
             viewController.memo = tasks[indexPath.row]
         } else {
-            if pinnedList.count == 0 {
-                viewController.memo = unPinnedList[indexPath.row]
-            } else {
-                viewController.memo = indexPath.section == 0 ? pinnedList[indexPath.row] : unPinnedList[indexPath.row]
-            }
+            viewController.memo = pinnedList.isEmpty ? unPinnedList[indexPath.row] : (indexPath.section == 0 ? pinnedList[indexPath.row] : unPinnedList[indexPath.row])
         }
         
         let backBarButtonItem = UIBarButtonItem(title: "메모", style: .plain, target: self, action: nil)
@@ -303,11 +279,7 @@ extension ListViewController: UITableViewDataSource {
         if isSearching {
             return tasks.count
         } else {
-            if pinnedList.count == 0 {
-                return unPinnedList.count
-            } else {
-                return section == 0 ? pinnedList.count : unPinnedList.count
-            }
+            return pinnedList.isEmpty ? unPinnedList.count : (section == 0 ? pinnedList.count : unPinnedList.count)
         }
     }
     
@@ -322,11 +294,7 @@ extension ListViewController: UITableViewDataSource {
                 cell.contentLabel.setHighlighted(cell.contentLabel.text ?? "", with: highlightText, font: .systemFont(ofSize: 12, weight: .medium))
             }
         } else {
-            if pinnedList.count == 0 {
-                cell.setData(unPinnedList[indexPath.row])
-            } else {
-                indexPath.section == 0 ? cell.setData(pinnedList[indexPath.row]) : cell.setData(unPinnedList[indexPath.row])
-            }
+            pinnedList.isEmpty ? cell.setData(unPinnedList[indexPath.row]) : (indexPath.section == 0 ? cell.setData(pinnedList[indexPath.row]) : cell.setData(unPinnedList[indexPath.row]))
             
             cell.titleLabel.textColor = .text
             cell.titleLabel.font = .systemFont(ofSize: 16, weight: .semibold)

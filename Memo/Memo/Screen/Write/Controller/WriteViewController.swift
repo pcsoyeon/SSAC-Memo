@@ -7,7 +7,7 @@
 
 import UIKit
 
-class WriteViewController: BaseViewController {
+final class WriteViewController: BaseViewController {
     
     // MARK: - UI Property
     
