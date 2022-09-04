@@ -26,6 +26,8 @@ class WriteViewController: BaseViewController {
         }
     }
     
+    private var isDoneButtonTapped: Bool = false
+    
     private let repository = MemoRepository()
     
     var memo = Memo(memoTitle: "", memoContent: "", memoDate: Date()) {
@@ -44,6 +46,11 @@ class WriteViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if !isDoneButtonTapped { backToListView(isNew) }
     }
     
     // MARK: - UI Method
@@ -71,6 +78,23 @@ class WriteViewController: BaseViewController {
         writeView.contentTextView.delegate = self
     }
     
+    private func backToListView(_ isNew: Bool) {
+        if isNew && isDoneButtonTapped == false {
+            if writeView.titleTextView.hasText {
+                let task = Memo(memoTitle: writeView.titleTextView.text, memoContent: writeView.contentTextView.text, memoDate: Date())
+                repository.addItem(item: task)
+            }
+        } else {
+            if writeView.titleTextView.text == "" {
+                repository.deleteItem(item: memo)
+            } else {
+                repository.updateItem(value: ["objectId": memo.objectId,
+                                              "memoTitle" : writeView.titleTextView.text,
+                                              "memoContent" : writeView.contentTextView.text])
+            }
+        }
+    }
+    
     // MARK: - @objc
     
     @objc func touchUpShareButton() {
@@ -89,13 +113,19 @@ class WriteViewController: BaseViewController {
     }
     
     @objc func touchUpDoneButton() {
-        if isNew {
+        isDoneButtonTapped = true
+        if isNew && writeView.titleTextView.hasText {
             let task = Memo(memoTitle: writeView.titleTextView.text, memoContent: writeView.contentTextView.text, memoDate: Date())
             repository.addItem(item: task)
         } else {
-            repository.updateItem(value: ["objectId": memo.objectId,
-                                          "memoTitle" : writeView.titleTextView.text,
-                                          "memoContent" : writeView.contentTextView.text])
+            if writeView.titleTextView.hasText {
+                repository.updateItem(value: ["objectId": memo.objectId,
+                                              "memoTitle" : writeView.titleTextView.text,
+                                              "memoContent" : writeView.contentTextView.text])
+            } else {
+                repository.deleteItem(item: memo)
+            }
+            
         }
         navigationController?.popViewController(animated: true)
     }
