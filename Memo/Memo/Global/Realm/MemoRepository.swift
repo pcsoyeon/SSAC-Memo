@@ -61,7 +61,6 @@ class MemoRepository: MemoRepositoryType {
         do {
             try localRealm.write {
                 localRealm.create(Memo.self, value: value as Any, update: .modified)
-                print("Update Realm 성공!")
             }
         } catch let error {
             print(error)

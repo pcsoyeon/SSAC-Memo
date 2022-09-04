@@ -36,6 +36,10 @@ class WriteViewController: BaseViewController {
     
     var memo = Memo(memoTitle: "", memoContent: "", memoDate: Date()) {
         didSet {
+            self.memoTitle = memo.memoTitle
+            self.memoContent = memo.memoContent ?? ""
+            self.textCount = memo.memoTitle.count
+            
             writeView.textView.text = """
                                       \(memo.memoTitle)
                                       \(memo.memoContent ?? "")
@@ -54,19 +58,15 @@ class WriteViewController: BaseViewController {
         super.viewDidLoad()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        configureNavigationBar()
-    }
-    
     // MARK: - UI Method
     
     override func configure() {
+        configureNavigationBar()
         configuireTextView()
     }
     
     private func configureNavigationBar() {
-        navigationController?.navigationItem.largeTitleDisplayMode = .never
+        navigationController?.navigationBar.prefersLargeTitles = false
         navigationController?.navigationBar.tintColor = .systemOrange
     }
     
@@ -97,9 +97,6 @@ class WriteViewController: BaseViewController {
     }
     
     @objc func touchUpDoneButton() {
-        memoTitle = "Title - \(Int.random(in: 0...100))"
-        memoContent = writeView.textView.text
-        
         if isNew {
             let task = Memo(memoTitle: memoTitle, memoContent: memoContent, memoDate: Date())
             repository.addItem(item: task)
@@ -107,7 +104,6 @@ class WriteViewController: BaseViewController {
             repository.updateItem(value: ["objectId": memo.objectId,
                                           "memoTitle" : memoTitle,
                                           "memoContent" : memoContent])
-            print(memo.objectId)
         }
         navigationController?.popViewController(animated: true)
     }
@@ -118,5 +114,26 @@ class WriteViewController: BaseViewController {
 extension WriteViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         showNavigationItem()
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if isNew {
+            if text == "\n" {
+                returnCount += 1
+                if returnCount == 1 {
+                    memoTitle = textView.text
+                    textCount = memoTitle.count + 1
+                }
+            } else {
+                if let content = textView.text {
+                    memoContent = content
+                    memoContent.removeFirst(textCount)
+                }
+            }
+        } else {
+            memoContent = textView.text
+            memoContent.removeFirst(textCount)
+        }
+        return true
     }
 }

@@ -31,7 +31,7 @@ final class WriteView: BaseView {
     
     override func setConstraints() {
         textView.snp.makeConstraints { make in
-            make.top.bottom.equalTo(self.safeAreaLayoutGuide).inset(10)
+            make.top.bottom.equalTo(self.safeAreaLayoutGuide)
             make.leading.trailing.equalTo(self.safeAreaLayoutGuide).inset(20)
         }
     }
