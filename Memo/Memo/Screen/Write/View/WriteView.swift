@@ -15,14 +15,14 @@ final class WriteView: BaseView {
     // MARK: - UI Property
     
     var titleTextView = UITextView().then {
-        $0.backgroundColor = .systemRed
+        $0.backgroundColor = .background
         $0.textColor = .text
         $0.font = .systemFont(ofSize: 20, weight: .semibold)
         $0.tintColor = .systemOrange
     }
     
     var contentTextView = UITextView().then {
-        $0.backgroundColor = .systemBlue
+        $0.backgroundColor = .background
         $0.textColor = .text
         $0.font = .systemFont(ofSize: 18, weight: .regular)
         $0.tintColor = .systemOrange
