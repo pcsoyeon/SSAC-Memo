@@ -19,8 +19,8 @@ final class ListViewController: BaseViewController {
     
     private lazy var searchController = UISearchController(searchResultsController: nil).then {
         $0.searchResultsUpdater = self
-        $0.searchBar.placeholder = "검색"
         $0.searchBar.delegate = self
+        $0.searchBar.placeholder = "검색"
         $0.searchBar.setValue("취소", forKey: "cancelButtonText")
         $0.searchBar.tintColor = .systemOrange
     }
@@ -161,7 +161,6 @@ final class ListViewController: BaseViewController {
     }
     
     private func fetchRealmData() {
-        isSearching = false
         tasks = repository.fetch()
     }
 }
@@ -246,11 +245,7 @@ extension ListViewController: UITableViewDelegate {
             if self.pinnedList.count == 0 {
                 pinAction.image = UIImage(systemName: "pin.fill")
             } else {
-                if indexPath.section == 0 {
-                    pinAction.image = UIImage(systemName: "pin.slash.fill")
-                } else {
-                    pinAction.image = UIImage(systemName: "pin.fill")
-                }
+                pinAction.image = indexPath.section == 0 ? UIImage(systemName: "pin.slash.fill") : UIImage(systemName: "pin.fill")
             }
         }
         
@@ -285,11 +280,7 @@ extension ListViewController: UITableViewDelegate {
             if pinnedList.count == 0 {
                 viewController.memo = unPinnedList[indexPath.row]
             } else {
-                if indexPath.section == 0 {
-                    viewController.memo = pinnedList[indexPath.row]
-                } else {
-                    viewController.memo = unPinnedList[indexPath.row]
-                }
+                viewController.memo = indexPath.section == 0 ? pinnedList[indexPath.row] : unPinnedList[indexPath.row]
             }
         }
         
@@ -304,11 +295,7 @@ extension ListViewController: UITableViewDataSource {
         if isSearching {
             return 1
         } else {
-            if pinnedList.count == 0 {
-                return 1
-            } else {
-                return 2
-            }
+            return pinnedList.count == 0 ? 1 : 2
         }
     }
     
@@ -319,11 +306,7 @@ extension ListViewController: UITableViewDataSource {
             if pinnedList.count == 0 {
                 return unPinnedList.count
             } else {
-                if section == 0 {
-                    return pinnedList.count
-                } else {
-                    return unPinnedList.count
-                }
+                return section == 0 ? pinnedList.count : unPinnedList.count
             }
         }
     }
@@ -337,11 +320,7 @@ extension ListViewController: UITableViewDataSource {
             if pinnedList.count == 0 {
                 cell.setData(unPinnedList[indexPath.row])
             } else {
-                if indexPath.section == 0 {
-                    cell.setData(pinnedList[indexPath.row])
-                } else {
-                    cell.setData(unPinnedList[indexPath.row])
-                }
+                indexPath.section == 0 ? cell.setData(pinnedList[indexPath.row]) : cell.setData(unPinnedList[indexPath.row])
             }
         }
         
@@ -359,15 +338,18 @@ extension ListViewController: UITableViewDataSource {
 
 extension ListViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        isSearching = true
-        guard let text = searchController.searchBar.text else { return }
-        tasks = repository.fetchFilter(text)
-        searchedItemCount = tasks.count
+        if searchController.searchBar.text != "" {
+            isSearching = true
+            guard let text = searchController.searchBar.text else { return }
+            tasks = repository.fetchFilter(text)
+            searchedItemCount = tasks.count
+        }
     }
 }
 
 extension ListViewController: UISearchBarDelegate {
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchController.searchBar.text = ""
         fetchRealmData()
         isSearching = false
     }
