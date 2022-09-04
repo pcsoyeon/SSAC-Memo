@@ -18,7 +18,7 @@ class WriteViewController: BaseViewController {
     var isNew: Bool = true {
         didSet {
             if isNew {
-                writeView.textView.becomeFirstResponder()
+                writeView.titleTextView.becomeFirstResponder()
                 showNavigationItem()
             } else {
                 navigationItem.rightBarButtonItems = nil
@@ -40,10 +40,8 @@ class WriteViewController: BaseViewController {
             self.memoContent = memo.memoContent ?? ""
             self.textCount = memo.memoTitle.count
             
-            writeView.textView.text = """
-                                      \(memo.memoTitle)
-                                      \(memo.memoContent ?? "")
-                                      """
+            writeView.titleTextView.text = "\(memo.memoTitle)"
+            writeView.contentTextView.text = "\(memo.memoContent ?? "")"
         }
     }
     
@@ -77,7 +75,10 @@ class WriteViewController: BaseViewController {
     }
     
     private func configuireTextView() {
-        writeView.textView.delegate = self
+        writeView.titleTextView.delegate = self
+        writeView.titleTextView.isScrollEnabled = false
+        
+        writeView.contentTextView.delegate = self
     }
     
     // MARK: - @objc
@@ -85,8 +86,9 @@ class WriteViewController: BaseViewController {
     @objc func touchUpShareButton() {
         var objectsToShare = [String]()
         
-        if let text = writeView.textView.text {
-            objectsToShare.append(text)
+        if let titleText = writeView.titleTextView.text, let contentText = writeView.contentTextView.text {
+            objectsToShare.append(titleText)
+            objectsToShare.append(contentText)
         }
         
         let activityViewController = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
@@ -116,24 +118,13 @@ extension WriteViewController: UITextViewDelegate {
         showNavigationItem()
     }
     
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        if isNew {
-            if text == "\n" {
-                returnCount += 1
-                if returnCount == 1 {
-                    memoTitle = textView.text
-                    textCount = memoTitle.count + 1
-                }
-            } else {
-                if let content = textView.text {
-                    memoContent = content
-                    memoContent.removeFirst(textCount)
-                }
+    func textViewDidChange(_ textView: UITextView) {
+        let size = CGSize(width: view.frame.width, height: .infinity)
+        let estimatedSize = writeView.titleTextView.sizeThatFits(size)
+        writeView.titleTextView.constraints.forEach { (constraint) in
+            if constraint.firstAttribute == .height {
+                constraint.constant = estimatedSize.height
             }
-        } else {
-            memoContent = textView.text
-            memoContent.removeFirst(textCount)
         }
-        return true
     }
 }
