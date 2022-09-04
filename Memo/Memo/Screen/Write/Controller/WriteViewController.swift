@@ -153,6 +153,17 @@ extension WriteViewController: UITextViewDelegate {
             textView.resignFirstResponder()
             writeView.contentTextView.becomeFirstResponder()
         }
+        
+        if let char = text.cString(using: String.Encoding.utf8) {
+            let isBackSpace = strcmp(char, "\\b")
+            if (isBackSpace == -92) {
+                if writeView.contentTextView.text == "" {
+                    writeView.titleTextView.becomeFirstResponder()
+                    writeView.contentTextView.resignFirstResponder()
+                }
+            }
+        }
+        
         return true
     }
 }
