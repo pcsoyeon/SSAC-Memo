@@ -28,18 +28,8 @@ class WriteViewController: BaseViewController {
     
     private let repository = MemoRepository()
     
-    private var memoTitle: String = ""
-    private var memoContent: String = ""
-    
-    private var returnCount: Int = 0
-    private var textCount: Int = 0
-    
     var memo = Memo(memoTitle: "", memoContent: "", memoDate: Date()) {
         didSet {
-            self.memoTitle = memo.memoTitle
-            self.memoContent = memo.memoContent ?? ""
-            self.textCount = memo.memoTitle.count
-            
             writeView.titleTextView.text = "\(memo.memoTitle)"
             writeView.contentTextView.text = "\(memo.memoContent ?? "")"
         }
@@ -100,12 +90,12 @@ class WriteViewController: BaseViewController {
     
     @objc func touchUpDoneButton() {
         if isNew {
-            let task = Memo(memoTitle: memoTitle, memoContent: memoContent, memoDate: Date())
+            let task = Memo(memoTitle: writeView.titleTextView.text, memoContent: writeView.contentTextView.text, memoDate: Date())
             repository.addItem(item: task)
         } else {
             repository.updateItem(value: ["objectId": memo.objectId,
-                                          "memoTitle" : memoTitle,
-                                          "memoContent" : memoContent])
+                                          "memoTitle" : writeView.titleTextView.text,
+                                          "memoContent" : writeView.contentTextView.text])
         }
         navigationController?.popViewController(animated: true)
     }
@@ -126,5 +116,13 @@ extension WriteViewController: UITextViewDelegate {
                 constraint.constant = estimatedSize.height
             }
         }
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text == "\n" && textView == writeView.titleTextView {
+            textView.resignFirstResponder()
+            writeView.contentTextView.becomeFirstResponder()
+        }
+        return true
     }
 }

@@ -119,6 +119,6 @@ final class ListTableViewCell: UITableViewCell {
             make.width.equalTo(calculateLabelWidth(text: dateFormatter.string(from: data.memoDate)))
         }
         
-        contentLabel.text = data.memoContent == nil ? "추가 텍스트 없음" : data.memoContent
+        contentLabel.text = data.memoContent == "" ? "추가 텍스트 없음" : data.memoContent
     }
 }
