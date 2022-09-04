@@ -346,10 +346,11 @@ extension ListViewController: UITableViewDataSource {
         }
         
         if let highlightText = searchController.searchBar.text {
-            cell.contentLabel.setHighlighted(cell.contentLabel.text ?? "", with: highlightText, font: .systemFont(ofSize: 12, weight: .thin))
-            cell.titleLabel.setHighlighted(cell.titleLabel.text!, with: highlightText, font: .systemFont(ofSize: 14, weight: .semibold))
+            cell.titleLabel.setHighlighted(cell.titleLabel.text!, with: highlightText, font: .systemFont(ofSize: 16, weight: .bold))
+            cell.contentLabel.setHighlighted(cell.contentLabel.text ?? "", with: highlightText, font: .systemFont(ofSize: 12, weight: .medium))
+            
         }
-       
+        
         return cell
     }
 }

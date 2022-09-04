@@ -15,7 +15,6 @@ final class ListTableViewCell: UITableViewCell {
     // MARK: - UI Property
     
     var titleLabel = UILabel().then {
-        $0.text = "제목"
         $0.textColor = .text
         $0.font = .systemFont(ofSize: 16, weight: .semibold)
         $0.numberOfLines = 1
@@ -116,7 +115,6 @@ final class ListTableViewCell: UITableViewCell {
         titleLabel.text = data.memoTitle
         
         dateLabel.text = customDateFormatter(date: data.memoDate)
-        
         dateLabel.snp.updateConstraints { make in
             make.width.equalTo(calculateLabelWidth(text: dateFormatter.string(from: data.memoDate)))
         }

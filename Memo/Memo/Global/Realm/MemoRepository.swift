@@ -44,7 +44,7 @@ class MemoRepository: MemoRepositoryType {
     }
     
     func fetchFilter(_ filter: String) -> Results<Memo> {
-        return localRealm.objects(Memo.self).filter("memoContent CONTAINS '\(filter)'")
+        return localRealm.objects(Memo.self).filter("memoContent CONTAINS '\(filter)' or memoTitle CONTAINS '\(filter)'")
     }
     
     func updatePinned(item: Memo) {
