@@ -159,6 +159,9 @@ extension WriteViewController: UITextViewDelegate {
             let isBackSpace = strcmp(char, "\\b")
             if (isBackSpace == -92) {
                 if writeView.contentTextView.text == "" {
+                    let newPosition = writeView.titleTextView.endOfDocument
+                    writeView.titleTextView.selectedTextRange = writeView.titleTextView.textRange(from: newPosition, to: newPosition)
+                    
                     writeView.titleTextView.becomeFirstResponder()
                     writeView.contentTextView.resignFirstResponder()
                 }
