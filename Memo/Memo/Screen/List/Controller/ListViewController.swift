@@ -129,6 +129,7 @@ final class ListViewController: BaseViewController {
         let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
         
         let pinAction = UIAlertAction(title: "확인", style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive, handler: { action in
             if self.pinnedList.count == 0 {
                 self.repository.deleteItem(item: self.tasks[index])
@@ -149,6 +150,7 @@ final class ListViewController: BaseViewController {
             optionMenu.addAction(pinAction)
         case .delete:
             optionMenu.title = "이 메모를 삭제하시겠어요?"
+            optionMenu.addAction(cancelAction)
             optionMenu.addAction(deleteAction)
         }
         
