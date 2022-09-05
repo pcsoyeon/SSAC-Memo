@@ -16,6 +16,7 @@ class BaseViewController: UIViewController {
     
     func configure() {
         view.backgroundColor = .background
+        navigationController?.navigationBar.prefersLargeTitles = true
     }
     
     func showDefaultAlertMessage(title: String, button: String = "확인") {

@@ -56,12 +56,13 @@ final class WriteViewController: BaseViewController {
     // MARK: - UI Method
     
     override func configure() {
+        super.configure()
         configureNavigationBar()
         configuireTextView()
     }
     
     private func configureNavigationBar() {
-        navigationController?.navigationBar.prefersLargeTitles = false
+        navigationItem.largeTitleDisplayMode = .never
         navigationController?.navigationBar.tintColor = .systemOrange
     }
     

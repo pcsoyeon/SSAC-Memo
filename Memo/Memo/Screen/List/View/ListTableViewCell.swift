@@ -97,8 +97,6 @@ final class ListTableViewCell: UITableViewCell {
     
     private func customDateFormatter(date: Date) -> String {
         let timeInterval = Date().timeIntervalSince(date) / 86400
-        print(timeInterval)
-        
         if Calendar.current.isDateInToday(date) {
             dateFormatter.dateFormat = "aa hh:mm"
         } else if timeInterval >= 1 && timeInterval <= 7 {

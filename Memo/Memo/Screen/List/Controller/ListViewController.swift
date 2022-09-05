@@ -83,15 +83,16 @@ final class ListViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        configureNavigationBar()
         fetchRealmData()
     }
     
     // MARK: - UI Method
     
     override func configure() {
+        super.configure()
         configureTableView()
         configureButton()
+        configureNavigationBar()
     }
     
     private func configureNavigationBar() {
