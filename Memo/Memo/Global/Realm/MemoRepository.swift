@@ -21,6 +21,19 @@ class MemoRepository: MemoRepositoryType {
     
     let localRealm = try! Realm()
     
+    func checkSchemaVersion() {
+        // 1. fileURL
+        print("FileURL: \(localRealm.configuration.fileURL)")
+        
+        // 2. Schema Version
+        do {
+            let version = try schemaVersionAtURL(localRealm.configuration.fileURL!)
+            print("Schema Version: \(version)")
+        } catch {
+            print(error)
+        }
+    }
+    
     func addItem(item: Memo) {
         do {
             try localRealm.write {

@@ -78,7 +78,9 @@ final class ListViewController: BaseViewController {
         super.viewDidLoad()
         if !UserDefaults.standard.bool(forKey: Constant.UserDefaults.isNotFirst) {
             presentWalkThrough()
-        } 
+        }
+        
+        repository.checkSchemaVersion()
     }
     
     override func viewWillAppear(_ animated: Bool) {
