@@ -41,7 +41,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 extension AppDelegate {
     func aboutRealmMigration() {
-        let config = Realm.Configuration(schemaVersion: 2) { migration, oldSchemaVersion in
+        // ✅ 
+        let config = Realm.Configuration(schemaVersion: 3) { migration, oldSchemaVersion in
             // 0 -> 1로 업데이트, 새로운 컬럼 추가
             if oldSchemaVersion < 1 {
                 // 새로운 컬럼 추가는 따로 코드를 구현하지 않아도 된다.
@@ -50,6 +51,14 @@ extension AppDelegate {
             // 1 -> 2로 업데이트, 컬럼 삭제
             if oldSchemaVersion < 2 {
                 // 컬럼 삭제는 따로 코드를 구현하지 않아도 된다.
+            }
+            
+            // ✅ 2 -> 3으로 업데이트, 컬럼명 변경
+            if oldSchemaVersion < 3 {
+                // onType: 테이블 이름
+                // from: 이전 컬럼명
+                // to: 바꾸고 싶은 컬럼명
+                migration.renameProperty(onType: Memo.className(), from: "isPinned", to: "isFixed")
             }
         }
         

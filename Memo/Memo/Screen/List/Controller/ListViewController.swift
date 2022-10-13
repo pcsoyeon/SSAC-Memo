@@ -46,7 +46,7 @@ final class ListViewController: BaseViewController {
             var unPinned: [Memo] = []
 
             for item in tasks {
-                if item.isPinned {
+                if item.isFixed {
                     pinned.append(item)
                 } else {
                     unPinned.append(item)
@@ -225,7 +225,7 @@ extension ListViewController: UITableViewDelegate {
         pinAction.backgroundColor = .systemOrange
         
         if isSearching {
-            pinAction.image = tasks[indexPath.row].isPinned ? UIImage(systemName: "pin.slash.fill") : UIImage(systemName: "pin.fill")
+            pinAction.image = tasks[indexPath.row].isFixed ? UIImage(systemName: "pin.slash.fill") : UIImage(systemName: "pin.fill")
         } else {
             if self.pinnedList.count == 0 {
                 pinAction.image = UIImage(systemName: "pin.fill")

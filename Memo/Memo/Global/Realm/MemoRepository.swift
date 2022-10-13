@@ -63,7 +63,7 @@ class MemoRepository: MemoRepositoryType {
     func updatePinned(item: Memo) {
         do {
             try localRealm.write {
-                item.isPinned.toggle()
+                item.isFixed.toggle()
             }
         } catch {
             print("ERROR")
