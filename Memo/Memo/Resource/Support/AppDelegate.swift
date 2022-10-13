@@ -41,6 +41,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 extension AppDelegate {
     func aboutRealmMigration() {
+        let config = Realm.Configuration(schemaVersion: 1) { migration, oldSchemaVersion in
+            // schemaVersion 0
+            if oldSchemaVersion < 1 {
+                // 새로운 컬럼 추가는 따로 코드를 구현하지 않아도 된다.
+            }
+        }
         
+        Realm.Configuration.defaultConfiguration = config
     }
 }
