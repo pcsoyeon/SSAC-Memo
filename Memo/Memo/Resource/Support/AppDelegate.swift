@@ -42,7 +42,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 extension AppDelegate {
     func aboutRealmMigration() {
         // ✅ 
-        let config = Realm.Configuration(schemaVersion: 4) { migration, oldSchemaVersion in
+        let config = Realm.Configuration(schemaVersion: 5) { migration, oldSchemaVersion in
             // 0 -> 1로 업데이트, 새로운 컬럼 추가
             if oldSchemaVersion < 1 {
                 // 새로운 컬럼 추가는 따로 코드를 구현하지 않아도 된다.
@@ -61,13 +61,21 @@ extension AppDelegate {
                 migration.renameProperty(onType: Memo.className(), from: "isPinned", to: "isFixed")
             }
             
-            // ✅ 3 -> 4로 업데이트, 컬럼 결합
+            // 3 -> 4로 업데이트, 컬럼 결합
             if oldSchemaVersion < 4 {
                 migration.enumerateObjects(ofType: Memo.className()) { oldObject, newObject in
                     guard let new = newObject else { return } // 새롭게 생길 컬럼
                     guard let old = oldObject else { return } // 기존의 컬럼 
                     
                     new["memoInfo"] = "제목: \(old["memoTitle"]!), 내용: \(old["memoContent"]!), 날짜: \(old["memoDate"]!)"
+                }
+            }
+            
+            // ✅ 4 -> 5로 업데이트, 초기값이 있는 컬럼 추가
+            if oldSchemaVersion < 5 {
+                migration.enumerateObjects(ofType: Memo.className()) { oldObject, newObject in
+                    guard let new = newObject else { return }
+                    new["count"] = 127
                 }
             }
         }
