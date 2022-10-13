@@ -14,6 +14,7 @@ class Memo: Object {
     @Persisted var memoContent: String?
     @Persisted var memoDate = Date()
     @Persisted var isFixed: Bool
+    @Persisted var memoInfo: String
     
     @Persisted(primaryKey: true) var objectId: ObjectId
     
