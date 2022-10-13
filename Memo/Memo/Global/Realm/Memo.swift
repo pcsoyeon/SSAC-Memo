@@ -15,8 +15,6 @@ class Memo: Object {
     @Persisted var memoDate = Date()
     @Persisted var isPinned: Bool
     
-    @Persisted var isFavortie: Bool
-    
     @Persisted(primaryKey: true) var objectId: ObjectId
     
     convenience init(memoTitle: String, memoContent: String?, memoDate: Date, isPinned: Bool = false) {
