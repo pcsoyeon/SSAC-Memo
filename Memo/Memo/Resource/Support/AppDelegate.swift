@@ -41,7 +41,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 extension AppDelegate {
     func aboutRealmMigration() {
-        let config = Realm.Configuration(schemaVersion: 1, deleteRealmIfMigrationNeeded: true)
-        Realm.Configuration.defaultConfiguration = config
+        
     }
 }
