@@ -33,6 +33,8 @@
 		92D87F7928C35191009AAFE5 /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D87F7828C35191009AAFE5 /* UILabel+Extension.swift */; };
 		92D87F8528C3AF56009AAFE5 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D87F8428C3AF56009AAFE5 /* Constant.swift */; };
 		92D87F8728C3AF69009AAFE5 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D87F8628C3AF69009AAFE5 /* UserDefaults.swift */; };
+		92E8F36528FE857D00507F64 /* ListCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E8F36428FE857D00507F64 /* ListCollectionViewController.swift */; };
+		92E8F36928FE85D100507F64 /* ListCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E8F36828FE85D100507F64 /* ListCollectionView.swift */; };
 		92F303E428F7BADD00E32422 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 92F303E328F7BADD00E32422 /* Realm */; };
 		92F303E628F7BADD00E32422 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 92F303E528F7BADD00E32422 /* RealmSwift */; };
 /* End PBXBuildFile section */
@@ -64,6 +66,8 @@
 		92D87F7828C35191009AAFE5 /* UILabel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
 		92D87F8428C3AF56009AAFE5 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		92D87F8628C3AF69009AAFE5 /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
+		92E8F36428FE857D00507F64 /* ListCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCollectionViewController.swift; sourceTree = "<group>"; };
+		92E8F36828FE85D100507F64 /* ListCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCollectionView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -147,6 +151,7 @@
 		923DC7B528BF470200407EEF /* Screen */ = {
 			isa = PBXGroup;
 			children = (
+				92E8F36328FE854700507F64 /* CollectionViewAPI */,
 				923DC7D628C01F2900407EEF /* Write */,
 				923DC7B728BF470E00407EEF /* WalkThrough */,
 				923DC7B628BF470A00407EEF /* List */,
@@ -297,6 +302,31 @@
 			path = Constant;
 			sourceTree = "<group>";
 		};
+		92E8F36328FE854700507F64 /* CollectionViewAPI */ = {
+			isa = PBXGroup;
+			children = (
+				92E8F36728FE85C500507F64 /* View */,
+				92E8F36628FE858100507F64 /* Controller */,
+			);
+			path = CollectionViewAPI;
+			sourceTree = "<group>";
+		};
+		92E8F36628FE858100507F64 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				92E8F36428FE857D00507F64 /* ListCollectionViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		92E8F36728FE85C500507F64 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				92E8F36828FE85D100507F64 /* ListCollectionView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -381,10 +411,12 @@
 			files = (
 				923DC79C28BF462400407EEF /* ListViewController.swift in Sources */,
 				92D87F7528C1DFE4009AAFE5 /* MemoRepository.swift in Sources */,
+				92E8F36528FE857D00507F64 /* ListCollectionViewController.swift in Sources */,
 				923DC7D328BF598F00407EEF /* ListTableViewSection.swift in Sources */,
 				923DC7CB28BF4C9900407EEF /* ListView.swift in Sources */,
 				923DC7B928BF473900407EEF /* WalkThroughViewController.swift in Sources */,
 				92D87F8728C3AF69009AAFE5 /* UserDefaults.swift in Sources */,
+				92E8F36928FE85D100507F64 /* ListCollectionView.swift in Sources */,
 				923DC79828BF462400407EEF /* AppDelegate.swift in Sources */,
 				923DC7C528BF4B9600407EEF /* WalkThroughView.swift in Sources */,
 				92D87F8528C3AF56009AAFE5 /* Constant.swift in Sources */,
@@ -549,7 +581,7 @@
 				DEVELOPMENT_TEAM = PU64TS56AD;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Memo/Resource/Support/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "김소연";
+				INFOPLIST_KEY_CFBundleDisplayName = "메모";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -578,7 +610,7 @@
 				DEVELOPMENT_TEAM = PU64TS56AD;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Memo/Resource/Support/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "김소연";
+				INFOPLIST_KEY_CFBundleDisplayName = "메모";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
