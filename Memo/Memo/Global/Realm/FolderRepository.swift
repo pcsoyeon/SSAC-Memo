@@ -11,7 +11,6 @@ import RealmSwift
 
 protocol FolderRepositoryType {
     func addItem(item: Folder)
-    func addMemo(memo: Memo)
     func fetch() -> Results<Folder>
 }
 
@@ -27,17 +26,6 @@ class FolderRepository: FolderRepositoryType {
         } catch let error {
             print(error)
         }
-    }
-    
-    func addMemo(memo: Memo) {
-        do {
-            try localRealm.write {
-                
-            }
-        } catch let error {
-            print(error)
-        }
-
     }
     
     func fetch() -> Results<Folder> {
