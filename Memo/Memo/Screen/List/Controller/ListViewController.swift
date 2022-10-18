@@ -181,8 +181,6 @@ final class ListViewController: BaseViewController {
     private func fetchRealmData() {
         tasks = repository.fetch()
         folder = folderRepository.fetch()
-        
-        
     }
 }
 
