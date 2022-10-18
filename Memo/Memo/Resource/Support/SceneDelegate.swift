@@ -17,8 +17,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
-        window?.rootViewController = UINavigationController(rootViewController: ListViewController())
-//        window?.rootViewController = ListCollectionViewController()
+//        window?.rootViewController = UINavigationController(rootViewController: ListViewController())
+        window?.rootViewController = UINavigationController(rootViewController: FolderListCollectionViewController())
         window?.makeKeyAndVisible()
     }
 
