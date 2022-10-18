@@ -7,6 +7,8 @@
 
 import UIKit
 
+import RealmSwift
+
 final class WriteViewController: BaseViewController {
     
     // MARK: - UI Property
@@ -29,6 +31,7 @@ final class WriteViewController: BaseViewController {
     private var isDoneButtonTapped: Bool = false
     
     private let repository = MemoRepository()
+    private let folderRepository = FolderRepository()
     
     var memo = Memo(memoTitle: "", memoContent: "", memoDate: Date()) {
         didSet {
@@ -118,6 +121,17 @@ final class WriteViewController: BaseViewController {
         if isNew && writeView.titleTextView.hasText {
             let task = Memo(memoTitle: writeView.titleTextView.text, memoContent: writeView.contentTextView.text, memoDate: Date())
             repository.addItem(item: task)
+            
+            do {
+                try folderRepository.localRealm.write {
+                    guard let folder = folderRepository.localRealm.objects(Folder.self).first else { return }
+                    folder.memo.append(task)
+                }
+            } catch let error {
+                print(error)
+            }
+
+            
         } else {
             if writeView.titleTextView.hasText {
                 repository.updateItem(value: ["objectId": memo.objectId,

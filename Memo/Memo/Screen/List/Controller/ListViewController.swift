@@ -31,6 +31,15 @@ final class ListViewController: BaseViewController {
         didSet {
             title = "\(format(for: totalCount))개의 메모"
             listView.listTableView.isHidden = totalCount == 0 ? true : false
+            
+            do {
+                try folderRepository.localRealm.write {
+                    guard let folder = folderRepository.localRealm.objects(Folder.self).first else { return }
+                    folder.count = tasks.count
+                }
+            } catch let error {
+                print(error)
+            }
         }
     }
     
@@ -38,6 +47,7 @@ final class ListViewController: BaseViewController {
     private var unPinnedList: [Memo] = []
     
     private let repository = MemoRepository()
+    private let folderRepository = FolderRepository()
     
     private var tasks: Results<Memo>! {
         didSet {
@@ -60,6 +70,8 @@ final class ListViewController: BaseViewController {
         }
     }
     
+    private var folder: Results<Folder>!
+    
     private var isSearching: Bool = false {
         didSet {
             if isSearching == false { listView.listTableView.reloadData() }
@@ -77,6 +89,7 @@ final class ListViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         if !UserDefaults.standard.bool(forKey: Constant.UserDefaults.isNotFirst) {
+            folderRepository.addItem(item: Folder(title: "메모", count: 0))
             presentWalkThrough()
         }
         
@@ -167,6 +180,9 @@ final class ListViewController: BaseViewController {
     
     private func fetchRealmData() {
         tasks = repository.fetch()
+        folder = folderRepository.fetch()
+        
+        
     }
 }
 
