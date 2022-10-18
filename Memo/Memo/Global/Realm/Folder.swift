@@ -15,7 +15,7 @@ class Folder: Object {
     
     @Persisted(primaryKey: true) var objectId: ObjectId
     
-    @Persisted var memoList: List<Folder>
+    @Persisted var memo: List<Memo>
     
     convenience init(title: String, count: Int) {
         self.init()

@@ -36,6 +36,7 @@
 		92E8F36528FE857D00507F64 /* ListCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E8F36428FE857D00507F64 /* ListCollectionViewController.swift */; };
 		92E8F36928FE85D100507F64 /* ListCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E8F36828FE85D100507F64 /* ListCollectionView.swift */; };
 		92E8F36B28FE932300507F64 /* Folder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E8F36A28FE932300507F64 /* Folder.swift */; };
+		92E8F36D28FE966300507F64 /* FolderRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E8F36C28FE966300507F64 /* FolderRepository.swift */; };
 		92F303E428F7BADD00E32422 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 92F303E328F7BADD00E32422 /* Realm */; };
 		92F303E628F7BADD00E32422 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 92F303E528F7BADD00E32422 /* RealmSwift */; };
 /* End PBXBuildFile section */
@@ -70,6 +71,7 @@
 		92E8F36428FE857D00507F64 /* ListCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCollectionViewController.swift; sourceTree = "<group>"; };
 		92E8F36828FE85D100507F64 /* ListCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCollectionView.swift; sourceTree = "<group>"; };
 		92E8F36A28FE932300507F64 /* Folder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Folder.swift; sourceTree = "<group>"; };
+		92E8F36C28FE966300507F64 /* FolderRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderRepository.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -292,6 +294,7 @@
 				92D87F6F28C1DE89009AAFE5 /* Memo.swift */,
 				92D87F7428C1DFE4009AAFE5 /* MemoRepository.swift */,
 				92E8F36A28FE932300507F64 /* Folder.swift */,
+				92E8F36C28FE966300507F64 /* FolderRepository.swift */,
 			);
 			path = Realm;
 			sourceTree = "<group>";
@@ -422,6 +425,7 @@
 				92E8F36928FE85D100507F64 /* ListCollectionView.swift in Sources */,
 				923DC79828BF462400407EEF /* AppDelegate.swift in Sources */,
 				923DC7C528BF4B9600407EEF /* WalkThroughView.swift in Sources */,
+				92E8F36D28FE966300507F64 /* FolderRepository.swift in Sources */,
 				92D87F8528C3AF56009AAFE5 /* Constant.swift in Sources */,
 				92E8F36B28FE932300507F64 /* Folder.swift in Sources */,
 				923DC7DA28C01F3D00407EEF /* WriteView.swift in Sources */,

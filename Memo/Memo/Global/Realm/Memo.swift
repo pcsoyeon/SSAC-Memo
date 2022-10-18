@@ -18,6 +18,7 @@ class Memo: Object {
     @Persisted var count: Int
     
     @Persisted(primaryKey: true) var objectId: ObjectId
+    @Persisted(originProperty: "memo") var folder: LinkingObjects<Folder>
     
     convenience init(memoTitle: String, memoContent: String?, memoDate: Date, isPinned: Bool = false) {
         self.init()
