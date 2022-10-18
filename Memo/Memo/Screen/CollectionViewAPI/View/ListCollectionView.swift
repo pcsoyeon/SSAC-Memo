@@ -15,7 +15,7 @@ final class ListCollectionView: BaseView {
     
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
     
-    let configuration = UICollectionLayoutListConfiguration(appearance: .grouped)
+    let configuration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
     private lazy var layout = UICollectionViewCompositionalLayout.list(using: configuration)
     
     // MARK: - UI Method
