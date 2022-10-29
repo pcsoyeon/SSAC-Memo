@@ -14,9 +14,9 @@ final class MemoListViewModel {
     private let repository = MemoRepository()
     
     var memo: CObservable<[[Memo]]> = CObservable([])
-    var memoCount = CObservable("메모 개수")
-    var isSearching = CObservable(false)
-    var searchKeyword = CObservable("")
+    var memoCount: CObservable<String> = CObservable("메모 개수")
+    var isSearching: CObservable<Bool> = CObservable(false)
+    var searchKeyword: CObservable<String> = CObservable("")
 }
 
 extension MemoListViewModel {

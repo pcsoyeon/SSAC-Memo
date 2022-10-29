@@ -17,28 +17,7 @@ final class WriteViewController: BaseViewController {
     
     // MARK: - Property
     
-    var isNew: Bool = true {
-        didSet {
-            if isNew {
-                rootView.titleTextView.becomeFirstResponder()
-                showNavigationItem()
-            } else {
-                navigationItem.rightBarButtonItems = nil
-            }
-        }
-    }
-    
-    private var isDoneButtonTapped: Bool = false
-    
-    private let repository = MemoRepository()
-    private let folderRepository = FolderRepository()
-    
-    var memo = Memo(memoTitle: "", memoContent: "", memoDate: Date()) {
-        didSet {
-            rootView.titleTextView.text = "\(memo.memoTitle)"
-            rootView.contentTextView.text = "\(memo.memoContent ?? "")"
-        }
-    }
+    var viewModel = WriteViewModel()
     
     // MARK: - Life Cycle
     
@@ -49,6 +28,7 @@ final class WriteViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        bind()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -82,25 +62,30 @@ final class WriteViewController: BaseViewController {
         rootView.contentTextView.delegate = self
     }
     
-    func writeMemo() {
-        // nil 값일 때 저장 X
+    private func writeMemo() {
         guard let title = rootView.titleTextView.text,
               let content = rootView.contentTextView.text
         else { return }
         
-        // 내용 없을 때 삭제
+        // 값이 모두 없을 때 삭제
         if title.isEmpty && (content.isEmpty || content.trimmingCharacters(in: .newlines).isEmpty) {
-            // 작성 중인 상태가 아니면 삭제
+            if !viewModel.isNew.value {
+                viewModel.deleteMemo(viewModel.memo.value)
+            }
             return
         }
         
-        // 값이 각각 없는 경우가 있으면 nil로 저장하기 위함
-        let newTitle: String? = title.isEmpty ? nil : title
+        // 값이 각각 없는 경우
+        let newTitle: String = title.isEmpty ? "" : title
         let newContent: String? = (content.isEmpty || content.trimmingCharacters(in: .newlines).isEmpty) ? nil : content
         
-        let memo = Memo(memoTitle: newTitle ?? "", memoContent: newContent, memoDate: Date())
+        let memo = Memo(memoTitle: newTitle, memoContent: newContent, memoDate: Date())
         
-        // 새롭게 작성하면, 추가하고 기존의 것을 수정하면 업데이트
+        if viewModel.isNew.value {
+            viewModel.write(memo)
+        } else {
+            viewModel.update(viewModel.memo.value, newTitle: newTitle, newContent: newContent)
+        }
     }
     
     // MARK: - @objc
@@ -116,6 +101,26 @@ final class WriteViewController: BaseViewController {
     
     @objc func touchUpDoneButton() {
         navigationController?.popViewController(animated: true)
+    }
+}
+
+extension WriteViewController {
+    private func bind() {
+        viewModel.isNew.bind { [weak self] isNew in
+            guard let self = self else { return }
+            if isNew {
+                self.rootView.titleTextView.becomeFirstResponder()
+                self.showNavigationItem()
+            } else {
+                self.navigationItem.rightBarButtonItems = nil
+            }
+        }
+        
+        viewModel.memo.bind { [weak self] memo in
+            guard let self = self else { return }
+            self.rootView.titleTextView.text = "\(memo.memoTitle)"
+            self.rootView.contentTextView.text = "\(memo.memoContent ?? "")"
+        }
     }
 }
 

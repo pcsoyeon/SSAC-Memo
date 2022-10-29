@@ -150,7 +150,8 @@ extension ListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let writeViewController = WriteViewController()
         let memo = viewModel.memo.value[indexPath.section][indexPath.row]
-        writeViewController.memo = memo
+        writeViewController.viewModel.memo.value = memo
+        writeViewController.viewModel.isNew.value = false
         self.navigationController?.pushViewController(writeViewController, animated: true)
     }
     
@@ -239,7 +240,7 @@ extension ListViewController: UISearchBarDelegate {
 extension ListViewController: ListViewDelegate {
     func touchUpWriteButton() {
         let viewController = WriteViewController()
-        viewController.isNew = true
+        viewController.viewModel.isNew.value = true
         
         let backBarButtonItem = UIBarButtonItem(title: "메모", style: .plain, target: self, action: nil)
         self.navigationItem.backBarButtonItem = backBarButtonItem
