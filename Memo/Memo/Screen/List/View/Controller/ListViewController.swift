@@ -12,13 +12,12 @@ import SnapKit
 import Then
 
 final class ListViewController: BaseViewController {
-
+    
     // MARK: - UI Property
     
-    private var listView = ListView()
+    private var rootView = ListView()
     
     private lazy var searchController = UISearchController(searchResultsController: nil).then {
-        $0.searchResultsUpdater = self
         $0.searchBar.delegate = self
         $0.searchBar.placeholder = "검색"
         $0.searchBar.setValue("취소", forKey: "cancelButtonText")
@@ -27,78 +26,28 @@ final class ListViewController: BaseViewController {
     
     // MARK: - Property
     
-    private var totalCount: Int = 0 {
-        didSet {
-            title = "\(format(for: totalCount))개의 메모"
-            listView.listTableView.isHidden = totalCount == 0 ? true : false
-            
-            do {
-                try folderRepository.localRealm.write {
-                    guard let folder = folderRepository.localRealm.objects(Folder.self).first else { return }
-                    folder.count = tasks.count
-                }
-            } catch let error {
-                print(error)
-            }
-        }
-    }
-    
-    private var pinnedList: [Memo] = []
-    private var unPinnedList: [Memo] = []
-    
-    private let repository = MemoRepository()
-    private let folderRepository = FolderRepository()
-    
-    private var tasks: Results<Memo>! {
-        didSet {
-            totalCount = tasks.count
-            var pinned: [Memo] = []
-            var unPinned: [Memo] = []
-
-            for item in tasks {
-                if item.isFixed {
-                    pinned.append(item)
-                } else {
-                    unPinned.append(item)
-                }
-            }
-
-            self.pinnedList = pinned
-            self.unPinnedList = unPinned
-
-            listView.listTableView.reloadData()
-        }
-    }
-    
-    private var isSearching: Bool = false {
-        didSet {
-            if isSearching == false { listView.listTableView.reloadData() }
-        }
-    }
-    private var searchedItemCount: Int = 0
-    
-    private var viewModel = ListViewModel()
+    private let viewModel = MemoListViewModel()
     
     // MARK: - Life Cycle
     
     override func loadView() {
         super.loadView()
-        self.view = listView
+        self.view = rootView
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         if !UserDefaults.standard.bool(forKey: Constant.UserDefaults.isNotFirst) {
-            folderRepository.addItem(item: Folder(title: "메모", count: 0))
             presentWalkThrough()
         }
         
-        repository.checkSchemaVersion()
+        bind()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        fetchRealmData()
+        viewModel.fetchMemo()
     }
     
     // MARK: - UI Method
@@ -111,24 +60,23 @@ final class ListViewController: BaseViewController {
     }
     
     private func configureNavigationBar() {
-        title = "\(format(for: totalCount))개의 메모"
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.searchController = searchController
     }
     
     private func configureTableView() {
-        listView.listTableView.delegate = self
-        listView.listTableView.dataSource = self
+        rootView.tableView.delegate = self
+        rootView.tableView.dataSource = self
         
-        listView.listTableView.rowHeight = 80
+        rootView.tableView.rowHeight = 80
         
-        listView.listTableView.register(ListTableViewCell.self, forCellReuseIdentifier: ListTableViewCell.reuseIdentifier)
+        rootView.tableView.register(ListTableViewCell.self, forCellReuseIdentifier: ListTableViewCell.reuseIdentifier)
         
-        listView.listTableView.keyboardDismissMode = .onDrag
+        rootView.tableView.keyboardDismissMode = .onDrag
     }
     
     private func configureButton() {
-        listView.delegate = self
+        rootView.delegate = self
     }
     
     // MARK: - Custom Method
@@ -140,206 +88,149 @@ final class ListViewController: BaseViewController {
         present(viewController, animated: true)
     }
     
-    private func showActionSheet(type: AlertType, index: Int, section: Int = 0) {
-        let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
-        
-        let pinAction = UIAlertAction(title: "확인", style: .cancel, handler: nil)
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
-        let deleteAction = UIAlertAction(title: "삭제", style: .destructive, handler: { action in
-            if self.pinnedList.count == 0 {
-                self.repository.deleteItem(item: self.tasks[index])
-            } else {
-                if section == 0 {
-                    self.repository.deleteItem(item: self.pinnedList[index])
-                } else {
-                    self.repository.deleteItem(item: self.unPinnedList[index])
-                }
-            }
-            
-            self.fetchRealmData()
-        })
-        
-        switch type {
-        case .pin:
-            optionMenu.title = "최대 5개까지만 고정할 수 있어요"
-            optionMenu.addAction(pinAction)
-        case .delete:
-            optionMenu.title = "이 메모를 삭제하시겠어요?"
-            optionMenu.addAction(cancelAction)
-            optionMenu.addAction(deleteAction)
+    func checkIfSearchMode() {
+        if self.viewModel.isSearching.value {
+            self.viewModel.searchMemo(by: self.viewModel.searchKeyword.value)
+        } else {
+            self.viewModel.fetchMemo()
+        }
+    }
+}
+
+
+extension ListViewController {
+    private func bind() {
+        viewModel.memo.bind { _ in
+            self.rootView.tableView.reloadData()
         }
         
-        self.present(optionMenu, animated: true)
-    }
-    
-    private func format(for number: Int) -> String {
-        let numberFormat = NumberFormatter()
-        numberFormat.numberStyle = .decimal
-        return numberFormat.string(for: number) ?? ""
-    }
-    
-    private func fetchRealmData() {
-        tasks = repository.fetch()
+        viewModel.memoCount.bind { countString in
+            self.navigationItem.title = countString
+        }
+        
+        viewModel.isSearching.bind { isSearchMode in
+            let backButton = UIBarButtonItem()
+            var backButtonTitle = ""
+            
+            if isSearchMode {
+                self.viewModel.searchMemo(by: self.viewModel.searchKeyword.value)
+                backButtonTitle = "검색"
+                
+            } else {
+                self.viewModel.fetchMemo()
+                backButtonTitle = "메모"
+            }
+            
+            backButton.title = backButtonTitle
+            self.navigationController?.navigationBar.topItem?.backBarButtonItem = backButton
+            self.rootView.tableView.reloadData()
+        }
     }
 }
 
 // MARK: - UITableView Protocol
 
 extension ListViewController: UITableViewDelegate {
-    
-    // MARK: - Header UI
-    
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        viewModel.titleForHeaderInSection(at: section)
+        return viewModel.titleForHeaderInSection(at: section, isSearchMode: viewModel.isSearching.value)
     }
     
-    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        view.tintColor = .background
-        let header = view as! UITableViewHeaderFooterView
-        header.textLabel?.textColor = .text
-        header.textLabel?.font = UIFont.boldSystemFont(ofSize: 20)
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let titleLabel = UILabel()
+        titleLabel.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50)
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 20)
+        titleLabel.text = self.tableView(tableView, titleForHeaderInSection: section)
+        return titleLabel
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        viewModel.heightForHeaderInSection
+        return 50
     }
     
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        viewModel.heightForHeaderInSection
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let writeViewController = WriteViewController()
+        let memo = viewModel.memo.value[indexPath.section][indexPath.row]
+        writeViewController.memo = memo
+        self.navigationController?.pushViewController(writeViewController, animated: true)
     }
-    
-    // MARK: - Swipe Gesture
     
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        
-        let pinAction = UIContextualAction(style: .normal, title: nil) { (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
-            
-            if self.isSearching {
-                if self.pinnedList.count >= 5 {
-                    self.showActionSheet(type: .pin, index: indexPath.row)
-                } else {
-                    self.repository.updatePinned(item: self.tasks[indexPath.row])
-                }
-            } else {
-                if self.pinnedList.count >= 5 {
-                    indexPath.section == 0 ? self.repository.updatePinned(item: self.pinnedList[indexPath.row]) : self.showActionSheet(type: .pin, index: indexPath.row)
-                } else {
-                    self.pinnedList.isEmpty ? self.repository.updatePinned(item: self.unPinnedList[indexPath.row]) : (indexPath.section == 0 ? self.repository.updatePinned(item: self.pinnedList[indexPath.row]) : self.repository.updatePinned(item: self.unPinnedList[indexPath.row]))
-                }
+        let pinAction = UIContextualAction(style: .normal, title: nil) { _, _, completionHaldler in
+            self.viewModel.pinMemo(indexPath: indexPath) {
+                self.presentAlert(title: "메모는 최대 5개까지 고정할 수 있어요!")
             }
-            
-            self.fetchRealmData()
-            success(true)
+            self.checkIfSearchMode()
+            completionHaldler(true)
         }
+        
+        let memo = viewModel.memo.value[indexPath.section][indexPath.row]
         pinAction.backgroundColor = .systemOrange
-        
-        if isSearching {
-            pinAction.image = tasks[indexPath.row].isFixed ? UIImage(systemName: "pin.slash.fill") : UIImage(systemName: "pin.fill")
-        } else {
-            if self.pinnedList.count == 0 {
-                pinAction.image = UIImage(systemName: "pin.fill")
-            } else {
-                pinAction.image = indexPath.section == 0 ? UIImage(systemName: "pin.slash.fill") : UIImage(systemName: "pin.fill")
-            }
-        }
-        
+        pinAction.image = memo.isPinned ? UIImage(systemName: "pin.slash.fill") : UIImage(systemName: "pin.fill")
         return UISwipeActionsConfiguration(actions: [pinAction])
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let deleteAction = UIContextualAction(style: .normal, title: nil) { (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
-            if indexPath.section == 0 {
-                self.showActionSheet(type: .delete, index: indexPath.row, section: 0)
-            } else {
-                self.showActionSheet(type: .delete, index: indexPath.row, section: 1)
+        let deleteAction = UIContextualAction(style: .destructive, title: nil) { _, _, completionHaldler in
+            self.presentAlert(title: "정말로 삭제하실건가요?", isIncludedCancel: true) { _ in
+                self.viewModel.deleteMemo(indexPath: indexPath)
+                self.checkIfSearchMode()
             }
-            
-            success(true)
+            completionHaldler(true)
         }
-        deleteAction.backgroundColor = .systemRed
         deleteAction.image = UIImage(systemName: "trash.fill")
-        
         return UISwipeActionsConfiguration(actions: [deleteAction])
-    }
-    
-    // MARK: - Tap
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let viewController = WriteViewController()
-        viewController.isNew = false
-        
-        if isSearching {
-            viewController.memo = tasks[indexPath.row]
-        } else {
-            viewController.memo = pinnedList.isEmpty ? unPinnedList[indexPath.row] : (indexPath.section == 0 ? pinnedList[indexPath.row] : unPinnedList[indexPath.row])
-        }
-        
-        let backBarButtonItem = UIBarButtonItem(title: "메모", style: .plain, target: self, action: nil)
-        self.navigationItem.backBarButtonItem = backBarButtonItem
-        navigationController?.pushViewController(viewController, animated: true)
     }
 }
 
 extension ListViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        if isSearching {
-            return 1
-        } else {
-            return pinnedList.count == 0 ? 1 : 2
-        }
+        return viewModel.numberOfSections
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if isSearching {
-            return tasks.count
-        } else {
-            return pinnedList.isEmpty ? unPinnedList.count : (section == 0 ? pinnedList.count : unPinnedList.count)
-        }
+        return viewModel.numberOfRowsInSection(at: section)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: ListTableViewCell.reuseIdentifier, for: indexPath) as? ListTableViewCell else { return UITableViewCell() }
-        
-        if isSearching {
-            cell.setData(tasks[indexPath.row])
-            
-            if let highlightText = searchController.searchBar.text {
-                cell.titleLabel.setHighlighted(cell.titleLabel.text!, with: highlightText, font: .systemFont(ofSize: 16, weight: .bold))
-                cell.contentLabel.setHighlighted(cell.contentLabel.text ?? "", with: highlightText, font: .systemFont(ofSize: 12, weight: .medium))
-            }
-        } else {
-            pinnedList.isEmpty ? cell.setData(unPinnedList[indexPath.row]) : (indexPath.section == 0 ? cell.setData(pinnedList[indexPath.row]) : cell.setData(unPinnedList[indexPath.row]))
-            
-            cell.titleLabel.textColor = .text
-            cell.titleLabel.font = .systemFont(ofSize: 16, weight: .semibold)
-            cell.contentLabel.textColor = .text
-            cell.contentLabel.font = .systemFont(ofSize: 12, weight: .regular)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: ListTableViewCell.reuseIdentifier, for: indexPath) as? ListTableViewCell else {
+            return UITableViewCell()
         }
         
+        if let keyword = searchController.searchBar.text {
+            cell.setData(viewModel.cellForRowAt(at: indexPath), viewModel.isSearching.value, keyword)
+        }
+
         return cell
     }
 }
 
 // MARK: - UISearchBar Protocol
 
-extension ListViewController: UISearchResultsUpdating {
-    func updateSearchResults(for searchController: UISearchController) {
-        if searchController.searchBar.text != "" {
-            isSearching = true
-            guard let text = searchController.searchBar.text else { return }
-            tasks = repository.fetchFilter(text)
-            searchedItemCount = tasks.count
-        } else {
-            isSearching = false
-        }
-    }
-}
-
 extension ListViewController: UISearchBarDelegate {
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        viewModel.isSearching.value = true
+        guard let keyword = searchBar.text else { return }
+        viewModel.searchKeyword.value = keyword
+        viewModel.searchMemo(by: keyword)
+    }
+    
+    func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
+        guard let keyword = searchBar.text else { return true }
+        viewModel.searchKeyword.value = keyword
+        
+        if keyword == "" {
+            viewModel.fetchMemo()
+        } else {
+            viewModel.searchMemo(by: keyword)
+        }
+        
+        return true
+    }
+    
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        searchController.searchBar.text = ""
-        fetchRealmData()
-        isSearching = false
+        viewModel.isSearching.value = false
+        viewModel.fetchMemo()
     }
 }
 
@@ -349,6 +240,7 @@ extension ListViewController: ListViewDelegate {
     func touchUpWriteButton() {
         let viewController = WriteViewController()
         viewController.isNew = true
+        
         let backBarButtonItem = UIBarButtonItem(title: "메모", style: .plain, target: self, action: nil)
         self.navigationItem.backBarButtonItem = backBarButtonItem
         navigationController?.pushViewController(viewController, animated: true)

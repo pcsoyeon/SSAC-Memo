@@ -58,8 +58,6 @@ final class ListCollectionViewController: BaseViewController {
     
     private func fetchRealmData() {
         tasks = repository.fetch()
-        
-        repository.checkSchemaVersion()
     }
 }
 

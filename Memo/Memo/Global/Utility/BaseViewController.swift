@@ -19,12 +19,23 @@ class BaseViewController: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
     }
     
-    func showDefaultAlertMessage(title: String, button: String = "확인") {
-        let alert = UIAlertController(title: title, message: nil, preferredStyle: .alert)
-        let okay = UIAlertAction(title: button, style: .default)
+    func presentAlert (
+        title: String,
+        message: String? = nil,
+        isIncludedCancel: Bool = false,
+        completion: ((UIAlertAction) -> Void)? = nil
+    ) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
-        alert.addAction(okay)
-        present(alert, animated: true)
+        if isIncludedCancel {
+            let deleteAction = UIAlertAction(title: "취소", style: .cancel)
+            alertController.addAction(deleteAction)
+        }
+        
+        let okAction = UIAlertAction(title: "확인", style: .default, handler: completion)
+        
+        alertController.addAction(okAction)
+        present(alertController, animated: true)
     }
 }
 
