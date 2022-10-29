@@ -70,14 +70,14 @@ final class ListViewController: BaseViewController {
         }
     }
     
-    private var folder: Results<Folder>!
-    
     private var isSearching: Bool = false {
         didSet {
             if isSearching == false { listView.listTableView.reloadData() }
         }
     }
     private var searchedItemCount: Int = 0
+    
+    private var viewModel = ListViewModel()
     
     // MARK: - Life Cycle
     
@@ -180,7 +180,6 @@ final class ListViewController: BaseViewController {
     
     private func fetchRealmData() {
         tasks = repository.fetch()
-        folder = folderRepository.fetch()
     }
 }
 
@@ -191,11 +190,7 @@ extension ListViewController: UITableViewDelegate {
     // MARK: - Header UI
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if isSearching {
-            return "\(searchedItemCount)개 찾음"
-        } else {
-            return pinnedList.isEmpty ? ListTableViewSection.memo.description : (section == 0 ? ListTableViewSection.pinned.description : ListTableViewSection.memo.description)
-        }
+        viewModel.titleForHeaderInSection(at: section)
     }
     
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
@@ -206,11 +201,11 @@ extension ListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 40
+        viewModel.heightForHeaderInSection
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return CGFloat.leastNormalMagnitude
+        viewModel.heightForHeaderInSection
     }
     
     // MARK: - Swipe Gesture
