@@ -53,16 +53,6 @@ class MemoRepository: MemoRepositoryType {
         }
     }
     
-    func update(_ memo: Any?) {
-        do {
-            try database.write {
-                database.create(Memo.self, value: memo as Any, update: .modified)
-            }
-        } catch let error {
-            print(error)
-        }
-    }
-    
     func update(_ memo: Memo, completion: ((Memo) -> Void)?) {
         do {
             try database.write {
