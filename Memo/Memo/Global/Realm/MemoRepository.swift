@@ -10,34 +10,33 @@ import Foundation
 import RealmSwift
 
 protocol MemoRepositoryType {
-    func addItem(item: Memo)
+    var count: Int { get }
+    
+    func printLocationOfDefaultRealm()
+    func write(_ memo: Memo)
     func fetch() -> Results<Memo>
-    func fetchFilter(_ filter: String) -> Results<Memo>
-    func updatePinned(item: Memo)
-    func deleteItem(item: Memo)
+    func search(by keyword: String) -> Results<Memo>
+    func update(_ memo: Memo, completion: ((Memo) -> Void)?)
+    func delete(_ memo: Memo)
+    func sort(by keyPath: String) -> Results<Memo>
 }
 
 class MemoRepository: MemoRepositoryType {
+    private var database = try! Realm()
     
-    let localRealm = try! Realm()
-    
-    func checkSchemaVersion() {
-        // 1. fileURL
-        print("FileURL: \(localRealm.configuration.fileURL)")
-        
-        // 2. Schema Version
-        do {
-            let version = try schemaVersionAtURL(localRealm.configuration.fileURL!)
-            print("Schema Version: \(version)")
-        } catch {
-            print(error)
-        }
+    var count: Int {
+        return database.objects(Memo.self).count
     }
     
-    func addItem(item: Memo) {
+    func printLocationOfDefaultRealm() {
+        guard let location = database.configuration.fileURL else { return }
+        print(location)
+    }
+    
+    func write(_ memo: Memo) {
         do {
-            try localRealm.write {
-                localRealm.add(item)
+            try database.write {
+                database.add(memo)
             }
         } catch let error {
             print(error)
@@ -45,49 +44,46 @@ class MemoRepository: MemoRepositoryType {
     }
     
     func fetch() -> Results<Memo> {
-        return localRealm.objects(Memo.self).sorted(byKeyPath: "memoDate", ascending: false)
+        return database.objects(Memo.self).sorted(byKeyPath: "memoDate", ascending: false)
     }
     
-    func fetchPinnedItems() -> Results<Memo> {
-        return localRealm.objects(Memo.self).filter("isPinned == true").sorted(byKeyPath: "memoDate", ascending: false)
-    }
-    
-    func fetchUnPinnedItems() -> Results<Memo> {
-        return localRealm.objects(Memo.self).filter("isPinned == false").sorted(byKeyPath: "memoDate", ascending: false)
-    }
-    
-    func fetchFilter(_ filter: String) -> Results<Memo> {
-        return localRealm.objects(Memo.self).filter("memoContent CONTAINS '\(filter)' or memoTitle CONTAINS '\(filter)'")
-    }
-    
-    func updatePinned(item: Memo) {
-        do {
-            try localRealm.write {
-                item.isFixed.toggle()
-            }
-        } catch {
-            print("ERROR")
+    func search(by keyword: String) -> Results<Memo> {
+        return database.objects(Memo.self).where {
+            ($0.memoTitle.contains(keyword)) || ($0.memoContent.contains(keyword))
         }
     }
     
-    func updateItem(value: Any?) {
+    func update(_ memo: Any?) {
         do {
-            try localRealm.write {
-                localRealm.create(Memo.self, value: value as Any, update: .modified)
+            try database.write {
+                database.create(Memo.self, value: memo as Any, update: .modified)
             }
         } catch let error {
             print(error)
         }
     }
     
-    func deleteItem(item: Memo) {
+    func update(_ memo: Memo, completion: ((Memo) -> Void)?) {
         do {
-            try localRealm.write {
-                localRealm.delete(item)
+            try database.write {
+                completion?(memo)
             }
-            
-        } catch {
-            print("ERROR")
+        } catch let error {
+            print(error)
         }
+    }
+    
+    func delete(_ memo: Memo) {
+        do {
+            try database.write {
+                return database.delete(memo)
+            }
+        } catch let error {
+            print(error)
+        }
+    }
+    
+    func sort(by keyPath: String = "memoDate") -> Results<Memo> {
+        return database.objects(Memo.self).sorted(byKeyPath: keyPath, ascending: false)
     }
 }

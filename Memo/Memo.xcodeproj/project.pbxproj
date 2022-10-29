@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9204D120290CB8ED00DAD8CC /* ListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9204D11F290CB8ED00DAD8CC /* ListViewModel.swift */; };
+		9204D123290CB93F00DAD8CC /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 9204D122290CB93F00DAD8CC /* RxCocoa */; };
+		9204D125290CB93F00DAD8CC /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 9204D124290CB93F00DAD8CC /* RxSwift */; };
+		9204D127290CC00F00DAD8CC /* CObservable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9204D126290CC00F00DAD8CC /* CObservable.swift */; };
 		923DC79828BF462400407EEF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923DC79728BF462400407EEF /* AppDelegate.swift */; };
 		923DC79A28BF462400407EEF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923DC79928BF462400407EEF /* SceneDelegate.swift */; };
 		923DC79C28BF462400407EEF /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923DC79B28BF462400407EEF /* ListViewController.swift */; };
@@ -43,6 +47,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9204D11F290CB8ED00DAD8CC /* ListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewModel.swift; sourceTree = "<group>"; };
+		9204D126290CC00F00DAD8CC /* CObservable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CObservable.swift; sourceTree = "<group>"; };
 		923DC79428BF462400407EEF /* Memo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Memo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		923DC79728BF462400407EEF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		923DC79928BF462400407EEF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -81,8 +87,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9204D125290CB93F00DAD8CC /* RxSwift in Frameworks */,
 				92629236290941A900E2F223 /* RealmSwift in Frameworks */,
 				92629234290941A900E2F223 /* Realm in Frameworks */,
+				9204D123290CB93F00DAD8CC /* RxCocoa in Frameworks */,
 				923DC7AD28BF463B00407EEF /* SnapKit in Frameworks */,
 				92D87F7328C1DF42009AAFE5 /* Then in Frameworks */,
 			);
@@ -192,6 +200,7 @@
 				923DC7CE28BF50C500407EEF /* Protocol */,
 				923DC7BF28BF4AF600407EEF /* Utility */,
 				923DC7BB28BF4A5100407EEF /* Extension */,
+				9204D126290CC00F00DAD8CC /* CObservable.swift */,
 			);
 			path = Global;
 			sourceTree = "<group>";
@@ -305,6 +314,7 @@
 		926292372909E76800E2F223 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				9204D11F290CB8ED00DAD8CC /* ListViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -365,6 +375,8 @@
 				92D87F7228C1DF42009AAFE5 /* Then */,
 				92629233290941A900E2F223 /* Realm */,
 				92629235290941A900E2F223 /* RealmSwift */,
+				9204D122290CB93F00DAD8CC /* RxCocoa */,
+				9204D124290CB93F00DAD8CC /* RxSwift */,
 			);
 			productName = Memo;
 			productReference = 923DC79428BF462400407EEF /* Memo.app */;
@@ -398,6 +410,7 @@
 				923DC7AB28BF463B00407EEF /* XCRemoteSwiftPackageReference "SnapKit" */,
 				92D87F7128C1DF42009AAFE5 /* XCRemoteSwiftPackageReference "Then" */,
 				92629232290941A900E2F223 /* XCRemoteSwiftPackageReference "realm-swift" */,
+				9204D121290CB93F00DAD8CC /* XCRemoteSwiftPackageReference "RxSwift" */,
 			);
 			productRefGroup = 923DC79528BF462400407EEF /* Products */;
 			projectDirPath = "";
@@ -434,6 +447,7 @@
 				923DC7B928BF473900407EEF /* WalkThroughViewController.swift in Sources */,
 				92D87F8728C3AF69009AAFE5 /* UserDefaults.swift in Sources */,
 				92E8F36928FE85D100507F64 /* ListCollectionView.swift in Sources */,
+				9204D127290CC00F00DAD8CC /* CObservable.swift in Sources */,
 				92E8F37528FEB52400507F64 /* FolderListCollectionViewController.swift in Sources */,
 				923DC79828BF462400407EEF /* AppDelegate.swift in Sources */,
 				923DC7C528BF4B9600407EEF /* WalkThroughView.swift in Sources */,
@@ -449,6 +463,7 @@
 				923DC79A28BF462400407EEF /* SceneDelegate.swift in Sources */,
 				923DC7DC28C0205900407EEF /* WriteViewController.swift in Sources */,
 				923DC7C128BF4B0200407EEF /* BaseViewController.swift in Sources */,
+				9204D120290CB8ED00DAD8CC /* ListViewModel.swift in Sources */,
 				923DC7D528C0180800407EEF /* UIColor+Extension.swift in Sources */,
 				923DC7D028BF50D200407EEF /* ReusableViewProtocol.swift in Sources */,
 				923DC7CD28BF506800407EEF /* ListTableViewCell.swift in Sources */,
@@ -614,9 +629,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = soyeon.Memo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -643,9 +661,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = soyeon.Memo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -673,6 +694,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		9204D121290CB93F00DAD8CC /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		923DC7AB28BF463B00407EEF /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
@@ -700,6 +729,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		9204D122290CB93F00DAD8CC /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9204D121290CB93F00DAD8CC /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
+		9204D124290CB93F00DAD8CC /* RxSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9204D121290CB93F00DAD8CC /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxSwift;
+		};
 		923DC7AC28BF463B00407EEF /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 923DC7AB28BF463B00407EEF /* XCRemoteSwiftPackageReference "SnapKit" */;

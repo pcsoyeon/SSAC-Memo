@@ -14,7 +14,7 @@ final class ListTableViewCell: UITableViewCell {
     
     // MARK: - UI Property
     
-    var titleLabel = UILabel().then {
+    private var titleLabel = UILabel().then {
         $0.textColor = .text
         $0.font = .systemFont(ofSize: 16, weight: .semibold)
         $0.numberOfLines = 1
@@ -26,7 +26,7 @@ final class ListTableViewCell: UITableViewCell {
         $0.numberOfLines = 1
     }
     
-    var contentLabel = UILabel().then {
+    private var contentLabel = UILabel().then {
         $0.textColor = .text
         $0.font = .systemFont(ofSize: 12, weight: .regular)
         $0.numberOfLines = 1
@@ -110,7 +110,7 @@ final class ListTableViewCell: UITableViewCell {
     
     // MARK: - Data
     
-    func setData(_ data: Memo) {
+    func setData(_ data: Memo, _ isSearching: Bool = false, _ keyword: String? = nil) {
         titleLabel.text = data.memoTitle
         
         dateLabel.text = customDateFormatter(date: data.memoDate)
@@ -119,5 +119,18 @@ final class ListTableViewCell: UITableViewCell {
         }
         
         contentLabel.text = data.memoContent == "" ? "추가 텍스트 없음" : data.memoContent
+        
+        if isSearching {
+            guard let keyword = keyword else { return }
+            titleLabel.setHighlighted(titleLabel.text!, with: keyword, font: .systemFont(ofSize: 16, weight: .bold))
+            contentLabel.setHighlighted(contentLabel.text ?? "", with: keyword, font: .systemFont(ofSize: 12, weight: .medium))
+        } else {
+            titleLabel.textColor = .text
+            titleLabel.font = .systemFont(ofSize: 16, weight: .semibold)
+            contentLabel.textColor = .text
+            contentLabel.font = .systemFont(ofSize: 12, weight: .regular)
+        }
+        
+       
     }
 }

@@ -13,14 +13,14 @@ final class WriteViewController: BaseViewController {
     
     // MARK: - UI Property
     
-    private let writeView = WriteView()
+    private let rootView = WriteView()
     
     // MARK: - Property
     
     var isNew: Bool = true {
         didSet {
             if isNew {
-                writeView.titleTextView.becomeFirstResponder()
+                rootView.titleTextView.becomeFirstResponder()
                 showNavigationItem()
             } else {
                 navigationItem.rightBarButtonItems = nil
@@ -35,8 +35,8 @@ final class WriteViewController: BaseViewController {
     
     var memo = Memo(memoTitle: "", memoContent: "", memoDate: Date()) {
         didSet {
-            writeView.titleTextView.text = "\(memo.memoTitle)"
-            writeView.contentTextView.text = "\(memo.memoContent ?? "")"
+            rootView.titleTextView.text = "\(memo.memoTitle)"
+            rootView.contentTextView.text = "\(memo.memoContent ?? "")"
         }
     }
     
@@ -44,7 +44,7 @@ final class WriteViewController: BaseViewController {
     
     override func loadView() {
         super.loadView()
-        self.view = writeView
+        self.view = rootView
     }
 
     override func viewDidLoad() {
@@ -53,7 +53,7 @@ final class WriteViewController: BaseViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        if !isDoneButtonTapped { backToListView(isNew) }
+        writeMemo()
     }
     
     // MARK: - UI Method
@@ -76,72 +76,45 @@ final class WriteViewController: BaseViewController {
     }
     
     private func configuireTextView() {
-        writeView.titleTextView.delegate = self
-        writeView.titleTextView.isScrollEnabled = false
+        rootView.titleTextView.delegate = self
+        rootView.titleTextView.isScrollEnabled = false
         
-        writeView.contentTextView.delegate = self
+        rootView.contentTextView.delegate = self
     }
     
-    private func backToListView(_ isNew: Bool) {
-        if isNew && isDoneButtonTapped == false {
-            if writeView.titleTextView.hasText {
-                let task = Memo(memoTitle: writeView.titleTextView.text, memoContent: writeView.contentTextView.text, memoDate: Date())
-                repository.addItem(item: task)
-            }
-        } else {
-            if writeView.titleTextView.text == "" {
-                repository.deleteItem(item: memo)
-            } else {
-                repository.updateItem(value: ["objectId": memo.objectId,
-                                              "memoTitle" : writeView.titleTextView.text,
-                                              "memoContent" : writeView.contentTextView.text])
-            }
+    func writeMemo() {
+        // nil 값일 때 저장 X
+        guard let title = rootView.titleTextView.text,
+              let content = rootView.contentTextView.text
+        else { return }
+        
+        // 내용 없을 때 삭제
+        if title.isEmpty && (content.isEmpty || content.trimmingCharacters(in: .newlines).isEmpty) {
+            // 작성 중인 상태가 아니면 삭제
+            return
         }
+        
+        // 값이 각각 없는 경우가 있으면 nil로 저장하기 위함
+        let newTitle: String? = title.isEmpty ? nil : title
+        let newContent: String? = (content.isEmpty || content.trimmingCharacters(in: .newlines).isEmpty) ? nil : content
+        
+        let memo = Memo(memoTitle: newTitle ?? "", memoContent: newContent, memoDate: Date())
+        
+        // 새롭게 작성하면, 추가하고 기존의 것을 수정하면 업데이트
     }
     
     // MARK: - @objc
     
     @objc func touchUpShareButton() {
-        var objectsToShare = [String]()
-        
-        if let titleText = writeView.titleTextView.text, let contentText = writeView.contentTextView.text {
-            objectsToShare.append(titleText)
-            objectsToShare.append(contentText)
-        }
-        
-        let activityViewController = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
-        activityViewController.popoverPresentationController?.sourceView = self.view
-        activityViewController.excludedActivityTypes = [UIActivity.ActivityType.airDrop, UIActivity.ActivityType.addToReadingList]
-        
-        self.present(activityViewController, animated: true, completion: nil)
+        guard let title = rootView.titleTextView.text,
+              let content = rootView.contentTextView.text
+        else { return }
+
+        let activityViewController = UIActivityViewController(activityItems: ["\(title)\n\n\(content)"], applicationActivities: nil)
+        self.present(activityViewController, animated: true)
     }
     
     @objc func touchUpDoneButton() {
-        isDoneButtonTapped = true
-        if isNew && writeView.titleTextView.hasText {
-            let task = Memo(memoTitle: writeView.titleTextView.text, memoContent: writeView.contentTextView.text, memoDate: Date())
-            repository.addItem(item: task)
-            
-            do {
-                try folderRepository.localRealm.write {
-                    guard let folder = folderRepository.localRealm.objects(Folder.self).first else { return }
-                    folder.memo.append(task)
-                }
-            } catch let error {
-                print(error)
-            }
-
-            
-        } else {
-            if writeView.titleTextView.hasText {
-                repository.updateItem(value: ["objectId": memo.objectId,
-                                              "memoTitle" : writeView.titleTextView.text,
-                                              "memoContent" : writeView.contentTextView.text])
-            } else {
-                repository.deleteItem(item: memo)
-            }
-            
-        }
         navigationController?.popViewController(animated: true)
     }
 }
@@ -155,8 +128,8 @@ extension WriteViewController: UITextViewDelegate {
     
     func textViewDidChange(_ textView: UITextView) {
         let size = CGSize(width: view.frame.width, height: .infinity)
-        let estimatedSize = writeView.titleTextView.sizeThatFits(size)
-        writeView.titleTextView.constraints.forEach { (constraint) in
+        let estimatedSize = rootView.titleTextView.sizeThatFits(size)
+        rootView.titleTextView.constraints.forEach { (constraint) in
             if constraint.firstAttribute == .height {
                 constraint.constant = estimatedSize.height
             }
@@ -164,20 +137,20 @@ extension WriteViewController: UITextViewDelegate {
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        if text == "\n" && textView == writeView.titleTextView {
+        if text == "\n" && textView == rootView.titleTextView {
             textView.resignFirstResponder()
-            writeView.contentTextView.becomeFirstResponder()
+            rootView.contentTextView.becomeFirstResponder()
         }
         
         if let char = text.cString(using: String.Encoding.utf8) {
             let isBackSpace = strcmp(char, "\\b")
             if (isBackSpace == -92) {
-                if writeView.contentTextView.text == "" {
-                    let newPosition = writeView.titleTextView.endOfDocument
-                    writeView.titleTextView.selectedTextRange = writeView.titleTextView.textRange(from: newPosition, to: newPosition)
+                if rootView.contentTextView.text == "" {
+                    let newPosition = rootView.titleTextView.endOfDocument
+                    rootView.titleTextView.selectedTextRange = rootView.titleTextView.textRange(from: newPosition, to: newPosition)
                     
-                    writeView.titleTextView.becomeFirstResponder()
-                    writeView.contentTextView.resignFirstResponder()
+                    rootView.titleTextView.becomeFirstResponder()
+                    rootView.contentTextView.resignFirstResponder()
                 }
             }
         }

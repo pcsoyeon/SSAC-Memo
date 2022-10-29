@@ -13,7 +13,7 @@ class Memo: Object {
     @Persisted var memoTitle: String
     @Persisted var memoContent: String?
     @Persisted var memoDate = Date()
-    @Persisted var isFixed: Bool
+    @Persisted var isPinned: Bool
     @Persisted var memoInfo: String
     @Persisted var count: Int
     
@@ -25,6 +25,6 @@ class Memo: Object {
         self.memoTitle = memoTitle
         self.memoContent = memoContent
         self.memoDate = memoDate
-        self.isFixed = isPinned
+        self.isPinned = isPinned
     }
 }

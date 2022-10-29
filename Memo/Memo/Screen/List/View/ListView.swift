@@ -18,7 +18,7 @@ final class ListView: BaseView {
     
     // MARK: - UI Property
     
-    lazy var listTableView = UITableView(frame: .zero, style: .insetGrouped).then {
+    lazy var tableView = UITableView(frame: .zero, style: .insetGrouped).then {
         $0.backgroundColor = .background
         $0.separatorStyle = .none
     }
@@ -38,7 +38,7 @@ final class ListView: BaseView {
     }
     
     override func setConstraints() {
-        addSubview(listTableView)
+        addSubview(tableView)
         addSubview(bottomToolBar)
         
         bottomToolBar.snp.makeConstraints { make in
@@ -46,7 +46,7 @@ final class ListView: BaseView {
             make.leading.trailing.bottom.equalTo(self.safeAreaLayoutGuide)
         }
         
-        listTableView.snp.makeConstraints { make in
+        tableView.snp.makeConstraints { make in
             make.top.leading.trailing.equalTo(self.safeAreaLayoutGuide)
             make.bottom.equalTo(bottomToolBar.snp.top)
         }
