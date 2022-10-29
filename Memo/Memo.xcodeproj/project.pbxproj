@@ -109,6 +109,24 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
+		9204D12B290D0C7400DAD8CC /* Memo */ = {
+			isa = PBXGroup;
+			children = (
+				92D87F6F28C1DE89009AAFE5 /* Memo.swift */,
+				92D87F7428C1DFE4009AAFE5 /* MemoRepository.swift */,
+			);
+			path = Memo;
+			sourceTree = "<group>";
+		};
+		9204D12C290D0C7E00DAD8CC /* Folder */ = {
+			isa = PBXGroup;
+			children = (
+				92E8F36A28FE932300507F64 /* Folder.swift */,
+				92E8F36C28FE966300507F64 /* FolderRepository.swift */,
+			);
+			path = Folder;
+			sourceTree = "<group>";
+		};
 		923DC78B28BF462400407EEF = {
 			isa = PBXGroup;
 			children = (
@@ -177,8 +195,8 @@
 			children = (
 				92E8F36328FE854700507F64 /* CollectionViewAPI */,
 				923DC7D628C01F2900407EEF /* Write */,
-				923DC7B728BF470E00407EEF /* WalkThrough */,
 				923DC7B628BF470A00407EEF /* List */,
+				923DC7B728BF470E00407EEF /* WalkThrough */,
 			);
 			path = Screen;
 			sourceTree = "<group>";
@@ -306,10 +324,8 @@
 		924AA84028C0FF3B00EC7543 /* Realm */ = {
 			isa = PBXGroup;
 			children = (
-				92D87F6F28C1DE89009AAFE5 /* Memo.swift */,
-				92D87F7428C1DFE4009AAFE5 /* MemoRepository.swift */,
-				92E8F36A28FE932300507F64 /* Folder.swift */,
-				92E8F36C28FE966300507F64 /* FolderRepository.swift */,
+				9204D12C290D0C7E00DAD8CC /* Folder */,
+				9204D12B290D0C7400DAD8CC /* Memo */,
 			);
 			path = Realm;
 			sourceTree = "<group>";
