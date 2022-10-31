@@ -8,6 +8,8 @@
 import UIKit
 
 import RealmSwift
+import RxCocoa
+import RxSwift
 import SnapKit
 import Then
 
@@ -18,7 +20,6 @@ final class ListViewController: BaseViewController {
     private var rootView = ListView()
     
     private lazy var searchController = UISearchController(searchResultsController: nil).then {
-        $0.searchBar.delegate = self
         $0.searchBar.placeholder = "검색"
         $0.searchBar.setValue("취소", forKey: "cancelButtonText")
         $0.searchBar.tintColor = .systemOrange
@@ -27,6 +28,7 @@ final class ListViewController: BaseViewController {
     // MARK: - Property
     
     private let viewModel = MemoListViewModel()
+    private let disposeBag = DisposeBag()
     
     // MARK: - Life Cycle
     
@@ -69,6 +71,7 @@ final class ListViewController: BaseViewController {
         rootView.tableView.dataSource = self
         
         rootView.tableView.rowHeight = 80
+        rootView.tableView.sectionHeaderHeight = 50
         
         rootView.tableView.register(ListTableViewCell.self, forCellReuseIdentifier: ListTableViewCell.reuseIdentifier)
         
@@ -87,44 +90,37 @@ final class ListViewController: BaseViewController {
         viewController.modalPresentationStyle = .overFullScreen
         present(viewController, animated: true)
     }
-    
-    func checkIfSearchMode() {
-        if self.viewModel.isSearching.value {
-            self.viewModel.searchMemo(by: self.viewModel.searchKeyword.value)
-        } else {
-            self.viewModel.fetchMemo()
-        }
-    }
 }
-
 
 extension ListViewController {
     private func bind() {
-        viewModel.memo.bind { _ in
-            self.rootView.tableView.reloadData()
-        }
-        
-        viewModel.memoCount.bind { countString in
-            self.navigationItem.title = countString
-        }
-        
-        viewModel.isSearching.bind { isSearchMode in
-            let backButton = UIBarButtonItem()
-            var backButtonTitle = ""
-            
-            if isSearchMode {
-                self.viewModel.searchMemo(by: self.viewModel.searchKeyword.value)
-                backButtonTitle = "검색"
-                
-            } else {
-                self.viewModel.fetchMemo()
-                backButtonTitle = "메모"
+        viewModel.memo
+            .withUnretained(self)
+            .bind { vc, _ in
+                vc.rootView.tableView.reloadData()
             }
-            
-            backButton.title = backButtonTitle
-            self.navigationController?.navigationBar.topItem?.backBarButtonItem = backButton
-            self.rootView.tableView.reloadData()
-        }
+            .disposed(by: disposeBag)
+        
+        viewModel.memoCount
+            .bind { countString in
+                self.navigationItem.title = countString
+            }
+            .disposed(by: disposeBag)
+        
+        searchController.searchBar.rx.cancelButtonClicked
+            .withUnretained(self)
+            .bind { vc, value in
+                vc.viewModel.fetchMemo()
+            }
+            .disposed(by: disposeBag)
+        
+        searchController.searchBar.rx.text.orEmpty
+            .withUnretained(self)
+            .bind { vc, value in
+                if value == "" { return }
+                vc.viewModel.searchMemo(by: value)
+            }
+            .disposed(by: disposeBag)
     }
 }
 
@@ -143,10 +139,6 @@ extension ListViewController: UITableViewDelegate {
         return titleLabel
     }
     
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 50
-    }
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let writeViewController = WriteViewController()
         let memo = viewModel.memo.value[indexPath.section][indexPath.row]
@@ -160,7 +152,6 @@ extension ListViewController: UITableViewDelegate {
             self.viewModel.pinMemo(indexPath: indexPath) {
                 self.presentAlert(title: "메모는 최대 5개까지 고정할 수 있어요!")
             }
-            self.checkIfSearchMode()
             completionHaldler(true)
         }
         
@@ -174,7 +165,6 @@ extension ListViewController: UITableViewDelegate {
         let deleteAction = UIContextualAction(style: .destructive, title: nil) { _, _, completionHaldler in
             self.presentAlert(title: "정말로 삭제하실건가요?", isIncludedCancel: true) { _ in
                 self.viewModel.deleteMemo(indexPath: indexPath)
-                self.checkIfSearchMode()
             }
             completionHaldler(true)
         }
@@ -202,36 +192,6 @@ extension ListViewController: UITableViewDataSource {
         }
 
         return cell
-    }
-}
-
-// MARK: - UISearchBar Protocol
-
-extension ListViewController: UISearchBarDelegate {
-    
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        viewModel.isSearching.value = true
-        guard let keyword = searchBar.text else { return }
-        viewModel.searchKeyword.value = keyword
-        viewModel.searchMemo(by: keyword)
-    }
-    
-    func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
-        guard let keyword = searchBar.text else { return true }
-        viewModel.searchKeyword.value = keyword
-        
-        if keyword == "" {
-            viewModel.fetchMemo()
-        } else {
-            viewModel.searchMemo(by: keyword)
-        }
-        
-        return true
-    }
-    
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        viewModel.isSearching.value = false
-        viewModel.fetchMemo()
     }
 }
 

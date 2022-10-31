@@ -13,14 +13,14 @@ import RxSwift
 final class MemoListViewModel {
     private let repository = MemoRepository()
     
-    var memo: CObservable<[[Memo]]> = CObservable([])
-    var memoCount: CObservable<String> = CObservable("메모 개수")
-    var isSearching: CObservable<Bool> = CObservable(false)
-    var searchKeyword: CObservable<String> = CObservable("")
+    var memo: BehaviorRelay<[[Memo]]> = BehaviorRelay(value: [])
+    var memoCount: BehaviorRelay<String> = BehaviorRelay(value: "0개의 메모")
+    var isSearching: BehaviorRelay<Bool> = BehaviorRelay(value: false)
 }
 
+// MARK: - TableView
+
 extension MemoListViewModel {
-    
     func titleForHeaderInSection(at section: Int, isSearchMode: Bool = false) -> String? {
         
         if memo.value[section].isEmpty {
@@ -53,8 +53,9 @@ extension MemoListViewModel {
     }
 }
 
+// MARK: - Realm
+
 extension MemoListViewModel {
-    
     func fetchMemo() {
         let allMemo = repository.fetch()
         
@@ -64,13 +65,15 @@ extension MemoListViewModel {
         }
         
         let pinned = task.filter { $0.isPinned == true }
-        let notPinned = task.filter { $0.isPinned == false }
+        let unPinned = task.filter { $0.isPinned == false }
         
-        memo.value.removeAll()
-        if !pinned.isEmpty { memo.value.append(contentsOf: [pinned]) }
-        memo.value.append(contentsOf: [notPinned])
+        if pinned.count == 0 {
+            memo.accept([unPinned])
+        } else {
+            memo.accept([pinned, unPinned])
+        }
         
-        memoCount.value = "\(format(for: memo.value.flatMap { $0 }.count))개의 메모"
+        memoCount.accept("\(format(for: memo.value.flatMap { $0 }.count))개의 메모")
     }
     
     private func format(for number: Int) -> String {
@@ -81,14 +84,13 @@ extension MemoListViewModel {
     
     func deleteMemo(indexPath: IndexPath) {
         let memo = memo.value[indexPath.section][indexPath.row]
-        self.memo.value[indexPath.section].remove(at: indexPath.row)
         repository.delete(memo)
+        fetchMemo()
     }
     
     func pinMemo(indexPath: IndexPath, handler: @escaping () -> Void) {
         let memo = memo.value[indexPath.section][indexPath.row]
         
-        fetchMemo()
         let pinned = self.memo.value.flatMap { $0 }.filter { $0.isPinned == true }
 
         if memo.isPinned {
@@ -104,6 +106,8 @@ extension MemoListViewModel {
                 }
             }
         }
+        
+        fetchMemo()
     }
     
     func searchMemo(by keyword: String) {
@@ -114,7 +118,6 @@ extension MemoListViewModel {
             task.append(memo)
         }
         
-        memo.value.removeAll()
-        memo.value.append(contentsOf: [task])
+        memo.accept([task])
     }
 }
