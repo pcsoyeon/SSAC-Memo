@@ -8,6 +8,8 @@
 import UIKit
 
 import RealmSwift
+import RxCocoa
+import RxSwift
 
 final class WriteViewController: BaseViewController {
     
@@ -18,6 +20,8 @@ final class WriteViewController: BaseViewController {
     // MARK: - Property
     
     var viewModel = WriteViewModel()
+    
+    private let disposeBag = DisposeBag()
     
     // MARK: - Life Cycle
     
@@ -106,21 +110,25 @@ final class WriteViewController: BaseViewController {
 
 extension WriteViewController {
     private func bind() {
-        viewModel.isNew.bind { [weak self] isNew in
-            guard let self = self else { return }
-            if isNew {
-                self.rootView.titleTextView.becomeFirstResponder()
-                self.showNavigationItem()
-            } else {
-                self.navigationItem.rightBarButtonItems = nil
+        viewModel.isNew
+            .withUnretained(self)
+            .bind { vc, isNew in
+                if isNew {
+                    vc.rootView.titleTextView.becomeFirstResponder()
+                    vc.showNavigationItem()
+                } else {
+                    vc.navigationItem.rightBarButtonItems = nil
+                }
             }
-        }
+            .disposed(by: disposeBag)
         
-        viewModel.memo.bind { [weak self] memo in
-            guard let self = self else { return }
-            self.rootView.titleTextView.text = "\(memo.memoTitle)"
-            self.rootView.contentTextView.text = "\(memo.memoContent ?? "")"
-        }
+        viewModel.memo
+            .withUnretained(self)
+            .bind { vc, memo in
+                vc.rootView.titleTextView.text = "\(memo.memoTitle)"
+                vc.rootView.contentTextView.text = "\(memo.memoContent ?? "")"
+            }
+            .disposed(by: disposeBag)
     }
 }
 

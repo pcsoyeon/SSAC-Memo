@@ -142,8 +142,8 @@ extension ListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let writeViewController = WriteViewController()
         let memo = viewModel.memo.value[indexPath.section][indexPath.row]
-        writeViewController.viewModel.memo.value = memo
-        writeViewController.viewModel.isNew.value = false
+        writeViewController.viewModel.memo.accept(memo)
+        writeViewController.viewModel.isNew.accept(false)
         self.navigationController?.pushViewController(writeViewController, animated: true)
     }
     
@@ -200,7 +200,7 @@ extension ListViewController: UITableViewDataSource {
 extension ListViewController: ListViewDelegate {
     func touchUpWriteButton() {
         let viewController = WriteViewController()
-        viewController.viewModel.isNew.value = true
+        viewController.viewModel.isNew.accept(true)
         
         let backBarButtonItem = UIBarButtonItem(title: "메모", style: .plain, target: self, action: nil)
         self.navigationItem.backBarButtonItem = backBarButtonItem

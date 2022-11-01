@@ -13,8 +13,10 @@ import RxSwift
 final class WriteViewModel {
     private let repository = MemoRepository()
     
-    var isNew: CObservable<Bool> = CObservable(true)
-    var memo: CObservable<Memo> = CObservable(Memo(memoTitle: "", memoContent: "", memoDate: Date()))
+    var isNew: BehaviorRelay<Bool> = BehaviorRelay(value: true)
+    var memo: BehaviorRelay<Memo> = BehaviorRelay(value: Memo(memoTitle: "",
+                                                              memoContent: "",
+                                                              memoDate: Date()))
 }
 
 extension WriteViewModel {
