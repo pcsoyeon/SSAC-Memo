@@ -94,27 +94,31 @@ final class ListViewController: BaseViewController {
 
 extension ListViewController {
     private func bind() {
-        viewModel.memo
+        let input = MemoListViewModel.Input(searchText: searchController.searchBar.rx.text,
+                                            searchCancelTap: searchController.searchBar.rx.cancelButtonClicked)
+        let output = viewModel.transform(from: input)
+        
+        output.memo
             .withUnretained(self)
             .bind { vc, _ in
                 vc.rootView.tableView.reloadData()
             }
             .disposed(by: disposeBag)
         
-        viewModel.memoCount
+        output.memoCount
             .bind { countString in
                 self.navigationItem.title = countString
             }
             .disposed(by: disposeBag)
         
-        searchController.searchBar.rx.cancelButtonClicked
+        output.searchCancelTap
             .withUnretained(self)
             .bind { vc, value in
                 vc.viewModel.fetchMemo()
             }
             .disposed(by: disposeBag)
         
-        searchController.searchBar.rx.text.orEmpty
+        output.searchText
             .withUnretained(self)
             .bind { vc, value in
                 if value == "" { return }

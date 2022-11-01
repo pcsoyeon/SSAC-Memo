@@ -18,6 +18,31 @@ final class MemoListViewModel {
     var isSearching: BehaviorRelay<Bool> = BehaviorRelay(value: false)
 }
 
+extension MemoListViewModel {
+    struct Input {
+        let searchText: ControlProperty<String?>
+        let searchCancelTap: ControlEvent<Void>
+    }
+    
+    struct Output {
+        let searchText: ControlProperty<String>
+        let searchCancelTap: ControlEvent<Void>
+        
+        let memo: BehaviorRelay<[[Memo]]>
+        let memoCount: BehaviorRelay<String>
+    }
+    
+    func transform(from input: Input) -> Output {
+        let searchText = input.searchText.orEmpty
+        let searchCancelTap = input.searchCancelTap
+        
+        return Output(searchText: searchText,
+                      searchCancelTap: searchCancelTap,
+                      memo: memo,
+                      memoCount: memoCount)
+    }
+}
+
 // MARK: - TableView
 
 extension MemoListViewModel {
