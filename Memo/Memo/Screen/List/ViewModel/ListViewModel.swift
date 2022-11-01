@@ -18,7 +18,7 @@ final class MemoListViewModel {
     var isSearching: BehaviorRelay<Bool> = BehaviorRelay(value: false)
 }
 
-extension MemoListViewModel {
+extension MemoListViewModel: CommonViewModel {
     struct Input {
         let searchText: ControlProperty<String?>
         let searchCancelTap: ControlEvent<Void>

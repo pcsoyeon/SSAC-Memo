@@ -40,6 +40,7 @@
 		92D87F7928C35191009AAFE5 /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D87F7828C35191009AAFE5 /* UILabel+Extension.swift */; };
 		92D87F8528C3AF56009AAFE5 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D87F8428C3AF56009AAFE5 /* Constant.swift */; };
 		92D87F8728C3AF69009AAFE5 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D87F8628C3AF69009AAFE5 /* UserDefaults.swift */; };
+		92DD60E7291111150046DD46 /* CommonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92DD60E6291111150046DD46 /* CommonViewModel.swift */; };
 		92E8F36528FE857D00507F64 /* ListCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E8F36428FE857D00507F64 /* ListCollectionViewController.swift */; };
 		92E8F36928FE85D100507F64 /* ListCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E8F36828FE85D100507F64 /* ListCollectionView.swift */; };
 		92E8F36B28FE932300507F64 /* Folder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E8F36A28FE932300507F64 /* Folder.swift */; };
@@ -77,6 +78,7 @@
 		92D87F7828C35191009AAFE5 /* UILabel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
 		92D87F8428C3AF56009AAFE5 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		92D87F8628C3AF69009AAFE5 /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
+		92DD60E6291111150046DD46 /* CommonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonViewModel.swift; sourceTree = "<group>"; };
 		92E8F36428FE857D00507F64 /* ListCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCollectionViewController.swift; sourceTree = "<group>"; };
 		92E8F36828FE85D100507F64 /* ListCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCollectionView.swift; sourceTree = "<group>"; };
 		92E8F36A28FE932300507F64 /* Folder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Folder.swift; sourceTree = "<group>"; };
@@ -290,6 +292,7 @@
 			isa = PBXGroup;
 			children = (
 				923DC7CF28BF50D200407EEF /* ReusableViewProtocol.swift */,
+				92DD60E6291111150046DD46 /* CommonViewModel.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -477,6 +480,7 @@
 				923DC7DA28C01F3D00407EEF /* WriteView.swift in Sources */,
 				92D87F7928C35191009AAFE5 /* UILabel+Extension.swift in Sources */,
 				923DC7BE28BF4A6900407EEF /* UIView+Extension.swift in Sources */,
+				92DD60E7291111150046DD46 /* CommonViewModel.swift in Sources */,
 				923DC7C328BF4B7900407EEF /* BaseView.swift in Sources */,
 				923DC7DE28C0253700407EEF /* ActionSheetType.swift in Sources */,
 				92D87F7028C1DE89009AAFE5 /* Memo.swift in Sources */,
